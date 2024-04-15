@@ -1,0 +1,16 @@
+[
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "vespaPiemonte",
+    "section": "",
+    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites.\n\n1 + 1\n\n[1] 2\n\n\n\n\n\n\n\n\nImportante\n\n\n\nPlease switch {shinylive-r} to {shinylive-r}. We’ve suppressed this example from running by using {{}}.\n\n\n#| standalone: true\n\n# Packages ----\nlibrary(shiny)  # Required to run any Shiny app\n\n\n# ui.R ----\nui &lt;- \nfluidPage(\n    \n    # Paragraph \"Hello world\"\n    p(\"Hello world\"),\n\n    # Create button to print \"Hello world\" from server\n    actionButton(inputId = \"Print_Hello\", label = \"Print_Hello World\"),\n\n    # Create position for server side text\n    textOutput(\"Server_Hello\")\n    \n  )\n    \n\nserver &lt;- function(input, output) {\n  \n  # Create action when actionButton is clicked\n  observeEvent(input$Print_Hello,{\n\n    # Change text of Server_Hello\n    output$Server_Hello = renderText(\"Hello world from server side\")\n  })\n  \n  \n}\n\nshinyApp(ui, server)\nFull Skeletal Document Source:\n---\ntitle: \"Template for r-shinylive Quarto document\"\nformat:\n  html:\n    resources: \n      - shinylive-sw.js\nfilters:\n  - shinylive\n---\n\n```{shinylive-r}\n#| standalone: true\n\nui &lt;- ...\n\nserver &lt;- function(input, output, session) {\n  ...\n}\n\nshinyApp(ui, server)\n```"
+  }
+]
