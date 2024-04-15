@@ -15,7 +15,6 @@ filters:
 This is a Quarto website.
 Questo è un sito web Quarto.
 
-```{r}
 
 To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
 
