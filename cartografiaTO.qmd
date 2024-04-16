@@ -1,8 +1,6 @@
 ---
-title: "Trappole per settori"
+title: "Cartografia"
 description: "Situazione delle trappole per settore"
-author:
-  - Umberto Vesco
 lang: it-IT
 format: dashboard
 ---

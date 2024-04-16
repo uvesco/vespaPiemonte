@@ -1,8 +1,6 @@
 ---
 title: "Trappole per settori"
 description: "Situazione delle trappole per settore"
-author:
-  - Umberto Vesco
 lang: it-IT
 format: dashboard
 ---
@@ -14,7 +12,7 @@ library(ggplot2)
 library(plotly)
 ```
 
-## Row {height="70%"}
+<!-- ## Row {height="70%"} -->
 
 ```{r graficoZoneBirra, echo=FALSE}
 # grafico a barre orizzontali per la finestra di sostituzione della birra delle trappole
@@ -39,29 +37,4 @@ ggplot(modaEtaBirra, x = etaBirra, y = zone, fill = zone) +
     theme(legend.position = "none")
 ```
 
-## Row {height="30%"}
-
-<!-- ```{r tabellaZoneBirra, echo=FALSE} -->
-<!-- modaEtaBirra -->
-
-<!-- ``` -->
-
-```{r}
-library(leaflet)
-# mappa leaflet delle zone di trappolaggio con colori diversi e trasparenza al 50% su openstreetmap con anche i buffer con visibile solo il bordo
-# mappa delle trappole con colori diversi per zona e trasparenza al 50%
-# 
-# # creo la mappa
-zoneTrappolaggio <- st_transform(zoneTrappolaggio, 4326)
-
-mappaZone <- leaflet() %>%
-  addProviderTiles("OpenStreetMap.Mapnik") %>%
-  addPolygons(data = zoneTrappolaggio, color = "black", weight = 1, fillOpacity = 0.5, fillColor = "white")
-mappaZone
-
-# q: Avvertimento: sf layer is not long-lat data
-# a: I dati non sono in latitudine e longitudine, ma in un sistema di riferimento diverso. Per visualizzarli correttamente, è necessario trasformarli in latitudine e longitudine.
-# q: qual è il codice per farlo?
-# a: st_transform(data, 4326)
-
-```
+<!-- ## Row {height="30%"} -->
