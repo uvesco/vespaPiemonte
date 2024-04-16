@@ -34,6 +34,7 @@ jobs:
             any::xml2
             any::renv
             any::units
+            any::leaflet
             any::sf
             any::httr
 

@@ -19,8 +19,11 @@ Questo è un sito web Quarto.
 To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
 
 ```{r}
-1 + 1
+source("scripts/qfieldCloud.R")
 ```
+
+Ci sono `r nrow(trap)` trappole.
+
 
 
 :::callout-important
