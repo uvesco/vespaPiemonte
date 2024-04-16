@@ -2,7 +2,7 @@ on:
   push:
     branches: [master]
   schedule:
-    - cron: '0 0-12/8 * * *' # every 8 hours
+    - cron: '0 6-23/12 * * *' # every 12 hours
   release:
     types: [published]
   workflow_dispatch:
