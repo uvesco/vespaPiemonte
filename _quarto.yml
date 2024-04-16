@@ -9,6 +9,8 @@ website:
         text: Home
       - text: Provincia di Torino
         menu:
+          - href: cartografiaTO.qmd
+            text: Cartografia
           - href: trapSettoriTO.qmd
             text: Settori di trappolaggio
       - text: Provincia di Cuneo

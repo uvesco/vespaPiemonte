@@ -4,4 +4,4 @@
 .Ruserdata
 /.quarto/
 _site
-index_files
+*_files
