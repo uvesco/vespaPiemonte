@@ -18,7 +18,7 @@ Sys.setenv(LANGUAGE = "it")
 Sys.setlocale("LC_ALL", "it_IT.UTF-8")
 ```
 
-Ci sono `r nrow(trap)` trappole, di cui `r sum(is.na(trap$data.rimozione))` attualmente attive.
+Sono state posizionate `r nrow(trap)` trappole, di cui `r sum(is.na(trap$data.rimozione))` attualmente attive.
 
 
 
