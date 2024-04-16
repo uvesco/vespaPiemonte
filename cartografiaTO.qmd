@@ -10,24 +10,23 @@ source("scripts/qfieldCloud.R")
 source("scripts/calcoliTrappole.R")
 library(sf)
 library(leaflet)
-library(RColorBrewer)
 library(htmlwidgets)
 ```
 
-
-```{r}
+```{r mappa, echo=FALSE}
 
 # mappa leaflet delle zone di trappolaggio con colori diversi e trasparenza al 50% su openstreetmap con anche i buffer con visibile solo il bordo
 # mappa delle trappole con colori diversi per zona e trasparenza al 50%
 # 
 # # creo la mappa
 zoneTrappolaggio <- st_transform(zoneTrappolaggio, 4326)
+zoneTrappolaggio$colore <- rainbow(nrow(zoneTrappolaggio))
 buffer <- st_transform(buffer, 4326)
 trap <- st_transform(trap, 4326)
 trap$colore<- "green"
 trap$colore[trap$etaBirra > 21] <- "red"
 trap$colore[trap$etaBirra > 13 & trap$etaBirra <= 21] <- "orange"
-trap$colore[trap$data.rimozione != ""] <- "white"  
+trap$colore[!is.na(trap$data.rimozione)] <- "white"  
 sf_use_s2(FALSE)
 centers <- st_centroid(zoneTrappolaggio)
 
@@ -40,6 +39,7 @@ mappaZone <- leaflet() %>%
   # addLabelOnlyMarkers(data = centers, label = ~nome, ) %>%
   addPolygons(data = buffer, color = "black", weight = 1, fillOpacity = 0, fillColor = "white", group = "buffer") %>%
   addCircleMarkers(data = trap, radius = 4, color = "black", weight = 1, fillOpacity = 1, fillColor = ~colore, group = "trappole") %>%
+  addCircleMarkers(data = centers, radius=2, color = "blue", fillColor = ~colore, label = ~nome, group = "zone") %>%
   addLayersControl(overlayGroups = c("zone", "buffer", "trappole"),
                           options = layersControlOptions(collapsed = FALSE)
                           )
@@ -58,10 +58,5 @@ mappaZone
 # a: use addLabelOnlyMarkers(data = zoneTrappolaggio, label = ~nome)
 # q: i need a centroid to set labels: how to get it?
 # a: use st_centroid(zoneTrappolaggio)
-
-```
-
-```{r}
-# 
 
 ```

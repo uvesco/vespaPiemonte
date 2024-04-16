@@ -26,5 +26,6 @@ Sono state posizionate `r nrow(trap)` trappole, di cui `r sum(is.na(trap$data.ri
 
 ::: {.callout-note appearance="simple"}
 Questa dashboard si aggiorna automaticamente ogni 8 ore circa.  
-Dati aggiornati il `r format(Sys.time(), "%d %B %Y alle %H:%M")`.
+Dati aggiornati il `r format(as.POSIXct(Sys.time(), tz="Europe/Rome"), "%d %B %Y alle %H:%M")`.
 :::
+
