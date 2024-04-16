@@ -2,7 +2,7 @@ on:
   push:
     branches: [master]
   Schedule: 
-    -cron: '40 8 * * *'
+    -cron: '22 9 * * *'
   release:
     types: [published]
   workflow_dispatch:
