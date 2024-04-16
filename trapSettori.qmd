@@ -13,13 +13,12 @@ source("scripts/calcoliTrappole.R")
 library(ggplot2)
 ```
 
-
-## Row {height=70%}
+## Row {height="70%"}
 
 ```{r graficoZoneBirra, echo=FALSE}
 # grafico a barre orizzontali per la finestra di sostituzione della birra delle trappole
 ggplot(modaEtaBirra, x = etaBirra, y = zone, fill = zone) +
- geom_linerange(aes(y=zone, xmin = minControllo, xmax = maxControllo), color = "orange",size = 3*modaEtaBirra$nTrappole/max(modaEtaBirra$nTrappole)) +
+ geom_linerange(aes(y=zone, xmin = minControllo, xmax = maxControllo), color = "orange",linewidth = 3*modaEtaBirra$nTrappole/max(modaEtaBirra$nTrappole)) +
  scale_y_discrete(labels= paste0(modaEtaBirra$zone, " (", modaEtaBirra$nTrappoleMin, "/", modaEtaBirra$nTrappole, ")")) +
  geom_point(aes(x = modaEtaBirra$minimControllo, y = modaEtaBirra$zone, size = 1, color = "orange")) +
   geom_vline(xintercept=Sys.Date(), linetype = "dashed", color = "red") +
@@ -39,6 +38,4 @@ ggplot(modaEtaBirra, x = etaBirra, y = zone, fill = zone) +
     theme(legend.position = "none")
 ```
 
-
-## Row {height=30%}
-
+## Row {height="30%"}
