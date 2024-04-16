@@ -36,6 +36,7 @@ jobs:
             any::leaflet
             any::sf
             any::httr
+            any::ggplot2
 
       - name: "Set up Quarto"
         uses: quarto-dev/quarto-actions/setup@v2
