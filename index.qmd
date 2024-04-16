@@ -25,7 +25,7 @@ source("scripts/qfieldCloud.R")
 Ci sono `r nrow(trap)` trappole.
 
 Questa dashboard si aggiorna quotidianamente ogni 8 ore.  
-L'ultimo aggiornamento è stato il `r format(Sys.time(), "%d %B %Y %H:%M"`.
+L'ultimo aggiornamento è stato il `r format(Sys.time(), "%d %B %Y %H:%M")`.
 
 
 
