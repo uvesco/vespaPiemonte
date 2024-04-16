@@ -35,6 +35,7 @@ jobs:
             any::renv
             any::units
             any::sf
+            any::httr
 
       - name: "Set up Quarto"
         uses: quarto-dev/quarto-actions/setup@v2
