@@ -1,5 +1,6 @@
 # caricamento pacchetti
 pacchettiStart <- c( #pacchetti da caricare subito
+  "units",
   "sf",
   "stringr"
 )
