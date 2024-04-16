@@ -18,7 +18,7 @@ Questo è un sito web Quarto.
 
 To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
 
-```{r}
+```{r setup, include=FALSE}
 source("scripts/qfieldCloud.R")
 ```
 
@@ -30,66 +30,3 @@ Ci sono `r nrow(trap)` trappole.
 Please switch `{{shinylive-r}}` to `{shinylive-r}`. We've suppressed this example from running by using `{{}}`.
 :::
 
-```{shinylive-r}
-#| standalone: true
-
-# Packages ----
-library(shiny)  # Required to run any Shiny app
-
-
-# ui.R ----
-ui <- 
-fluidPage(
-    
-    # Paragraph "Hello world"
-    p("Hello world"),
-
-    # Create button to print "Hello world" from server
-    actionButton(inputId = "Print_Hello", label = "Print_Hello World"),
-
-    # Create position for server side text
-    textOutput("Server_Hello")
-    
-  )
-    
-
-server <- function(input, output) {
-  
-  # Create action when actionButton is clicked
-  observeEvent(input$Print_Hello,{
-
-    # Change text of Server_Hello
-    output$Server_Hello = renderText("Hello world from server side")
-  })
-  
-  
-}
-
-shinyApp(ui, server)
-```
-
-Full Skeletal Document Source: 
-
-````md
----
-title: "Template for r-shinylive Quarto document"
-format:
-  html:
-    resources: 
-      - shinylive-sw.js
-filters:
-  - shinylive
----
-
-```{shinylive-r}
-#| standalone: true
-
-ui <- ...
-
-server <- function(input, output, session) {
-  ...
-}
-
-shinyApp(ui, server)
-```
-````
