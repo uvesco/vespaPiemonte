@@ -11,6 +11,7 @@ format: dashboard
 source("scripts/qfieldCloud.R")
 source("scripts/calcoliTrappole.R")
 library(ggplot2)
+library(plotly)
 ```
 
 ## Row {height="70%"}

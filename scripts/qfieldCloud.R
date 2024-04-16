@@ -159,6 +159,9 @@ contatti <- st_read(geopackPath,
 zoneTrappolaggio <- st_read(geopackElabPath,
                             layer = "zoneTrappolaggio")
 
+buffer <- st_read(geopackElabPath,
+                  layer = "buffer")
+
 
 # dir.create("latestData", showWarnings = F)
 # file.remove(file.path("latestData", (dir("latestData"))))

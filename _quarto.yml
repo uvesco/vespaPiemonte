@@ -2,13 +2,16 @@ project:
   type: website
 
 website:
-  title: "vespaPiemonte"
+  title: "Vespa Velutina in Piemonte"
   navbar:
     left:
       - href: index.qmd
         text: Home
-      - href: trapSettori.qmd
-        text: Settori di trappolaggio
+      - text: Provincia di Torino
+        menu:
+          - href: trapSettoriTO.qmd
+            text: Settori di trappolaggio
+      - text: Provincia di Cuneo
       - about.qmd
 
 format:

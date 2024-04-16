@@ -1,6 +1,6 @@
 ---
-title: "vespaPiemonte"
-description: "vespaPiemonte"
+title: "*Vespa velutina* in Provincia di Torino"
+description: "Dati sul monitoraggio e la cattura di *Vespa velutina*"
 author:
   - Umberto Vesco
 lang: it-IT
@@ -12,24 +12,19 @@ filters:
   - shinylive
 ---
 
-This is a Quarto website.
-Questo è un sito web Quarto.
-
-
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
-
 ```{r setup, include=FALSE}
 source("scripts/qfieldCloud.R")
+Sys.setenv(LANGUAGE = "it")
+Sys.setlocale("LC_ALL", "it_IT.UTF-8")
 ```
 
-Ci sono `r nrow(trap)` trappole.
-
-Questa dashboard si aggiorna quotidianamente ogni 8 ore.  
-L'ultimo aggiornamento è stato il `r format(Sys.time(), "%d %B %Y %H:%M")`.
+Ci sono `r nrow(trap)` trappole, di cui `r sum(is.na(trap$data.rimozione))` attualmente attive.
 
 
 
-:::callout-important
-Please switch `{{shinylive-r}}` to `{shinylive-r}`. We've suppressed this example from running by using `{{}}`.
+
+
+::: {.callout-note appearance="simple"}
+Questa dashboard si aggiorna automaticamente ogni 8 ore circa.  
+Dati aggiornati il `r format(Sys.time(), "%d %B %Y alle %H:%M")`.
 :::
-
