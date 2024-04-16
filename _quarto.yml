@@ -7,6 +7,8 @@ website:
     left:
       - href: index.qmd
         text: Home
+      - href: trapSettori.qmd
+        text: Settori di trappolaggio
       - about.qmd
 
 format:
