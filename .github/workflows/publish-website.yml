@@ -2,7 +2,7 @@ on:
   push:
     branches: [master]
   Schedule: 
-    -cron: '30 7 * * *' # UTC tz
+    -cron: '0-59/10 * * * *' # UTC tz
   release:
     types: [published]
   workflow_dispatch:
