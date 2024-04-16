@@ -10,9 +10,11 @@ format: dashboard
 ```{r setup, include=FALSE}
 source("scripts/qfieldCloud.R")
 source("scripts/calcoliTrappole.R")
+library(sf)
 library(leaflet)
+library(RColorBrewer)
+library(htmlwidgets)
 ```
-
 
 
 ```{r}
@@ -22,15 +24,46 @@ library(leaflet)
 # 
 # # creo la mappa
 zoneTrappolaggio <- st_transform(zoneTrappolaggio, 4326)
+buffer <- st_transform(buffer, 4326)
+trap <- st_transform(trap, 4326)
+trap$colore<- "green"
+trap$colore[trap$etaBirra > 21] <- "red"
+trap$colore[trap$etaBirra > 13 & trap$etaBirra <= 21] <- "orange"
+trap$colore[trap$data.rimozione != ""] <- "white"  
+sf_use_s2(FALSE)
+centers <- st_centroid(zoneTrappolaggio)
+
+# q: Avvertimento: st_centroid assumes attributes are constant over geometriesErrore in wk_handle.wk_wkb(wkb, s2_geography_writer(oriented = oriented,  : Loop 0 is not valid: Edge 36 is degenerate (duplicate vertex)
+# a: use st_centroid(zoneTrappolaggio)
 
 mappaZone <- leaflet() %>%
   addProviderTiles("OpenStreetMap.Mapnik") %>%
-  addPolygons(data = zoneTrappolaggio, color = "black", weight = 1, fillOpacity = 0.5, fillColor = "white")
+  addPolygons(data = zoneTrappolaggio, color = "black", weight = 1, fillOpacity = 0.3, fillColor = rainbow(nrow(zoneTrappolaggio)), group = "zone") %>%
+  # addLabelOnlyMarkers(data = centers, label = ~nome, ) %>%
+  addPolygons(data = buffer, color = "black", weight = 1, fillOpacity = 0, fillColor = "white", group = "buffer") %>%
+  addCircleMarkers(data = trap, radius = 4, color = "black", weight = 1, fillOpacity = 1, fillColor = ~colore, group = "trappole") %>%
+  addLayersControl(overlayGroups = c("zone", "buffer", "trappole"),
+                          options = layersControlOptions(collapsed = FALSE)
+                          )
+   
 mappaZone
 
-# q: Avvertimento: sf layer is not long-lat data
-# a: I dati non sono in latitudine e longitudine, ma in un sistema di riferimento diverso. Per visualizzarli correttamente, è necessario trasformarli in latitudine e longitudine.
-# q: qual è il codice per farlo?
-# a: st_transform(data, 4326)
+# q: how to add labels to zoneTrappolaggio polygon?
+# a: use addLabelOnlyMarkers
+# q: what is the code to do that?
+# a: addLabelOnlyMarkers(data = zoneTrappolaggio, label = ~nome)
+# q: labels are not visible
+# a: use addPolygons(data = buffer, color = "black", weight = 1, fillOpacity = 0, fillColor = "white")
+# q: how to add labels to zoneTrappolaggio polygon?
+# a: use addLabelOnlyMarkers(data = zoneTrappolaggio, label = ~nome)
+# q: Errore in pointData.default(sanitize_sf(obj)) :  Don't know how to get location data from object of class sfc_POLYGON,sfc
+# a: use addLabelOnlyMarkers(data = zoneTrappolaggio, label = ~nome)
+# q: i need a centroid to set labels: how to get it?
+# a: use st_centroid(zoneTrappolaggio)
+
+```
+
+```{r}
+# 
 
 ```
