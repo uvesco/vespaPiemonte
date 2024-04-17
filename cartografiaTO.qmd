@@ -18,45 +18,83 @@ library(htmlwidgets)
 # mappa leaflet delle zone di trappolaggio con colori diversi e trasparenza al 50% su openstreetmap con anche i buffer con visibile solo il bordo
 # mappa delle trappole con colori diversi per zona e trasparenza al 50%
 # 
-# # creo la mappa
+# conversione coordinate
 zoneTrappolaggio <- st_transform(zoneTrappolaggio, 4326)
 zoneTrappolaggio$colore <- rainbow(nrow(zoneTrappolaggio))
 buffer <- st_transform(buffer, 4326)
 trap <- st_transform(trap, 4326)
-trap$colore<- "green"
+# generazione colori
+trap$colore <- "green"
 trap$colore[trap$etaBirra > 21] <- "red"
 trap$colore[trap$etaBirra > 13 & trap$etaBirra <= 21] <- "orange"
 trap$colore[!is.na(trap$data.rimozione)] <- "white"  
 sf_use_s2(FALSE)
+# estrazione centroidi delle zone per etichettatura
 centers <- st_centroid(zoneTrappolaggio)
+# get bounding box of buffer features
+bboxDF <- data.frame(matrix(ncol = 4, nrow = nrow(buffer)))
+for(i in 1:nrow(buffer)) {
+  bboxDF[i,] <- st_bbox(buffer[i,])
+}
+colnames(bboxDF) <- c("xmin", "ymin", "xmax", "ymax")
+bboxDF$diametro <- buffer$distance
+bboxDF$centerX <- (bboxDF$xmin + bboxDF$xmax) / 2
+bboxDF$centerY <- (bboxDF$ymin + bboxDF$ymax) / 2
+# define positions of labels in the extremes of the buffer: N, S, W, E
+bufferLabels <- data.frame(matrix(ncol = 2, nrow = nrow(buffer)*4))
+bufferLabels$distance <- rep(bboxDF$diametro, each = 4)
+bufferLabels$position <- rep(c("N", "S", "W", "E"), nrow(buffer))
+colnames(bufferLabels) <- c("x", "y", "distance", "position")
 
-# q: Avvertimento: st_centroid assumes attributes are constant over geometriesErrore in wk_handle.wk_wkb(wkb, s2_geography_writer(oriented = oriented,  : Loop 0 is not valid: Edge 36 is degenerate (duplicate vertex)
-# a: use st_centroid(zoneTrappolaggio)
+for(i in 1:nrow(buffer)) {
+  bufferLabels$x[4*(i-1) + 1] <- bboxDF$centerX[i]
+  bufferLabels$y[4*(i-1) + 1] <- bboxDF$ymax[i]
+  bufferLabels$x[4*(i-1) + 2] <- bboxDF$centerX[i]
+  bufferLabels$y[4*(i-1) + 2] <- bboxDF$ymin[i]
+  bufferLabels$x[4*(i-1) + 3] <- bboxDF$xmin[i]
+  bufferLabels$y[4*(i-1) + 3] <- bboxDF$centerY[i]
+  bufferLabels$x[4*(i-1) + 4] <- bboxDF$xmax[i]
+  bufferLabels$y[4*(i-1) + 4] <- bboxDF$centerY[i]
+}
 
-mappaZone <- leaflet() %>%
+bufferLabels <- st_as_sf(bufferLabels, coords = c("x", "y"), crs = 4326)
+
+# creo la mappa
+
+leaflet() %>%
   addProviderTiles("OpenStreetMap.Mapnik") %>%
   addPolygons(data = zoneTrappolaggio, color = "black", weight = 1, fillOpacity = 0.3, fillColor = rainbow(nrow(zoneTrappolaggio)), group = "zone") %>%
   # addLabelOnlyMarkers(data = centers, label = ~nome, ) %>%
   addPolygons(data = buffer, color = "black", weight = 1, fillOpacity = 0, fillColor = "white", group = "buffer") %>%
   addCircleMarkers(data = trap, radius = 4, color = "black", weight = 1, fillOpacity = 1, fillColor = ~colore, group = "trappole") %>%
-  addCircleMarkers(data = centers, radius=2, color = "blue", fillColor = ~colore, label = ~nome, group = "zone") %>%
+  addLabelOnlyMarkers(data = centers, label = ~nome, group = "zone", labelOptions = labelOptions(noHide = TRUE, textOnly = TRUE)) %>%
+  addLabelOnlyMarkers(data = bufferLabels, label = ~distance, group = "buffer", labelOptions = labelOptions(noHide = TRUE, textOnly = TRUE)) %>%
+  addLegend("bottomright", colors = c("green", "orange", "red", "white"), labels = c("meno di 14 giorni", "tra 14 e 21 giorni", "più di 21 giorni", "rimosse"), title = "Età delle trappole") %>%
   addLayersControl(overlayGroups = c("zone", "buffer", "trappole"),
                           options = layersControlOptions(collapsed = FALSE)
-                          )
-   
-mappaZone
+                          ) %>%
+  hideGroup("zone")
 
-# q: how to add labels to zoneTrappolaggio polygon?
-# a: use addLabelOnlyMarkers
-# q: what is the code to do that?
-# a: addLabelOnlyMarkers(data = zoneTrappolaggio, label = ~nome)
-# q: labels are not visible
-# a: use addPolygons(data = buffer, color = "black", weight = 1, fillOpacity = 0, fillColor = "white")
-# q: how to add labels to zoneTrappolaggio polygon?
-# a: use addLabelOnlyMarkers(data = zoneTrappolaggio, label = ~nome)
-# q: Errore in pointData.default(sanitize_sf(obj)) :  Don't know how to get location data from object of class sfc_POLYGON,sfc
-# a: use addLabelOnlyMarkers(data = zoneTrappolaggio, label = ~nome)
-# q: i need a centroid to set labels: how to get it?
-# a: use st_centroid(zoneTrappolaggio)
+# q: come aggiungere una legenda ai punti?
+# a: con addLegend
+# q: puoi farmi un esempio del codice per trap?
+# a: certo, ecco il codice
+# 
+# ```{r}
+# leaflet() %>%
+#  addProviderTiles("OpenStreetMap.Mapnik") %>%
+#  addCircleMarkers(data = trap, radius = 4, color = "black", weight = 1, fillOpacity = 1, fillColor = ~colore, group = "trappole") %>%
+#  addLegend("bottomright", colors = c("green", "orange", "red", "white"), labels = c("meno di 14 giorni", "tra 14 e 21 giorni", "più di 21 giorni", "rimosse"), title = "Età delle trappole") %>%
+#  addLayersControl(overlayGroups = c("trappole"),
+#                 options = layersControlOptions(collapsed = FALSE)
+#                 )
+#                 
+# q: how to set zone group as disabled by default?
+# a: use the hideGroup option
+# q: can you provide me with an example?
+# a: sure, here is the code
+# 
+   
+
 
 ```
