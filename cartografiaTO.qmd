@@ -69,32 +69,11 @@ leaflet() %>%
   addCircleMarkers(data = trap, radius = 4, color = "black", weight = 1, fillOpacity = 1, fillColor = ~colore, group = "trappole") %>%
   addLabelOnlyMarkers(data = centers, label = ~nome, group = "zone", labelOptions = labelOptions(noHide = TRUE, textOnly = TRUE)) %>%
   addLabelOnlyMarkers(data = bufferLabels, label = ~distance, group = "buffer", labelOptions = labelOptions(noHide = TRUE, textOnly = TRUE)) %>%
-  addLegend("bottomright", colors = c("green", "orange", "red", "white"), labels = c("meno di 14 giorni", "tra 14 e 21 giorni", "più di 21 giorni", "rimosse"), title = "Età delle trappole") %>%
+  addLegend("bottomright", colors = c("green", "orange", "red", "white"), labels = c("meno di 14 giorni", "tra 14 e 21 giorni", "più di 21 giorni", "rimosse"), title = "Ultimo controllo") %>%
   addLayersControl(overlayGroups = c("zone", "buffer", "trappole"),
                           options = layersControlOptions(collapsed = FALSE)
                           ) %>%
   hideGroup("zone")
-
-# q: come aggiungere una legenda ai punti?
-# a: con addLegend
-# q: puoi farmi un esempio del codice per trap?
-# a: certo, ecco il codice
-# 
-# ```{r}
-# leaflet() %>%
-#  addProviderTiles("OpenStreetMap.Mapnik") %>%
-#  addCircleMarkers(data = trap, radius = 4, color = "black", weight = 1, fillOpacity = 1, fillColor = ~colore, group = "trappole") %>%
-#  addLegend("bottomright", colors = c("green", "orange", "red", "white"), labels = c("meno di 14 giorni", "tra 14 e 21 giorni", "più di 21 giorni", "rimosse"), title = "Età delle trappole") %>%
-#  addLayersControl(overlayGroups = c("trappole"),
-#                 options = layersControlOptions(collapsed = FALSE)
-#                 )
-#                 
-# q: how to set zone group as disabled by default?
-# a: use the hideGroup option
-# q: can you provide me with an example?
-# a: sure, here is the code
-# 
-   
 
 
 ```

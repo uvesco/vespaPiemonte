@@ -2,7 +2,8 @@ on:
   push:
     branches: [master]
   schedule:
-    - cron: '30 4-23/8 * * *' # every 12 hours
+    - cron: '30 4 * * *'
+    - cron: '30 19 * * *'
   release:
     types: [published]
   workflow_dispatch:

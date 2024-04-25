@@ -2,7 +2,7 @@ project:
   type: website
 
 website:
-  title: "Vespa Velutina in Piemonte"
+  title: "Vespa Velutina"
   navbar:
     left:
       - href: index.qmd
@@ -13,7 +13,7 @@ website:
             text: Cartografia
           - href: trapSettoriTO.qmd
             text: Settori di trappolaggio
-      - text: Provincia di Cuneo
+      # - text: Provincia di Cuneo
       - about.qmd
 
 format:
