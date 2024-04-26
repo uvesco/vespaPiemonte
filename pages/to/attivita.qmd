@@ -81,6 +81,19 @@ knitr::kable(tabDensity, format = "html", caption = "Densità di trappole contro
 
 ```{r graficoTrappoleMese, echo=FALSE, warning=FALSE}
 #| label: graficoTrappoleMese
+#| title: Numero di trappole posate per mese
+#| description: Grafico a barre del numero di trappole posate per mese
+#| output: plotly
+#| fig.width: 10
+#| fig.height: 6
+#| fig.align: center
+#| fig.cap: Numero di trappole posate per mese
+#| fig.link_text: Visualizza il grafico a tutto schermo
+#| fig.link_url: https://plotly.com/~giorgio.guarnera/1/
+#| fig.show_link: true
+#| fig.save: true
+#| fig.filename: trappoleMese
+#| 
 
 # grafico a barre del numero di trappole aggiunte nel periodo, cut per mese
 
@@ -102,7 +115,7 @@ tab <- complete(tab, AnnoMese = periodo, fill=list(freq = 0))
 
 plot_ly(tab, x = ~AnnoMese, y =~freq, colors = "gold") %>%
   add_bars() %>%
-  layout(title = "Numero di trappole posate per mese",
+  layout(
          xaxis = list(title = "Mese"),
          yaxis = list(title = "Numero di trappole")
          )
@@ -131,7 +144,7 @@ controlli$Mese <- format(controlli$Data, "%m")
 controlli$Anno <- format(controlli$Data, "%Y")
 controlli$AnnoMese <- paste(controlli$Anno, controlli$Mese, sep = "-")
 controlli$AnnoMese <- as.factor(controlli$AnnoMese)
-#levels(controlli$AnnoMese) <- 
+ 
 periodo <- min(controlli$data):max(controlli$data)
 periodo <- as.Date(periodo, origin = "1970-01-01")
 periodo <- format(periodo, "%Y-%m")
@@ -146,7 +159,7 @@ tab <- complete(tab, AnnoMese = periodo, fill=list(nControlli = 0))
 
 plot_ly(tab, x = ~AnnoMese, y =~nControlli, colors = "blue") %>%
   add_bars() %>%
-  layout(title = "Numero di controlli per mese",
+  layout(
          xaxis = list(title = "Mese"),
          yaxis = list(title = "Numero di controlli")
          )
@@ -192,7 +205,7 @@ controlli$AnnoMese <- format(controlli$Data, "%Y-%m")
 controlli$intervallo <- as.numeric(controlli$intervallo)
 
 plot_ly(controlli, x = ~AnnoMese, y = ~intervallo, type = "box") %>%
-  layout(title = "Intervallo di controllo per mese",
+  layout(
          xaxis = list(title = "Mese"),
          yaxis = list(title = "Intervallo di controllo (giorni)")
          )
