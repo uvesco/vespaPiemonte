@@ -8,7 +8,7 @@ format: dashboard
 ```{r setup, include=FALSE}
 source("../../scripts/importQfieldCloud.R")
 source("../../scripts/calcoliTrappole.R")
-library(tidyverse)
+library(tidyr)
 library(ggplot2)
 library(plotly)
 
