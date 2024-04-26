@@ -6,15 +6,16 @@ format: dashboard
 ---
 
 ```{r setup, include=FALSE}
-source("scripts/qfieldCloud.R")
-source("scripts/calcoliTrappole.R")
+source("../../scripts/importQfieldCloud.R")
+source("../../scripts/calcoliTrappole.R")
+source("../../scripts/etaBirraSettori.R")
 library(ggplot2)
 library(plotly)
 ```
 
 <!-- ## Row {height="70%"} -->
 
-```{r graficoZoneBirra, echo=FALSE}
+```{r graficoZoneBirra, echo=FALSE, warning=FALSE}
 # grafico a barre orizzontali per la finestra di sostituzione della birra delle trappole
 ggplot(modaEtaBirra, x = etaBirra, y = zone, fill = zone) +
  geom_linerange(aes(y=zone, xmin = minControllo, xmax = maxControllo), color = "orange",linewidth = 3*modaEtaBirra$nTrappole/max(modaEtaBirra$nTrappole)) +

@@ -1,8 +1,6 @@
 ---
 title: "*Vespa velutina* in Provincia di Torino"
 description: "Dati sul monitoraggio e la cattura di *Vespa velutina*"
-author:
-  - Umberto Vesco
 lang: it-IT
 format:
   html:
@@ -13,19 +11,15 @@ filters:
 ---
 
 ```{r setup, include=FALSE}
-source("scripts/qfieldCloud.R")
+source("../scripts/importQfieldCloud.R")
 Sys.setenv(LANGUAGE = "it")
 Sys.setlocale("LC_ALL", "it_IT.UTF-8")
 ```
 
-Sono state posizionate `r nrow(trap)` trappole, di cui `r sum(is.na(trap$data.rimozione))` attualmente attive.
+Per la gestione del focolaio sulla collina di Torino sono state posizionate `r nrow(trap)` trappole, di cui `r sum(is.na(trap$data.rimozione))` attualmente attive.
 
-
-
-
+Questa dashboard mostra i dati raccolti e si aggiorna quotidianamente.
 
 ::: {.callout-note appearance="simple"}
-Questa dashboard si aggiorna automaticamente ogni 8 ore circa.  
 Dati aggiornati il `r format(as.POSIXct(Sys.time(), tz="Europe/Rome"), "%d %B %Y alle %H:%M")`.
 :::
-

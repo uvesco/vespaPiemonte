@@ -1,0 +1,7 @@
+---
+title: "About"
+---
+
+Sito sviluppato con [Quarto](https://quarto.org/).
+
+Sviluppatore [Umberto Vesco](https://github.com/uvesco).

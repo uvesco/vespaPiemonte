@@ -5,16 +5,18 @@ website:
   title: "Vespa velutina"
   navbar:
     left:
-      - href: index.qmd
+      - href: pages/index.qmd
         text: Home
       - text: Provincia di Torino
         menu:
-          - href: cartografiaTO.qmd
-            text: Cartografia
-          - href: trapSettoriTO.qmd
+          - href: pages/to/attivita.qmd
+            text: Attività di trappolaggio
+          - href: pages/to/trapSettori.qmd
             text: Settori di trappolaggio
+          - href: pages/to/cartografia.qmd
+            text: Cartografia
       # - text: Provincia di Cuneo
-      - about.qmd
+      - pages/about.qmd
 
 format:
   html:

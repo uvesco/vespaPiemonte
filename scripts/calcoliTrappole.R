@@ -1,4 +1,8 @@
 # calcoli da applicare alle trappole
+
+# parametri
+giorniXcontrollata <-30 # giorni di tempo massimo dall'ultimo controllo per considerare controllata una trappola
+
 # 
 # calcola l'età della birra scegliendo la data più recente tra l'ultimo controllo e la data di posizionamento della trappola
 # se non c'è nessun controllo considera la data di posizionamento
@@ -28,65 +32,69 @@ if(any(trap$etaBirra < 0)){
   stop("Ci sono trappole con età negativa")
 }
 
+# indici per attività e controllo
+
+attive <- is.na(trap$data.rimozione)
+controllate <- is.na(trap$data.rimozione) & trap$etaBirra < (giorniXcontrollata + 1)
+
+
 # attribuzione della zona di trappolaggio
 
 trapZone <- st_intersects(trap, zoneTrappolaggio, sparse = F)
 tz <- apply(trapZone, 1, which)
 
-trap$zone <- "Altro"
+trap$zone <- NA
 for(i in 1:length(tz)){
   if(!identical(zoneTrappolaggio$nome[tz[[i]]], character(0))){
     trap$zone[i] <- zoneTrappolaggio$nome[tz[[i]]]
   }
 }
 
+# aggiunta a ciascun poligono buffer di una colonna con il numero di trappole attive e controllate che ricadono all'interno del poligono
+# 
+# 
+inter <- st_intersects(buffer, trap[controllate,])
+buffer$nTrappoleControllate <- lengths(inter)
+#calcolo dell'area dei buffer in km2
+buffer$area <- st_area(buffer)
+units(buffer$area) <- "km2"
+#calcolo della densità di trappole controllate per km2
+buffer$densita <- buffer$nTrappoleControllate/buffer$area
 
-# grafico a barre orizzontali per la finestra di sostituzione della birra delle trappole
+# calcolo distanza di ciascuna trappola dal nido più vicino
 
-tempoMinimo <- 14 # giorni di tempo minimo tra un controllo e l'altro
-tempoMassimo <- 21 # giorni di tempo massimo tra un controllo e l'altro
+nidiTrap <- st_nearest_feature(trap, nidi)
+# calculate the distance in meters
+for(i in 1:nrow(trap)){
+  trap$distanzaNido[i] <- st_distance(trap[i,], nidi[nidiTrap[i],])
+}
 
-# calcolo la finestra di sostituzione della birra
-# la finestra di sostituzione della birra è il periodo di tempo in cui la birra deve essere sostituita
-# la birra deve essere sostituita se è presente da più di tempoMassimo giorni
-# la birra non deve essere sostituita se è presente da meno di tempoMinimo giorni
+# calcolo del controllo precedente o se in assenza la data di posa della trappola
+# data del controllo precedente: data del controllo precedente più recente
+# se non c'è nessun controllo precedente considera la data di posizionamento della trappola
 
-# calcolo la finestra di sostituzione della birra
+controlli$Data <- as.Date(controlli$data, origin = "1970-01-01")
+for(i in 1:nrow(controlli)){
+  dateControlliPrecedenti <- controlli$Data[controlli$fk_uuid == controlli$fk_uuid[i] & controlli$Data < controlli$Data[i]]
+  if(length(dateControlliPrecedenti) > 0){
+    controlli$DataPrec[i] <- as.Date(max(dateControlliPrecedenti), origin = "1970-01-01")
+  } else {
+    controlli$DataPrec[i] <- as.Date(trap$Data.posizionamento[trap$uuid == controlli$fk_uuid[i]], origin = "1970-01-01")
+  }
+}
+controlli$intervallo <- as.numeric(controlli$Data - controlli$DataPrec)
+# q: how to measure the time used by the previous for cycle?
+# a:
 
-trap$maxSostituzione <- trap$etaBirra + tempoMassimo
-trap$minSostituzione <- trap$etaBirra + tempoMinimo
+# trasformazione dei controlli in oggetti geografici con la geometria della trappola
+#aggiunta delle coordinate X e Y a trap
+trap$X <- st_coordinates(trap)[,1]
+trap$Y <- st_coordinates(trap)[,2]
 
+controlliGeo <- merge(controlli, trap, by.x = "fk_uuid", by.y = "uuid", all.x = T, all.y = F)
+controlliGeo <- st_as_sf(controlliGeo, coords = c("X", "Y"), crs = 32632)
 
-# calcolo per ogni zona della moda dell'età della birra e la finestra di sostituzione della birra
-
-# Seleziono solo le trappole con responsabile == team e data.rimozione == NA
-trapTeam <- trap[trap$responsabile == "team" & is.na(trap$data.rimozione),]
-
-modaEtaBirra <- tapply(trapTeam$birra, trapTeam$zone, function(x) {as.Date.character(names(which.max(table(x))))})
-modaEtaBirra <- as.Date(modaEtaBirra, origin = "1970-01-01")
-
-# trasformo in dataFrame
-modaEtaBirra <- data.frame(zone = names(modaEtaBirra), etaBirra = modaEtaBirra, stringsAsFactors = F)
-
-# aggiungo una colonna con il numero di trappole per zona
-modaEtaBirra$nTrappole <- tapply(trapTeam$birra, trapTeam$zone, length)
-
-# aggiungo una colonna con il numero di trappole con età birra minore della moda
-trapTeam$modaEtaBirra <- modaEtaBirra$etaBirra[match(trapTeam$zone, modaEtaBirra$zone)]
-trapTeam$isMinModa <- trapTeam$birra < trapTeam$modaEtaBirra
-modaEtaBirra$nTrappoleMin <- tapply(trapTeam$isMinModa, trapTeam$zone, sum)
-
-# aggiungo una colonna con minControllo della trappola più vecchia
-modaEtaBirra$minimControllo <- as.Date(tapply((trapTeam$birra+14), trapTeam$zone, min))
-
-# aggiungo colonne con la data minima per cambiare la birra
-
-modaEtaBirra$minControllo <- modaEtaBirra$etaBirra + tempoMinimo
-modaEtaBirra$maxControllo <- modaEtaBirra$etaBirra + tempoMassimo
-
-modaEtaBirra$minimControllo[which(modaEtaBirra$minimControllo == modaEtaBirra$minControllo)] <- NA
-
-data_prevista <- NA
-
+# eliminazione di tutti gli oggetti intermedi
+rm(list = c("i", "nidiTrap", "trapZone", "tz", "inter", "dateControlliPrecedenti"))
 
 gc()

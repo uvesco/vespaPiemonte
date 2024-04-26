@@ -1,19 +1,19 @@
 ---
 title: "Cartografia"
-description: "Situazione delle trappole per settore"
+description: "Carta interattiva delle trappole"
 lang: it-IT
 format: dashboard
 ---
 
 ```{r setup, include=FALSE}
-source("scripts/qfieldCloud.R")
-source("scripts/calcoliTrappole.R")
+source("../../scripts/importQfieldCloud.R")
+source("../../scripts/calcoliTrappole.R")
 library(sf)
 library(leaflet)
 library(htmlwidgets)
 ```
 
-```{r mappa, echo=FALSE}
+```{r mappa, echo=FALSE, warning=FALSE}
 
 # mappa leaflet delle zone di trappolaggio con colori diversi e trasparenza al 50% su openstreetmap con anche i buffer con visibile solo il bordo
 # mappa delle trappole con colori diversi per zona e trasparenza al 50%
