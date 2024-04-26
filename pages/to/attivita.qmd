@@ -14,9 +14,7 @@ source("../../scripts/calcoliTrappole.R")
 
 # Situazione delle trappole
 
-Attualmente su `r nrow(trap)` trappole posate ne sono attive `r nrow(trap[attive,])` trappole di queste `r nrow(trap[controllate,])` sono state controllate negli ultimi `r giorniXcontrollata` giorni (tabella ...).
-
-
+Attualmente su `r nrow(trap)` trappole posate sono attive `r nrow(trap[attive,])` trappole, di queste `r nrow(trap[controllate,])` sono state controllate negli ultimi `r giorniXcontrollata` giorni.
 
 ```{r tabellaBuffer, echo=FALSE, warning=FALSE}
 # tabella con il numero di trappole per classi di distanza dal nido più vicino
@@ -78,8 +76,9 @@ knitr::kable(tabDensity, format = "html", caption = "Densità di trappole contro
 
 # Controlli
 
+<!-- Grafico del numero di trappole aggiunte per mese -->
 <!--  grafico a barre del numero di controlli per giorno (FACILE) -->
+
 <!-- istogramma per mesi intervallo di controllo -->
+
 <!-- tabelle media intervalli per mese -->
-
-

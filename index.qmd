@@ -11,7 +11,7 @@ filters:
 ---
 
 ```{r setup, include=FALSE}
-source("../scripts/importQfieldCloud.R")
+source("scripts/importQfieldCloud.R")
 Sys.setenv(LANGUAGE = "it")
 Sys.setlocale("LC_ALL", "it_IT.UTF-8")
 ```

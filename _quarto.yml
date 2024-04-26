@@ -3,9 +3,11 @@ project:
 
 website:
   title: "Vespa velutina"
+  page-navigation: true
+  back-to-top-navigation: true
   navbar:
     left:
-      - href: pages/index.qmd
+      - href: index.qmd
         text: Home
       - text: Provincia di Torino
         menu:
@@ -26,3 +28,5 @@ format:
 
 editor: visual
 
+# q: how to set default page?
+# a: https://quarto.org/docs/reference/quarto-website.html#default-page
