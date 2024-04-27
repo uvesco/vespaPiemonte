@@ -1,5 +1,5 @@
 ---
-title: "Attività di trappolaggio"
+title: "Trappolaggio"
 description: "Riassunto dell'attività di trappolaggio per settore"
 lang: it-IT
 format: dashboard
@@ -14,7 +14,7 @@ library(plotly)
 
 ```
 
-# Situazione delle trappole
+# Trappole
 
 Attualmente su `r nrow(trap)` trappole posate sono attive `r nrow(trap[attive,])` trappole, di queste `r nrow(trap[controllate,])` sono state controllate negli ultimi `r giorniXcontrollata` giorni.
 
@@ -59,8 +59,6 @@ knitr::kable(tabTrapBuffer, format = "html", caption = "Numero di trappole per c
 
 ```
 
-## Intensità di trappolaggio
-
 ```{r tabellaDensitaBuffer, echo=FALSE, warning=FALSE}
 # tabella con la densità di trappole per km2 nelle aree buffer
 #numero di trappole per buffer
@@ -78,10 +76,11 @@ knitr::kable(tabDensity, format = "html", caption = "Densità di trappole contro
 
 # Controlli
 
+## Column {width=60%}
 
 ```{r graficoTrappoleMese, echo=FALSE, warning=FALSE}
 #| label: graficoTrappoleMese
-#| title: Numero di trappole posate per mese
+#| title: Numero di trappole posizionate per mese
 #| description: Grafico a barre del numero di trappole posate per mese
 #| output: plotly
 #| fig.width: 10
@@ -170,8 +169,9 @@ plot_ly(tab, x = ~AnnoMese, y =~nControlli, colors = "blue") %>%
 
 ```
 
-<!-- istogramma per mesi intervallo di controllo -->
+## Column {width=40%}
 
+<!-- istogramma per mesi intervallo di controllo -->
 
 ```{r graficoIntervalloControllo, echo=FALSE, warning=FALSE}
 #| label: graficoIntervalloControllo
@@ -212,7 +212,93 @@ plot_ly(controlli, x = ~AnnoMese, y = ~intervallo, type = "box") %>%
 
 ```
 
-
-
-
 <!-- tabelle media intervalli per mese -->
+
+```{r tabellaMediaIntervallo, echo=FALSE, warning=FALSE}
+# tabella con la media, mediana e moda dell'intervallo di controllo per mese
+# calcolo della media, mediana e moda dell'intervallo di controllo per mese
+
+tabMediaIntervallo <- controlli %>%
+  group_by(AnnoMese) %>%
+  summarise(
+    media = mean(intervallo, na.rm = T),
+    mediana = median(intervallo, na.rm = T),
+    moda = as.numeric(names(sort(-table(intervallo))[1]))
+  )
+
+knitr::kable(tabMediaIntervallo, format = "html", caption = "Media, mediana e moda dell'intervallo di controllo per mese")
+
+```
+
+# Catture
+
+```{r graficoCattureMese, echo=FALSE, warning=FALSE}
+#| label: graficoCattureMese
+#| title: Numero di catture per mese
+#| description: Grafico a barre del numero di catture per mese
+#| output: plotly
+#| fig.width: 10
+#| fig.height: 6
+#| fig.align: center
+#| fig.cap: Numero di catture per mese
+#| fig.link_text: Visualizza il grafico a tutto schermo
+
+# grafico a barre dinamico con possibilità di selezionare le colonne (taxon) da visualizzare
+# ogni barra è costituita dal numero di trappole che hanno catturato almeno un individuo di quel taxon e dalle trappole che non hanno catturato nulla
+
+controlliGeoTemp <- controlliGeo[, c( taxa$colonne, "Manomissione", "fori", "AnnoMeseMedioCattura")]
+
+
+# creo un dataframe con presenza/assenza di catture per ogni taxon
+catture <- controlliGeoTemp %>%
+  group_by(AnnoMeseMedioCattura) %>%
+  summarise(
+    across(
+      .cols = taxa$colonne,
+      .fns = ~ sum(.x > 0, na.rm = T)
+    )
+  )
+
+# controlli per taxon (si escludono i NA per ogni taxon)
+
+# catture <- catture %>%
+#   pivot_longer(
+#     cols = -AnnoMeseMedioCattura,
+#     names_to = "taxon",
+#     values_to = "catture"
+#   )
+# 
+# 
+# 
+
+
+# Create a basic scatter plot
+# p <- plot_ly(catture, x = ~AnnoMeseMedioCattura, y = ~taxa$colonne[1], type = 'bar', name = taxa$colonne[1])
+
+# # Add a drop-down menu to switch between different 'y' variables
+# p <- p %>%
+#   layout(
+#     updatemenus = list(
+#       list(
+#         x = 0.1,
+#         y = 1.15,
+#         buttons = list(
+#           list(
+#             method = 'restyle',
+#             args = list('y', list(df$y1)),
+#             label = 'y1'
+#           ),
+#           list(
+#             method = 'restyle',
+#             args = list('y', list(df$y2)),
+#             label = 'y2'
+#           )
+#         )
+#       )
+#     )
+#   )
+
+# Render the plot
+p
+
+```

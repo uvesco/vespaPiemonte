@@ -3,6 +3,31 @@
 # parametri
 giorniXcontrollata <-30 # giorni di tempo massimo dall'ultimo controllo per considerare controllata una trappola
 
+taxa <- data.frame(
+  colonne = c("Vespa_velutina_tot", 
+              "Vespa_crabro_tot", 
+              "altri_Vespidae", 
+              "Apis.mellifera", 
+              "Bombus.sp.", 
+              "Altri_Anthophila", 
+              "Lepidoptera",
+              "Sirphidae", 
+              "Diptera", 
+              "Altro"),
+  etichette = c("Vespa velutina", 
+                "Vespa crabro", 
+                "Altri Vespidae", 
+                "Apis mellifera", 
+                "Bombus sp.", 
+                "Altri clade Anthophila", 
+                "Lepidoptera",
+                "Sirphidae", 
+                "Altri Diptera", 
+                "Altro")
+  
+)
+
+
 # 
 # calcola l'età della birra scegliendo la data più recente tra l'ultimo controllo e la data di posizionamento della trappola
 # se non c'è nessun controllo considera la data di posizionamento
@@ -74,6 +99,7 @@ for(i in 1:nrow(trap)){
 # se non c'è nessun controllo precedente considera la data di posizionamento della trappola
 
 controlli$Data <- as.Date(controlli$data, origin = "1970-01-01")
+controlli$DataPrec <- as.Date(NA)
 for(i in 1:nrow(controlli)){
   dateControlliPrecedenti <- controlli$Data[controlli$fk_uuid == controlli$fk_uuid[i] & controlli$Data < controlli$Data[i]]
   if(length(dateControlliPrecedenti) > 0){
@@ -83,8 +109,14 @@ for(i in 1:nrow(controlli)){
   }
 }
 controlli$intervallo <- as.numeric(controlli$Data - controlli$DataPrec)
-# q: how to measure the time used by the previous for cycle?
-# a:
+
+# data media del periodo di cattura da calcolare come media tra la data di controllo e la data del controllo precedente solo inrevallo minore di 31 e se manomissione FALSE
+
+
+intervalloBreve <- controlli$intervallo < 31 & (controlli$Manomissione == FALSE | is.na(controlli$Manomissione))
+controlli$DataMediaCattura <- as.Date(NA)
+controlli$DataMediaCattura[intervalloBreve] <- as.Date(round((as.integer(controlli$Data[intervalloBreve]) + as.integer(controlli$DataPrec[intervalloBreve]))/2), origin = "1970-01-01")
+controlli$AnnoMeseMedioCattura <- format(controlli$DataMediaCattura, "%Y-%m")
 
 # trasformazione dei controlli in oggetti geografici con la geometria della trappola
 #aggiunta delle coordinate X e Y a trap
@@ -93,6 +125,12 @@ trap$Y <- st_coordinates(trap)[,2]
 
 controlliGeo <- merge(controlli, trap, by.x = "fk_uuid", by.y = "uuid", all.x = T, all.y = F)
 controlliGeo <- st_as_sf(controlliGeo, coords = c("X", "Y"), crs = 32632)
+
+# aggiunta di una colonna per i fori
+controlliGeo$fori <- FALSE
+# se forati TRUE e se data di controllo successiva a data di foratura <- TRUE
+controlliGeo$data_foratura <- as.Date(controlliGeo$data_foratura, origin = "1970-01-01")
+controlliGeo$fori[controlliGeo$Foratura == TRUE & controlliGeo$data_foratura < controlliGeo$Data] <- TRUE
 
 # eliminazione di tutti gli oggetti intermedi
 rm(list = c("i", "nidiTrap", "trapZone", "tz", "inter", "dateControlliPrecedenti"))

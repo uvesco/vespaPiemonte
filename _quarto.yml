@@ -12,9 +12,9 @@ website:
       - text: Provincia di Torino
         menu:
           - href: pages/to/attivita.qmd
-            text: Attività di trappolaggio
+            text: Trappolaggio
           - href: pages/to/trapSettori.qmd
-            text: Settori di trappolaggio
+            text: Settori
           - href: pages/to/cartografia.qmd
             text: Cartografia
       # - text: Provincia di Cuneo
