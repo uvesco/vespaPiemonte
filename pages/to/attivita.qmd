@@ -299,6 +299,6 @@ catture <- controlliGeoTemp %>%
 #   )
 
 # Render the plot
-p
+# p
 
 ```

@@ -14,7 +14,7 @@ website:
           - href: pages/to/attivita.qmd
             text: Trappolaggio
           - href: pages/to/trapSettori.qmd
-            text: Settori
+            text: Gestione
           - href: pages/to/cartografia.qmd
             text: Cartografia
       # - text: Provincia di Cuneo
