@@ -9,8 +9,10 @@ format: dashboard
 source("../../scripts/importQfieldCloud.R")
 source("../../scripts/calcoliTrappole.R")
 library(tidyr)
+library(dplyr)
 library(ggplot2)
 library(plotly)
+library(leaflet)
 
 ```
 
@@ -232,9 +234,11 @@ knitr::kable(tabMediaIntervallo, format = "html", caption = "Media, mediana e mo
 
 # Catture
 
+## Column {width=50%}
+
 ```{r graficoCattureMese, echo=FALSE, warning=FALSE}
 #| label: graficoCattureMese
-#| title: Numero di catture per mese
+#| title: Numero di catture dei diversi taxa per mese
 #| description: Grafico a barre del numero di catture per mese
 #| output: plotly
 #| fig.width: 10
@@ -248,57 +252,142 @@ knitr::kable(tabMediaIntervallo, format = "html", caption = "Media, mediana e mo
 
 controlliGeoTemp <- controlliGeo[, c( taxa$colonne, "Manomissione", "fori", "AnnoMeseMedioCattura")]
 
+# unique(controlliGeoTemp$AnnoMeseMedioCattura)
 
-# creo un dataframe con presenza/assenza di catture per ogni taxon
-catture <- controlliGeoTemp %>%
+# elimino i controlli con manomissione
+controlliGeoTemp$Manomissione <- as.logical(controlliGeoTemp$Manomissione)
+controlliGeoTemp <- controlliGeoTemp[controlliGeoTemp$Manomissione == FALSE | is.na(controlliGeoTemp$Manomissione),]
+
+# creo dataframe con il numero di catture positive per ogni taxon per mese
+cattureTF <- controlliGeoTemp[!is.na(controlliGeoTemp$AnnoMeseMedioCattura),] %>%
   group_by(AnnoMeseMedioCattura) %>%
   summarise(
     across(
       .cols = taxa$colonne,
       .fns = ~ sum(.x > 0, na.rm = T)
     )
+  ) %>%
+  st_drop_geometry() %>%
+
+# complete the dataframe with the months with no cattures
+complete(AnnoMeseMedioCattura = periodo, fill = mapply(function(x,y) { y }, taxa$colonne, rep(0, length(taxa$colonne)), SIMPLIFY = FALSE,USE.NAMES = TRUE)) # soluzione per creare la lista di zeri nominata: https://stackoverflow.com/posts/17842875/revisions
+
+
+# creo dataframe con il controlli negativi per ogni taxon per mese
+controlliTF <- controlliGeoTemp[!is.na(controlliGeoTemp$AnnoMeseMedioCattura),] %>%
+  group_by(AnnoMeseMedioCattura) %>%
+  summarise(
+    across(
+      .cols = taxa$colonne,
+      .fns = ~ sum(.x == 0, na.rm = T)
+    )
+  ) %>%
+  st_drop_geometry() %>%
+  # complete the dataframe with the months with no captures
+  complete(AnnoMeseMedioCattura = periodo, fill = mapply(function(x,y) { y }, taxa$colonne, rep(0, length(taxa$colonne)), SIMPLIFY = FALSE,USE.NAMES = TRUE)) # soluzione per creare la lista di zeri nominata: https://stackoverflow.com/posts/17842875/revisions
+
+# unisco i due dataframe
+# aggiunta colonna tipo per distinguere tra catture e non catture
+controlliTF$tipo <- "non catture"
+cattureTF$tipo <- "catture"
+
+cattureTF <- rbind(cattureTF, controlliTF)
+
+rm(catture, controlliTF)
+
+# plotly
+
+
+# grafico a barre con plotly con il numero di controlli che hanno catturato almeno un individuo di quel taxon e dei controlli che non ne hanno catturati, con possibilità di selezionare le colonne (taxon) da visualizzare
+# 
+# ogni barra è costituita dal numero di controlli che hanno catturato almeno un individuo di quel taxon e dai controlli che non hanno catturato nulla
+
+p <- plot_ly(data = cattureTF, x = ~AnnoMeseMedioCattura, y = ~get(taxa$colonne[1]), color =  ~tipo, colors = c("red", "green"), type ="bar")
+
+# # Add traces for the remaining y-variables
+
+p <- p %>% add_trace(y = ~Vespa_crabro_tot, visible = FALSE)
+p <- p %>% add_trace(y = ~altri_Vespidae, visible = FALSE)
+p <- p %>% add_trace(y = ~Apis.mellifera, visible = FALSE)
+p <- p %>% add_trace(y = ~Bombus.sp., visible = FALSE)
+p <- p %>% add_trace(y = ~Altri_Anthophila, visible = FALSE)
+p <- p %>% add_trace(y = ~Lepidoptera, visible = FALSE)
+p <- p %>% add_trace(y = ~Sirphidae, visible = FALSE)
+p <- p %>% add_trace(y = ~Diptera, visible = FALSE)
+p <- p %>% add_trace(y = ~Altro, visible = FALSE)
+
+
+# q: can you create add_trace without a loop?
+# a: yes, you can create add_trace without a loop
+# q: can you code it for me?
+# 
+
+
+
+
+# p <- layout(p, barmode = "stack")
+# p
+dropDown <- list()
+for(i in 1:nrow(taxa)){
+  visibilities <- rep(FALSE, nrow(taxa))
+  visibilities[i] <- TRUE
+  visibilities <- as.vector(matrix(rep(visibilities, 2), 2, nrow(taxa), byrow = T ))
+  dropDown[[i]] <- list(
+    method = "update",
+    args = list(
+      list(visible = visibilities),
+      list(title = taxa$etichette[i])
+    ),
+    label = taxa$etichette[i]
+  )
+}
+
+# Add layout to include the dropdown menu
+
+p <- p %>%
+  layout(
+    xaxis = list(title = "mesi"),  # Custom x-axis label
+    yaxis = list(title = "controlli"),   # Custom y-axis label
+    updatemenus = list(
+      list(
+        type = "dropdown",
+        x = 0.2,
+        y = 1.1,
+        showactive = TRUE,
+        buttons = dropDown
+      )
+    ),
+    barmode = "stack"
   )
 
-# controlli per taxon (si escludono i NA per ogni taxon)
+p
 
-# catture <- catture %>%
-#   pivot_longer(
-#     cols = -AnnoMeseMedioCattura,
-#     names_to = "taxon",
-#     values_to = "catture"
-#   )
+
+
+
+
+```
+
+## Column {width=50%}
+
+<!-- carta leaflet con i punti di cattura di Vespa velutina -->
+
+```{r mappaCatture, echo=FALSE, warning=FALSE}
+# mappa con i punti di cattura di Vespa velutina
 # 
-# 
-# 
+# seleziono solo i controlli con cattura di Vespa velutina
+cattureVespa <- controlliGeo[controlliGeo$Vespa_velutina_tot > 0,]
+cattureVespa <- st_transform(cattureVespa, crs = 4326)
+nidi <- st_transform(nidi, crs = 4326)
 
-
-# Create a basic scatter plot
-# p <- plot_ly(catture, x = ~AnnoMeseMedioCattura, y = ~taxa$colonne[1], type = 'bar', name = taxa$colonne[1])
-
-# # Add a drop-down menu to switch between different 'y' variables
-# p <- p %>%
-#   layout(
-#     updatemenus = list(
-#       list(
-#         x = 0.1,
-#         y = 1.15,
-#         buttons = list(
-#           list(
-#             method = 'restyle',
-#             args = list('y', list(df$y1)),
-#             label = 'y1'
-#           ),
-#           list(
-#             method = 'restyle',
-#             args = list('y', list(df$y2)),
-#             label = 'y2'
-#           )
-#         )
-#       )
-#     )
-#   )
-
-# Render the plot
-# p
+leaflet() %>%
+  addProviderTiles("OpenStreetMap.Mapnik") %>%
+  addCircleMarkers(data = cattureVespa, radius = 4, color = "black", weight = 1, fillOpacity = 1, fillColor = "yellow", group = "catture") %>%
+  addCircleMarkers(data = nidi, radius = 4, color = "black", weight = 1, fillOpacity = 1, fillColor = "red", group = "nidi") %>%
+# addLegend("bottomright", colors = c("green", "orange", "red", "white"), labels = c("meno di 14 giorni", "tra 14 e 21 giorni", "più di 21 giorni", "rimosse"), title = "Ultimo controllo") %>%
+  addLayersControl(overlayGroups = c("catture", "nidi"),
+                          options = layersControlOptions(collapsed = FALSE)
+                          ) %>%
+  hideGroup("zone")
 
 ```
