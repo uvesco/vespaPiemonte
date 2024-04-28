@@ -1,0 +1,7 @@
+https://stackoverflow.com/questions/35512306/r-maps-with-time-slider
+tabella catture velutina e nidi
+mappa leaflet catture velutina con labels ai vari punti
+aggiungere info sulle trappole
+
+
+modulo gestione con numeri liberi e tabella settori con info utili, anche istogramma età della birra con dropdown per selezionare i settori
