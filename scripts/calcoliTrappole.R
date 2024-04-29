@@ -123,6 +123,16 @@ controlli$AnnoMeseMedioCattura <- format(controlli$DataMediaCattura, "%Y-%m")
 trap$X <- st_coordinates(trap)[,1]
 trap$Y <- st_coordinates(trap)[,2]
 
+
+trap$Data.posizionamento <- as.Date(trap$Data.posizionamento, origin = "1970-01-01")
+
+trap$AnnoMese <- format(trap$Data.posizionamento, "%Y-%m")
+
+periodo <- min(trap$Data.posizionamento):max(trap$Data.posizionamento)
+periodo <- as.Date(periodo, origin = "1970-01-01")
+periodo <- format(periodo, "%Y-%m")
+periodo <- levels(as.factor(periodo))
+
 controlliGeo <- merge(controlli, trap, by.x = "fk_uuid", by.y = "uuid", all.x = T, all.y = F)
 controlliGeo <- st_as_sf(controlliGeo, coords = c("X", "Y"), crs = 32632)
 
@@ -134,5 +144,6 @@ controlliGeo$fori[controlliGeo$Foratura == TRUE & controlliGeo$data_foratura < c
 
 # eliminazione di tutti gli oggetti intermedi
 rm(list = c("i", "nidiTrap", "trapZone", "tz", "inter", "dateControlliPrecedenti"))
+
 
 gc()

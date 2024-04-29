@@ -13,6 +13,8 @@ website:
         menu:
           - href: pages/to/attivita.qmd
             text: Trappolaggio
+          - href: pages/to/catture.qmd
+            text: Catture
           - href: pages/to/trapSettori.qmd
             text: Gestione
           - href: pages/to/cartografia.qmd
