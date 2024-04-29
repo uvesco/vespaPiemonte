@@ -78,7 +78,7 @@ knitr::kable(tabDensity, format = "html", caption = "Densità di trappole contro
 
 # Controlli
 
-## Column {width=60%}
+## Column {width="60%"}
 
 ```{r graficoTrappoleMese, echo=FALSE, warning=FALSE}
 #| label: graficoTrappoleMese
@@ -171,7 +171,7 @@ plot_ly(tab, x = ~AnnoMese, y =~nControlli, colors = "blue") %>%
 
 ```
 
-## Column {width=40%}
+## Column {width="40%"}
 
 <!-- istogramma per mesi intervallo di controllo -->
 
@@ -234,7 +234,7 @@ knitr::kable(tabMediaIntervallo, format = "html", caption = "Media, mediana e mo
 
 # Catture
 
-## Column {width=50%}
+<!-- ## Column {width="50%"} -->
 
 ```{r graficoCattureMese, echo=FALSE, warning=FALSE}
 #| label: graficoCattureMese
@@ -368,26 +368,4 @@ p
 
 ```
 
-## Column {width=50%}
-
-<!-- carta leaflet con i punti di cattura di Vespa velutina -->
-
-```{r mappaCatture, echo=FALSE, warning=FALSE}
-# mappa con i punti di cattura di Vespa velutina
-# 
-# seleziono solo i controlli con cattura di Vespa velutina
-cattureVespa <- controlliGeo[controlliGeo$Vespa_velutina_tot > 0,]
-cattureVespa <- st_transform(cattureVespa, crs = 4326)
-nidi <- st_transform(nidi, crs = 4326)
-
-leaflet() %>%
-  addProviderTiles("OpenStreetMap.Mapnik") %>%
-  addCircleMarkers(data = cattureVespa, radius = 4, color = "black", weight = 1, fillOpacity = 1, fillColor = "yellow", group = "catture") %>%
-  addCircleMarkers(data = nidi, radius = 4, color = "black", weight = 1, fillOpacity = 1, fillColor = "red", group = "nidi") %>%
-# addLegend("bottomright", colors = c("green", "orange", "red", "white"), labels = c("meno di 14 giorni", "tra 14 e 21 giorni", "più di 21 giorni", "rimosse"), title = "Ultimo controllo") %>%
-  addLayersControl(overlayGroups = c("catture", "nidi"),
-                          options = layersControlOptions(collapsed = FALSE)
-                          ) %>%
-  hideGroup("zone")
-
-```
+<!-- ## Column {width="50%"} -->
