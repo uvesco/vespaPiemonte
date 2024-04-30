@@ -18,6 +18,10 @@ library(leaflet)
 
 # Presenza / assenza
 
+::: {.panel-tabset}
+
+## Grafico
+
 ```{r graficoCattureMese, echo=FALSE, warning=FALSE}
 #| label: graficoCattureMese
 #| title: Numero di catture dei diversi taxa per mese
@@ -70,8 +74,8 @@ controlliTF <- controlliGeoTemp[!is.na(controlliGeoTemp$AnnoMeseMedioCattura),] 
 
 # unisco i due dataframe
 # aggiunta colonna tipo per distinguere tra catture e non catture
-controlliTF$tipo <- "non catture"
-cattureTF$tipo <- "catture"
+controlliTF$tipo <- "assenza"
+cattureTF$tipo <- "presenza"
 
 cattureTF <- rbind(cattureTF, controlliTF)
 
@@ -84,7 +88,8 @@ rm(catture, controlliTF)
 # 
 # ogni barra è costituita dal numero di controlli che hanno catturato almeno un individuo di quel taxon e dai controlli che non hanno catturato nulla
 
-p <- plot_ly(data = cattureTF, x = ~AnnoMeseMedioCattura, y = ~get(taxa$colonne[1]), color =  ~tipo, colors = c("red", "green"), type ="bar")
+# Create a basic plotly object with the first set of y-variables
+p <- plot_ly(data = cattureTF, x = ~AnnoMeseMedioCattura, y = ~get(taxa$colonne[1]), color =  ~tipo, colors = c("lightblue", "red"), type ="bar")
 
 # # Add traces for the remaining y-variables
 
@@ -150,7 +155,26 @@ p
 
 ```
 
+## Dati
+
+```{r datiCattureMese, echo=FALSE}
+#| label: datiCattureMese
+#| 
+
+# dati relativi al numero di catture dei diversi taxa per mese
+
+knitr::kable(cattureTF)
+
+
+```
+
+:::
+
 # Quantità
+
+::: {.panel-tabset}
+
+## Grafico
 
 ```{r graficoCattureMeseTot, echo=FALSE, warning=FALSE}
 #| label: graficoCattureMeseTot
@@ -236,6 +260,20 @@ p
 
 
 ```
+
+## Dati
+
+```{r datiCattureMeseTot, echo=FALSE}
+#| label: datiCattureMeseTot
+
+# dati relativi al numero totale di catture per mese
+
+knitr::kable(cattureTot[, -1]) 
+
+```
+
+
+:::
 
 # Quantità Vespidae
 
