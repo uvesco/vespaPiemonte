@@ -26,9 +26,7 @@ jobs:
         
       - name: Install R Dependencies
         uses: r-lib/actions/setup-renv@v2
-        with:
-          cache-version: 1
-  
+
       - name: "Setup R dependencies for Quarto's knitr engine"
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
