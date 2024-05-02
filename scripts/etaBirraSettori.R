@@ -11,8 +11,8 @@ tempoMassimo <- 21 # giorni di tempo massimo tra un controllo e l'altro
 
 # calcolo la finestra di sostituzione della birra
 
-trap$maxSostituzione <- trap$etaBirra + tempoMassimo
-trap$minSostituzione <- trap$etaBirra + tempoMinimo
+# trap$maxSostituzione <- tempoMassimo - trap$etaBirra
+# trap$minSostituzione <- tempoMinimo - trap$etaBirra
 
 
 # calcolo per ogni zona della moda dell'età della birra e la finestra di sostituzione della birra
