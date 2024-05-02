@@ -29,6 +29,3 @@ format:
     toc: true
 
 editor: visual
-
-# q: how to set default page?
-# a: https://quarto.org/docs/reference/quarto-website.html#default-page

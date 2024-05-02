@@ -35,7 +35,7 @@ jobs:
             # any::renv
             # any::units
             # any::leaflet
-            # any::sf
+            any::sf
             # any::httr
             # any::ggplot2
             # any::plotly
@@ -56,3 +56,22 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
+# q: which packeges are needed for the website?
+# a: knitr, rmarkdown, downlit, xml2
+# q: but I get an errore becvause of sf package not installed: Error in `library()`:  there is no package called 'sf'
+# a: I have to install the package sf in the _quarto.yml file
+# q: how to install the package sf in the _quarto.yml file?
+# a: add the following line to the _quarto.yml file:
+#  - any::sf
+#  - any::httr
+#  - any::ggplot2
+#  - any::plotly
+#  - any::tidyr
+#  - any::raster
+#  - any::purrr
+#  - any::dplyr
+#  - any::tidyverse
+#  - any::s2
+#  - any::renv
+#  - any::units
+#  - any::leaflet
