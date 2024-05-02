@@ -32,11 +32,11 @@ jobs:
             any::rmarkdown
             any::downlit
             any::xml2
-            # any::renv
-            # any::units
-            # any::leaflet
+            any::renv
+            any::units
+            any::leaflet
             any::sf
-            # any::httr
+            any::httr
             # any::ggplot2
             # any::plotly
             # any::tidyr
