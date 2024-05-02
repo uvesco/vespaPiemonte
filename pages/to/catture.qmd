@@ -18,8 +18,7 @@ library(leaflet)
 
 # Presenza / assenza
 
-::: {.panel-tabset}
-
+::: panel-tabset
 ## Grafico
 
 ```{r graficoCattureMese, echo=FALSE, warning=FALSE}
@@ -167,13 +166,11 @@ knitr::kable(cattureTF)
 
 
 ```
-
 :::
 
 # Quantità
 
-::: {.panel-tabset}
-
+::: panel-tabset
 ## Grafico
 
 ```{r graficoCattureMeseTot, echo=FALSE, warning=FALSE}
@@ -271,8 +268,6 @@ p
 knitr::kable(cattureTot[, -1]) 
 
 ```
-
-
 :::
 
 # Quantità Vespidae

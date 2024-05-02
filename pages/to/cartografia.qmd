@@ -82,7 +82,6 @@ leaflet() %>%
 
 # Catture
 
-
 <!-- carta leaflet con i punti di cattura di Vespa velutina -->
 
 ```{r mappaCatture, echo=FALSE, warning=FALSE}
