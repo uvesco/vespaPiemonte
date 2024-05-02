@@ -41,6 +41,7 @@ jobs:
             any::plotly
             any::tidyr
             any::raster
+            any::purrr
 
       - name: "Set up Quarto"
         uses: quarto-dev/quarto-actions/setup@v2
