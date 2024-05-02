@@ -44,6 +44,7 @@ jobs:
             any::purrr
             any::dplyr
             any::tidyverse
+            any::s2
 
       - name: "Set up Quarto"
         uses: quarto-dev/quarto-actions/setup@v2
