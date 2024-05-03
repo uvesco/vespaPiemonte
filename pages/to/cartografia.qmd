@@ -11,6 +11,7 @@ source("../../scripts/calcoliTrappole.R")
 library(sf)
 library(leaflet)
 library(htmlwidgets)
+library(DT)
 ```
 
 # Trappole
@@ -94,8 +95,8 @@ nidi <- st_transform(nidi, crs = 4326)
 
 leaflet() %>%
   addProviderTiles("OpenStreetMap.Mapnik") %>%
-  addCircleMarkers(data = cattureVespa, radius = 4, color = "black", weight = 1, fillOpacity = 1, fillColor = "yellow", group = "catture") %>%
-  addCircleMarkers(data = nidi, radius = 4, color = "black", weight = 1, fillOpacity = 1, fillColor = "red", group = "nidi") %>%
+  addCircleMarkers(data = cattureVespa, radius = 4, color = "black", weight = 1, fillOpacity = 1, fillColor = "magenta", group = "catture") %>%
+  addCircleMarkers(data = nidi, radius = 6, color = "black", weight = 1, fillOpacity = 1, fillColor = "brown", group = "nidi") %>%
 # addLegend("bottomright", colors = c("green", "orange", "red", "white"), labels = c("meno di 14 giorni", "tra 14 e 21 giorni", "più di 21 giorni", "rimosse"), title = "Ultimo controllo") %>%
   addLayersControl(overlayGroups = c("catture", "nidi"),
                           options = layersControlOptions(collapsed = FALSE)
@@ -103,3 +104,7 @@ leaflet() %>%
   hideGroup("zone")
 
 ```
+
+
+
+

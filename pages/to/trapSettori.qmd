@@ -1,6 +1,6 @@
 ---
-title: "Trappole per settori"
-description: "Situazione delle trappole per settore"
+title: "Gestione"
+description: "Informazioni per la gestione delle trappole"
 lang: it-IT
 format: dashboard
 ---
@@ -11,9 +11,10 @@ source("../../scripts/calcoliTrappole.R")
 source("../../scripts/etaBirraSettori.R")
 library(ggplot2)
 library(plotly)
+library(pander)
 ```
 
-<!-- ## Row {height="70%"} -->
+# Settori
 
 ```{r graficoZoneBirra, echo=FALSE, warning=FALSE}
 # grafico a barre orizzontali per la finestra di sostituzione della birra delle trappole
@@ -38,4 +39,13 @@ ggplot(modaEtaBirra, x = etaBirra, y = zone, fill = zone) +
     theme(legend.position = "none")
 ```
 
-<!-- ## Row {height="30%"} -->
+# Numeri di trappola liberi
+
+```{r echo=FALSE}
+# numeri  liberi serie senza lettera
+numeri <- as.integer(trap$ID)
+numeri <- numeri[!is.na(numeri)]
+numeriLiberi <- setdiff(1:500, numeri)
+pander(numeriLiberi)
+```
+
