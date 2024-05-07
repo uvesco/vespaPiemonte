@@ -382,7 +382,7 @@ cattureVespa <- cattureVespa[order(cattureVespa$data, decreasing = TRUE),] # ord
 cattureVespa$data <- as.Date(cattureVespa$data, origin = "1970-01-01")
 cattureVespa$DataPrec <- as.Date(cattureVespa$DataPrec, origin = "1970-01-01")
 
-
+cattureVespa$data <- as.character(cattureVespa$data)
 # elimino la geometria
 cattureVespa <- st_drop_geometry(cattureVespa)
 
@@ -397,6 +397,13 @@ cattureVespa$distanzaNido <- round(cattureVespa$distanzaNido, 0)
 
 
 
-datatable(cattureVespa, rownames = FALSE, colnames = c("Data controllo", "Data carica", "Trappola","Vespa velutina (individui)", "Distanza dal nido più vicino"), options = list(pageLength = 10, lengthMenu = c(5, 10, 15, 20), searching = TRUE, order = list(1, "desc")))
+datatable(cattureVespa, rownames = FALSE, colnames = c("Data controllo", "Data carica", "Trappola","Vespa velutina (individui)", "Distanza dal nido più vicino"), extensions = 'Buttons', options = list(
+    dom = 'Bfrtip',
+    buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),
+    pageLength = 10, 
+    lengthMenu = c(5, 10, 15, 20), 
+    searching = TRUE, 
+    order = list(list(0, 'asc'))
+  ))
 
 ```

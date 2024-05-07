@@ -5,3 +5,10 @@ aggiungere info sulle trappole
 
 
 modulo gestione con numeri liberi e tabella settori con info utili, anche istogramma età della birra con dropdown per selezionare i settori
+
+inserimento province
+filtrare per provincia
+
+scaricare i files all'inizio e salvare in locale
+
+installare i locales in ubuntu
