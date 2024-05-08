@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      GOOGLE_AUTHENTICATION_BASE64: ${{ secrets.GOOGLE_AUTHENTICATION_BASE64 }}
       QFIELD_CLOUD_PASSWORD: ${{ secrets.QFIELD_CLOUD_PASSWORD }}
       QFIELD_CLOUD_USERNAME: ${{ secrets.QFIELD_CLOUD_USERNAME }}
     steps:
@@ -31,9 +32,9 @@ jobs:
         run: Rscript -e 'source("scripts/importFromQfieldCloud.R")'
 
       - name: Set Google Application Credentials
-        run: |
-          # Write the JSON key to a file
-          echo "${{ secrets.GOOGLE_AUTHENTICATION_CREDENTIALS }}" > /tmp/google_service_account.json
+        env:
+          GOOGLE_AUTHENTICATION_BASE64: ${{ secrets.GOOGLE_AUTHENTICATION_BASE64 }}
+        run: echo $GOOGLE_AUTHENTICATION_BASE64 | base64 -d > /tmp/google_service_account.json
         
       - name: Backup file
         run: Rscript -e 'source("scripts/backup.R")'
