@@ -2,6 +2,8 @@
 .Rhistory
 .RData
 .Ruserdata
+.Renviron
 /.quarto/
 _site
 *_files
+secrets
