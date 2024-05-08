@@ -13,6 +13,11 @@ name: vespaPiemonte
 jobs:
   demo-website:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+      QFIELD_CLOUD_PASSWORD: ${{ secrets.QFIELD_CLOUD_PASSWORD }}
+      QFIELD_CLOUD_USERNAME: ${{ secrets.QFIELD_CLOUD_USERNAME }}
     concurrency:
       group: pkgdown-${{ github.event_name != 'pull_request' || github.run_id }}
     permissions:
