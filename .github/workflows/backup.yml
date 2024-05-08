@@ -39,4 +39,5 @@ jobs:
           target: "/tmp/projdir.zip"
           credentials: ${{ secrets.GOOGLE_AUTHENTICATION_BASE64 }}
           parent_folder_id: ${{ secrets.BK_FOLDER_ID }}
+          name: "auto-$(date +'%Y-%m-%d-%H-%M-%S').zip"
          
