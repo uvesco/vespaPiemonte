@@ -1,0 +1,17 @@
+analisi trappole:
+- corine land cover https://geoportale.igr.piemonte.it/cms/progetti/land-cover-piemonte
+- altri https://geoportale.igr.piemonte.it/cms/progetti/telerilevamento-piemonte
+- quota autom
+- aspetto autom
+- pendenza automa
+- distanza da fontanelle, fonti di acqua o ruscelli autom
+- distanza da strade autom
+
+- supporto
+- gradi di visibilità (%)
+- ombreggiatura
+- copertura canopy
+- uso del suolo classificato a vista
+- altezza dal suolo
+
+https://www.r-bloggers.com/2021/09/creating-a-data-pipeline-with-github-actions-the-googledrive-package-for-the-canadian-premier-league-soccer-data-initiative/
