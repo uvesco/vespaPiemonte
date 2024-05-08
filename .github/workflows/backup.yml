@@ -38,7 +38,7 @@ jobs:
         uses: adityak74/google-drive-upload-git-action@main
         with:
           credentials: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-          filename: $FILE_TO_UPLOAD
+          filename: "/tmp/projdir.zip"
           folderId: "1pB9m_RlrF1OZeakaIrwq5uJOrgkQMoPU"
           # name: "documentation.zip" # optional string
           overwrite: "true" # optional boolean
