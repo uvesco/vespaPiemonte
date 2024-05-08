@@ -6,8 +6,8 @@ format: dashboard
 ---
 
 ```{r setup, include=FALSE}
-source("scripts/importFromQfieldCloud.R")
-source("scripts/importGeoPackages.R")
+source("../../scripts/importFromQfieldCloud.R")
+source("../../scripts/importGeoPackages.R")
 source("../../scripts/calcoliTrappole.R")
 library(sf)
 library(leaflet)
@@ -105,7 +105,3 @@ leaflet() %>%
   hideGroup("zone")
 
 ```
-
-
-
-

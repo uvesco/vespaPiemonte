@@ -6,8 +6,8 @@ format: dashboard
 ---
 
 ```{r setup, include=FALSE}
-source("scripts/importFromQfieldCloud.R")
-source("scripts/importGeoPackages.R")
+source("../../scripts/importFromQfieldCloud.R")
+source("../../scripts/importGeoPackages.R")
 source("../../scripts/calcoliTrappole.R")
 source("../../scripts/etaBirraSettori.R")
 library(ggplot2)
@@ -49,4 +49,3 @@ numeri <- numeri[!is.na(numeri)]
 numeriLiberi <- setdiff(1:500, numeri)
 pander(numeriLiberi)
 ```
-

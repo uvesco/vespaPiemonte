@@ -6,8 +6,8 @@ format: dashboard
 ---
 
 ```{r setup, include=FALSE}
-source("scripts/importFromQfieldCloud.R")
-source("scripts/importGeoPackages.R")
+source("../../scripts/importFromQfieldCloud.R")
+source("../../scripts/importGeoPackages.R")
 source("../../scripts/calcoliTrappole.R")
 library(tidyr)
 library(dplyr)
