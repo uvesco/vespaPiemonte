@@ -8,7 +8,7 @@ name: backupGDrive
 
 jobs:
   backup:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       QFIELD_CLOUD_PASSWORD: ${{ secrets.QFIELD_CLOUD_PASSWORD }}
