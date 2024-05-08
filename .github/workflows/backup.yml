@@ -32,6 +32,15 @@ jobs:
         
       - name: Backup file
         run: Rscript -e 'source("scripts/backup.R")'
+
+      - name: Generate Dynamic Filename
+        run: |
+          # Generate the dynamic filename based on the current date and time
+          TIMESTAMP=$(date +'%Y-%m-%d-%H-%M-%S')
+          FILENAME="auto-$TIMESTAMP.zip"
+
+          # Set the environment variable
+          echo "FILENAME=$FILENAME" >> $GITHUB_ENV
       
       - name: Upload the file to Google Drive
         uses: willo32/google-drive-upload-action@v1
@@ -39,6 +48,4 @@ jobs:
           target: "/tmp/projdir.zip"
           credentials: ${{ secrets.GOOGLE_AUTHENTICATION_BASE64 }}
           parent_folder_id: ${{ secrets.BK_FOLDER_ID }}
-          name: $(auto-$(date +'%Y-%m-%d-%H-%M-%S').zip)
-      
-      
+          name: ${{ env.FILENAME }}
