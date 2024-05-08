@@ -34,11 +34,19 @@ jobs:
       - name: Backup file
         run: Rscript -e 'source("scripts/backup.R")'
       
-      - name: Upload to gdrive
-        uses: adityak74/google-drive-upload-git-action@main
+      # - name: Upload to gdrive
+      #   uses: adityak74/google-drive-upload-git-action@main
+      #   with:
+      #     credentials: $GOOGLE_APPLICATION_CREDENTIALS
+      #     filename: "/tmp/projdir.zip"
+      #     folderId: "1pB9m_RlrF1OZeakaIrwq5uJOrgkQMoPU"
+      #     name: "prova.zip" # optional string
+      #     overwrite: "true" # optional boolean
+
+      - name: Upload a file to Google Drive
+        uses: willo32/google-drive-upload-action@v1
         with:
-          credentials: $GOOGLE_APPLICATION_CREDENTIALS
-          filename: "/tmp/projdir.zip"
-          folderId: "1pB9m_RlrF1OZeakaIrwq5uJOrgkQMoPU"
-          name: "prova.zip" # optional string
-          overwrite: "true" # optional boolean
+          target: "/tmp/projdir.zip"
+          credentials: ${{ secrets.GOOGLE_AUTHENTICATION_BASE64 }}
+          parent_folder_id: "1pB9m_RlrF1OZeakaIrwq5uJOrgkQMoPU"
+         
