@@ -11,7 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
       QFIELD_CLOUD_PASSWORD: ${{ secrets.QFIELD_CLOUD_PASSWORD }}
       QFIELD_CLOUD_USERNAME: ${{ secrets.QFIELD_CLOUD_USERNAME }}
     steps:
@@ -34,19 +33,10 @@ jobs:
       - name: Backup file
         run: Rscript -e 'source("scripts/backup.R")'
       
-      # - name: Upload to gdrive
-      #   uses: adityak74/google-drive-upload-git-action@main
-      #   with:
-      #     credentials: $GOOGLE_APPLICATION_CREDENTIALS
-      #     filename: "/tmp/projdir.zip"
-      #     folderId: "1pB9m_RlrF1OZeakaIrwq5uJOrgkQMoPU"
-      #     name: "prova.zip" # optional string
-      #     overwrite: "true" # optional boolean
-
-      - name: Upload a file to Google Drive
+      - name: Upload the file to Google Drive
         uses: willo32/google-drive-upload-action@v1
         with:
           target: "/tmp/projdir.zip"
           credentials: ${{ secrets.GOOGLE_AUTHENTICATION_BASE64 }}
-          parent_folder_id: "1pB9m_RlrF1OZeakaIrwq5uJOrgkQMoPU"
+          parent_folder_id: ${{ secrets.BK_FOLDER_ID }}
          
