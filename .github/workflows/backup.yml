@@ -31,5 +31,14 @@ jobs:
       - name: Import data
         run: Rscript -e 'source("scripts/importFromQfieldCloud.R")'
         
-      - name: Backup data
+      - name: Backup file
         run: Rscript -e 'source("scripts/backup.R")'
+      
+      - name: Upload to gdrive
+        uses: adityak74/google-drive-upload-git-action@main
+        with:
+          credentials: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+          filename: $FILE_TO_UPLOAD
+          folderId: "1pB9m_RlrF1OZeakaIrwq5uJOrgkQMoPU"
+          # name: "documentation.zip" # optional string
+          overwrite: "true" # optional boolean
