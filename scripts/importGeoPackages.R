@@ -1,25 +1,20 @@
 library(sf)
 
-nidi <- st_read(tempFiles[tempFiles$filename == "Vespa_velutina.gpkg", "tmp_file"],
+nidi <- st_read("/tmp/qfieldcloudproject/Vespa_velutina.gpkg",
                 layer = "nidi")
-trap <- st_read(tempFiles[tempFiles$filename == "Vespa_velutina.gpkg", "tmp_file"],
+trap <- st_read("/tmp/qfieldcloudproject/Vespa_velutina.gpkg",
                 layer = "trappole")
-controlli <- st_read(tempFiles[tempFiles$filename == "Vespa_velutina.gpkg", "tmp_file"],
+controlli <- st_read("/tmp/qfieldcloudproject/Vespa_velutina.gpkg",
                      layer = "trappole_controlli")
-contatti <- st_read(tempFiles[tempFiles$filename == "Vespa_velutina.gpkg", "tmp_file"],
+contatti <- st_read("/tmp/qfieldcloudproject/Vespa_velutina.gpkg",
                     layer = "contatti")
-zoneTrappolaggio <- st_read(tempFiles[tempFiles$filename == "elaborazioniGrid.gpkg", "tmp_file"],
+zoneTrappolaggio <- st_read("/tmp/qfieldcloudproject/elaborazioniGrid.gpkg",
                             layer = "zoneTrappolaggio")
-
-buffer <- st_read(tempFiles[tempFiles$filename == "elaborazioniGrid.gpkg", "tmp_file"],
+buffer <- st_read("/tmp/qfieldcloudproject/elaborazioniGrid.gpkg",
                   layer = "buffer")
-
-parchi <- st_read(tempFiles[tempFiles$filename == "pubData.gpkg", "tmp_file"],
+parchi <- st_read("/tmp/qfieldcloudproject/pubData.gpkg",
                   layer = "parchi")
-
-zsc_sic <- st_read(tempFiles[tempFiles$filename == "pubData.gpkg", "tmp_file"],
+zsc_sic <- st_read("/tmp/qfieldcloudproject/pubData.gpkg",
                    layer = "zsc_sic")
-
-comuni <- st_read(tempFiles[tempFiles$filename == "pubData.gpkg", "tmp_file"],
+comuni <- st_read("/tmp/qfieldcloudproject/pubData.gpkg",
                   layer = "comuni")
-

@@ -11,7 +11,7 @@ filters:
 ---
 
 ```{r setup, include=FALSE}
-source("scripts/importFromQfieldCloud.R")
+#source("scripts/importFromQfieldCloud.R")
 source("scripts/importGeoPackages.R")
 
 Sys.setenv(LANGUAGE = "it")
