@@ -10,7 +10,6 @@ format:
 ---
 
 ```{r setup, include=FALSE}
-source("../../scripts/importFromQfieldCloud.R")
 source("../../scripts/importGeoPackages.R")
 source("../../scripts/calcoliTrappole.R")
 library(tidyr)
