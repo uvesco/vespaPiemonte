@@ -29,6 +29,13 @@ jobs:
         
       - name: Import data
         run: Rscript -e 'source("scripts/importFromQfieldCloud.R")'
+
+      - name: Set Google Application Credentials
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_AUTHENTICATION_CREDENTIALS }}
+        run: |
+          # Write the JSON key to a file
+          echo "$GOOGLE_APPLICATION_CREDENTIALS_JSON" > /tmp/google_service_account.json
         
       - name: Backup file
         run: Rscript -e 'source("scripts/backup.R")'
