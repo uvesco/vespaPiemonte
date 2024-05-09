@@ -15,3 +15,13 @@ analisi trappole:
 - altezza dal suolo
 
 https://www.r-bloggers.com/2021/09/creating-a-data-pipeline-with-github-actions-the-googledrive-package-for-the-canadian-premier-league-soccer-data-initiative/
+
+2. Include Content from Other Files
+Quarto allows you to include content from other files. This can be useful for reusing common sections like headers, footers, or recurring content. You can use the include directive to insert content from other files.
+
+Example of including content from another file:
+
+{r}
+Copy code
+# This includes the content from 'header.qmd'
+```{include: "header.qmd"}
