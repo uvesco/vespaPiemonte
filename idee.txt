@@ -15,6 +15,8 @@ analisi trappole:
 - altezza dal suolo
 
 https://www.r-bloggers.com/2021/09/creating-a-data-pipeline-with-github-actions-the-googledrive-package-for-the-canadian-premier-league-soccer-data-initiative/
+https://adsoncostanzifilho.github.io/blog/2021/04/01/github-actions-for-r-users/
+https://www.r-bloggers.com/2015/11/how-to-store-and-use-webservice-keys-and-authentication-details-with-r/
 
 2. Include Content from Other Files
 Quarto allows you to include content from other files. This can be useful for reusing common sections like headers, footers, or recurring content. You can use the include directive to insert content from other files.
