@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://uvesco.github.io/vespaPiemonte/about.html</loc>
-    <lastmod>2024-04-15T15:11:15.399Z</lastmod>
+    <loc>https://uvesco.github.io/vespaPiemonte/pages/about.html</loc>
+    <lastmod>2024-05-09T10:01:54.603Z</lastmod>
+  </url>
+  <url>
+    <loc>https://uvesco.github.io/vespaPiemonte/pages/to/trapSettori.html</loc>
+    <lastmod>2024-05-09T10:01:54.607Z</lastmod>
+  </url>
+  <url>
+    <loc>https://uvesco.github.io/vespaPiemonte/pages/to/attivita.html</loc>
+    <lastmod>2024-05-09T10:01:54.607Z</lastmod>
   </url>
   <url>
     <loc>https://uvesco.github.io/vespaPiemonte/index.html</loc>
-    <lastmod>2024-04-15T15:11:15.399Z</lastmod>
+    <lastmod>2024-05-09T10:01:54.603Z</lastmod>
+  </url>
+  <url>
+    <loc>https://uvesco.github.io/vespaPiemonte/pages/to/catture.html</loc>
+    <lastmod>2024-05-09T10:01:54.607Z</lastmod>
+  </url>
+  <url>
+    <loc>https://uvesco.github.io/vespaPiemonte/pages/to/cartografia.html</loc>
+    <lastmod>2024-05-09T10:01:54.607Z</lastmod>
   </url>
 </urlset>
