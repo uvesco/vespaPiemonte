@@ -1,0 +1,11 @@
+---
+title: "Data dictionary"
+---
+
+# Data dictionary
+
+Per un'ottimale condivisione dei dati si fornisce una data dictionary che descrive i dati raccolti e le modalità di aggiornamento e conservazione.
+
+-  Dati relativi alle trappole: [trap](trap.qmd)
+-  Dati relativi ai controlli: [controlli](controlli.qmd)
+

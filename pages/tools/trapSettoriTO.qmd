@@ -1,5 +1,5 @@
 ---
-title: "Gestione"
+title: "Settori di trappolaggio"
 description: "Informazioni per la gestione delle trappole"
 lang: it-IT
 format: dashboard
@@ -37,14 +37,4 @@ ggplot(modaEtaBirra, x = etaBirra, y = zone, fill = zone) +
     fill = "Zona") +
     scale_fill_brewer(palette = "Set1") +
     theme(legend.position = "none")
-```
-
-# Numeri di trappola liberi
-
-```{r echo=FALSE}
-# numeri  liberi serie senza lettera
-numeri <- as.integer(trap$ID)
-numeri <- numeri[!is.na(numeri)]
-numeriLiberi <- setdiff(1:500, numeri)
-pander(numeriLiberi)
 ```

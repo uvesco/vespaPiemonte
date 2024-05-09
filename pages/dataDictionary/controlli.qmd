@@ -1,0 +1,69 @@
+---
+title: "Controlli"
+format: 
+  html:
+    page-layout: full
+editor: source
+---
+
+```{r setup, include=FALSE}
+source("../../scripts/importGeoPackages.R")
+library(pointblank)
+```
+
+```{r echo=FALSE, results="asis"}
+controlli_info <- create_informant(controlli,  lang = "it", label = "Controlli")
+controlli_info <- controlli_info %>%
+  info_tabular(
+    Descrizione = "Oggetto di classe <em>tibble</em>. Controlli delle trappole _Vespa velutina_. La tabella è collegata con una relazione da uno a molti (una trappola-molti controlli) con la tabella trap tramite il campo UUID (chiave primaria della tabella madre) e fk_uuid (chiave esterna della tabella figlia)",
+    Aggiornamento = "L'aggiornamento dei dati grezzi avviene in tempo reale con l'aggiornamento del geopackage tramite app [qfield](https://qfield.org/) da parte degli operatori in campo",
+    Fonte = "Aspromiele, Capt, Disafa (UNITO)",
+    `File di origine` = "[Vespa_velutina.gpkg](https://app.qfield.cloud/a/uvesco/vespaTO/files)",
+    Conservazione = "[QFieldCloud, progetto vespaTO](https://app.qfield.cloud/a/uvesco/vespaTO/)",
+    Contatto = "[Umberto Vesco](https://github.com/uvesco)"
+  )
+
+infos <-
+  data.frame(
+    columns = c("data", "Vespa_velutina_tot", "Vespa_velutina_regine", "Vespa_velutina_operaie", 
+                "Vespa_velutina_maschi", "Vespa_crabro_tot", "Note", "altri_Vespidae", 
+                "Apoidea", "Lepidoptera", "Diptera", "Altro", "idTrap", "ultima_modifica_data", 
+                "ultima_modifica_utente", "utente", "fk_uuid", "operatore", "Apis.mellifera", 
+                "Bombus.sp.", "Altri_Anthophila", "Sirphidae", "Manomissione"
+    ),
+    info = c("Data del controllo.",
+             "Numero totale di _Vespa velutina_ catturate (OBBLIGATORIO).",
+             "Numero di regine di _Vespa velutina_ catturate: non alimentato da form di inserimento.",
+             "Numero di operaie di _Vespa velutina_ catturate non alimentato da form di inserimento.",
+             "Numero di maschi di _Vespa velutina_ catturati: non alimentato da form di inserimento.",
+             "Numero totale di _Vespa crabro_ catturati  (OBBLIGATORIO).",
+             "Note: campo libero per informazioni varie (es. presenza di altre specie).",
+             "Numero di insetti dalla famiglia Vespidae di altre specie catturati  (OBBLIGATORIO).",
+             "Obsoleto.",
+             "Numero di Lepidotteri catturati.",
+             "Numero di Ditteri catturati.",
+             "Numero di altri animali catturati: indicare in 'altro'.",
+             "ID della trappola a cui si riferisce il controllo (aggiornamento automatico da qfield, da usare solo per controlli incrociati, non come chiave  per la relazione.",
+             "Data di ultima modifica: valore aggiunto automaticamente dal form di inserimento a ogni modifica.",
+             "Utente che ha effettuato l'ultima modifica: valore aggiunto automaticamente dal form di inserimento a ogni modifica.",
+             "Utente che ha creato il record: valore aggiunto automaticamente dal form di inserimento alla creazione.",
+             "UUID della trappola a cui si riferisce il controllo.",
+             "Operatore/i che ha/hanno effettuato il controllo.",
+             "Numero di _Apis mellifera_ catturati.",
+             "Numero di _Bombus sp._ catturati.",
+             "Numero di altri insetti del Clade Anthophila catturati.",
+             "Numero di Sirfidi catturati.",
+             "Manomissione della trappola: per non considerare il controllo (e i valori dei campi obbligatori) nella successiva analisi."
+    )
+    )
+
+for(i in 1:nrow(infos)){
+  controlli_info <- controlli_info %>%
+    info_columns(
+      columns = infos$columns[i],
+      info = infos$info[i]
+    )
+}
+
+print(controlli_info)
+```

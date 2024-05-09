@@ -1,0 +1,34 @@
+---
+title: "Gestione"
+description: "Informazioni per la gestione delle trappole"
+lang: it-IT
+format: dashboard
+---
+
+```{r setup, include=FALSE}
+source("../../scripts/importGeoPackages.R")
+library(pander)
+```
+
+# Numeri di trappola liberi senza lettera (Aspromiele Torino)
+
+```{r echo=FALSE}
+# numeri  liberi serie senza lettera
+numeri <- as.integer(trap$ID)
+numeri <- numeri[!is.na(numeri)]
+numeriLiberi <- setdiff(1:500, numeri)
+pander(numeriLiberi)
+```
+
+# Numeri di trappola liberi con lettera 'n' (Aspromiele Cuneo)
+
+```{r echo=FALSE}
+# numeri  liberi serie con lettera n
+
+# seleziono solo le trappole con lettera n e ne estraggo il numero
+lettera <- "n"
+numeri <- trap$ID[grepl(lettera, trap$ID)]
+numeri <- as.integer(gsub(lettera, "", numeri))
+numeriLiberi <- setdiff(1:500, numeri)
+pander(paste0(lettera, numeriLiberi))
+```

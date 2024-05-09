@@ -1,0 +1,66 @@
+---
+title: "Trap"
+format: 
+  html:
+    page-layout: full
+editor: source
+---
+
+```{r setup, include=FALSE}
+source("../../scripts/importGeoPackages.R")
+library(pointblank)
+```
+
+```{r echo=FALSE, results="markup"}
+trap_info <- create_informant(trap,  lang = "it", tbl_name = "trap", label = "Trappole")
+
+trap_info <- trap_info %>%
+  info_tabular(
+    Descrizione = "Oggetto di classe <i>SF</i> (punti). Trappole per <i>Vespa velutina</i>. Ogni record equivale a una trappola e alla relativa posizione",
+    Aggiornamento = "L'aggiornamento dei dati grezzi avviene in tempo reale con l'aggiornamento del geopackage tramite app <a href='https://qfield.org/'>qfield</a> da parte degli operatori in campo",
+    Fonte = "<a href='https://www.aspromiele.it/'>Aspromiele</a>, <a href='https://capt-to.org/'>CAPT</a>, <a href='https://www.beelab.unito.it/it'>BeeLab Disafa</a>",
+    `File di origine` = '<a href="https://app.qfield.cloud/a/uvesco/vespaTO/files">Vespa_velutina.gpkg</a>',
+    Conservazione = '<a href="https://app.qfield.cloud/a/uvesco/vespaTO/">QFieldCloud, progetto vespaTO</a>',
+    Contatto = '<a href="https://github.com/uvesco">Umberto Vesco</a>'
+  )
+
+infos <-
+  data.frame(
+    columns = c("ID", "Operatore.posizionamento", "Contatto.sul.terreno", "Data.posizionamento", 
+                "check_coord", "luogo.chiuso", "inAp", "data.rimozione", "ultima_modifica", 
+                "ultima_modifica_utente", "utente", "note", "circuito", "uuid", 
+                "Foratura", "data_foratura", "responsabile", "da_fare", "geom"
+    ),
+    info = c("ID: valore numerico eventualmente preceduto da una lettera, corrisponde al numero scritto sul tappo con pennarello, esiste un vincolo di univocità a livello di form di inserimento. Alla pagina di inserimento è possibile verificare se il valore è già stato utilizzato.",
+             "Operatore/i che ha/hanno posizionato la trappola.",
+             "Contatto sul terreno: identificativo di persona i cui dati di contatto sono registrati in una tabella non pubblica.",
+             "Data di posizionamento della trappola.",
+             "Coordinate controllate (errore massimo 8m).",
+             "Trappola in luogo chiuso al pubblico.",
+             "Fattore AP.", 
+             "Data di rimozione: valore presente qualora la trappola sia stata rimossa o scomparsa e non rimpiazzata **nella stessa posizione**, altrimenti NA.",
+             "Data di ultima modifica: valore aggiunto automaticamente dal form di inserimento a ogni modifica.", 
+             "Utente che ha effettuato l'ultima modifica: valore aggiunto automaticamente dal form di inserimento a ogni modifica.", 
+             "Utente che ha creato il record: valore aggiunto automaticamente dal form di inserimento alla creazione.",
+             "Note: campo libero per informazioni varie.",
+             "Obsoleto.", 
+             "UUID: ID univoco generato dal form alla creazione del record, utilizzato come chiave primaria nelle relazioni per il collegamento con elementi figli.",
+             "Foratura della trappola: dotazione di fori da 5.5mm per l'uscita di insetti non target.",
+             "Data della foratura: data dalla quale la trappola è dotata di fori. Se non è stata forata la data dovrebbe essere uguale a quella di posizionamento ma non è un dato da considerare in sede di analisi.",
+             "Responsabile dei controlli della trappola (se controllata da privati l'id della tabella privata 'contatti' condivisa su google sheets, altrimenti 'team'.",
+             "Azioni da svolgere sulla trappola da desktop o alla visita successiva, normalmente il campo è vuoto.", 
+             "Dato geometrico."
+             )
+  )
+
+for(i in 1:nrow(infos)){
+  trap_info <- trap_info %>%
+    info_columns(
+      columns = infos$columns[i],
+      info = infos$info[i]
+    )
+}
+
+
+trap_info
+```
