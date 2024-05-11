@@ -17,7 +17,14 @@ Sys.setenv(LANGUAGE = "it")
 Sys.setlocale("LC_ALL", "it_IT.UTF-8")
 ```
 
-Per la gestione del focolaio sulla collina di Torino sono state posizionate `r nrow(trap)` trappole, di cui `r sum(is.na(trap$data.rimozione))` attualmente attive.
+::: {.callout-warning appearance="simple"}
+Sito in costruzione.
+I dati sono in fase di caricamento e validazione.
+:::
+
+<!-- Per la gestione del focolaio sulla collina di Torino sono state posizionate `r nrow(trap)` trappole, di cui `r sum(is.na(trap$data.rimozione))` attualmente attive. -->
+
+
 
 Questa dashboard mostra i dati raccolti e si aggiorna quotidianamente.
 
