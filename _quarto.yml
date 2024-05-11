@@ -2,6 +2,13 @@ project:
   type: website
 
 website:
+  cookie-consent:
+    type: express
+    style: headline
+    palette: dark
+  google-analytics:
+    tracking-id: "G-TWBDZMSNVY"
+    anonymize-ip: true
   title: "Vespa velutina"
   page-navigation: true
   back-to-top-navigation: true

@@ -10,7 +10,7 @@ contatti <- st_read("/tmp/qfieldcloudproject/Vespa_velutina.gpkg",
                     layer = "contatti")
 zoneTrappolaggio <- st_read("/tmp/qfieldcloudproject/elaborazioniGrid.gpkg",
                             layer = "zoneTrappolaggio")
-buffer <- st_read("/tmp/qfieldcloudproject/elaborazioniGrid.gpkg",
+buffer <- st_read("/tmp/qfieldcloudproject/buffer.gpkg",
                   layer = "buffer")
 parchi <- st_read("/tmp/qfieldcloudproject/pubData.gpkg",
                   layer = "parchi")
