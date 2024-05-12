@@ -16,5 +16,5 @@ parchi <- st_read("/tmp/qfieldcloudproject/pubData.gpkg",
                   layer = "parchi")
 zsc_sic <- st_read("/tmp/qfieldcloudproject/pubData.gpkg",
                    layer = "zsc_sic")
-comuni <- st_read("/tmp/qfieldcloudproject/pubData.gpkg",
-                  layer = "comuni")
+province <- st_read("/tmp/qfieldcloudproject/pubData.gpkg",
+                  layer = "province")
