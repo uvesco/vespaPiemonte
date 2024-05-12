@@ -75,17 +75,17 @@ for(i in 1:length(tz)){
   }
 }
 
-# attribuzione del comune di trappolaggio
-
-trapComune <- st_intersects(trap, comuni, sparse = F)
-tc <- apply(trapComune, 1, which)
-
-trap$comune <- NA
-for(i in 1:length(tc)){
-  if(!identical(comuni$COMUNE[tc[[i]]], character(0))){
-    trap$comune[i] <- comuni$COMUNE[tc[[i]]]
-  }
-}
+# # attribuzione del comune di trappolaggio
+# 
+# trapComune <- st_intersects(trap, comuni, sparse = F)
+# tc <- apply(trapComune, 1, which)
+# 
+# trap$comune <- NA
+# for(i in 1:length(tc)){
+#   if(!identical(comuni$COMUNE[tc[[i]]], character(0))){
+#     trap$comune[i] <- comuni$COMUNE[tc[[i]]]
+#   }
+# }
 
 
 # attribuzione del parco di trappolaggio
@@ -116,13 +116,13 @@ for(i in 1:length(tzsc)){
 
 # attribuzione della provincia di trappolaggio
 
-trapProvincia <- st_intersects(trap, comuni, sparse = F)
+trapProvincia <- st_intersects(trap, province, sparse = F)
 tp <- apply(trapProvincia, 1, which)
 
 trap$provincia <- NA
 for(i in 1:length(tp)){
-  if(!identical(comuni$COD_PROV[tp[[i]]], character(0))){
-    trap$provincia[i] <- comuni$COD_PROV[tp[[i]]]
+  if(!identical(province$COD_PROV[tp[[i]]], character(0))){
+    trap$provincia[i] <- province$COD_PROV[tp[[i]]]
   }
 }
 
@@ -197,7 +197,7 @@ controlliGeo$fori[controlliGeo$Foratura == TRUE & controlliGeo$data_foratura < c
 # eliminazione di tutti gli oggetti intermedi
 
 
-rm(list = c("i", "nidiTrap", "trapZone", "tz", "inter", "dateControlliPrecedenti", "comuni", "zsc_sic", "parchi", "trapComune", "trapParco",  "trapZSC", "tp", "tzsc", "trapProvincia", "tc"))
+rm(list = c("i", "nidiTrap", "trapZone", "tz", "inter", "dateControlliPrecedenti", "zsc_sic", "parchi", "trapParco",  "trapZSC", "tp", "tzsc", "trapProvincia"))
 
 
 gc()
