@@ -1,4 +1,5 @@
 analisi trappole:
+dati da strati gis
 - corine land cover https://geoportale.igr.piemonte.it/cms/progetti/land-cover-piemonte
 - altri https://geoportale.igr.piemonte.it/cms/progetti/telerilevamento-piemonte
 - quota autom
@@ -7,12 +8,14 @@ analisi trappole:
 - distanza da fontanelle, fonti di acqua o ruscelli autom
 - distanza da strade autom
 
+dati rilevati sul terreno:
 - supporto
 - gradi di visibilità (%)
 - ombreggiatura
 - copertura canopy
 - uso del suolo classificato a vista
 - altezza dal suolo
+
 
 https://www.r-bloggers.com/2021/09/creating-a-data-pipeline-with-github-actions-the-googledrive-package-for-the-canadian-premier-league-soccer-data-initiative/
 https://adsoncostanzifilho.github.io/blog/2021/04/01/github-actions-for-r-users/
@@ -21,9 +24,14 @@ https://www.r-bloggers.com/2015/11/how-to-store-and-use-webservice-keys-and-auth
 2. Include Content from Other Files
 Quarto allows you to include content from other files. This can be useful for reusing common sections like headers, footers, or recurring content. You can use the include directive to insert content from other files.
 
+https://bookdown.org/lyzhang10/lzhang_r_tips_book/how-to-make-a-simple-data-dictionary.html
+
+
 Example of including content from another file:
 
 {r}
 Copy code
 # This includes the content from 'header.qmd'
 ```{include: "header.qmd"}
+
+data dictionary

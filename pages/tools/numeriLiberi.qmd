@@ -20,13 +20,13 @@ numeriLiberi <- setdiff(1:500, numeri)
 pander(numeriLiberi)
 ```
 
-# Numeri di trappola liberi con lettera 'n' (Aspromiele Cuneo)
+# Numeri di trappola liberi con lettera 'T' (Aspromiele Cuneo)
 
 ```{r echo=FALSE}
 # numeri  liberi serie con lettera n
 
 # seleziono solo le trappole con lettera n e ne estraggo il numero
-lettera <- "n"
+lettera <- "T"
 numeri <- trap$ID[grepl(lettera, trap$ID)]
 numeri <- as.integer(gsub(lettera, "", numeri))
 numeriLiberi <- setdiff(1:500, numeri)
