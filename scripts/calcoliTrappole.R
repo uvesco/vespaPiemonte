@@ -1,7 +1,13 @@
 # calcoli da applicare alle trappole
+# Librerie ---------------------------------------------------------------
 
-# parametri
-giorniXcontrollata <-30 # giorni di tempo massimo dall'ultimo controllo per considerare controllata una trappola
+library(elevatr)
+
+# parametri ---------------------------------------------------------------
+parametri <- list()
+parametri$giorniXcontrollata <-30 # giorni di tempo massimo dall'ultimo controllo per considerare controllata una trappola
+
+# definizione taxa ---------------------------------------------------------------
 
 taxa <- data.frame(
   colonne = c("Vespa_velutina_tot", 
@@ -28,7 +34,7 @@ taxa <- data.frame(
 )
 
 
-# 
+# calcolo età della birra ---------------------------------------------------------------
 # calcola l'età della birra scegliendo la data più recente tra l'ultimo controllo e la data di posizionamento della trappola
 # se non c'è nessun controllo considera la data di posizionamento
 
@@ -57,13 +63,14 @@ if(any(trap$etaBirra < 0)){
   stop("Ci sono trappole con età negativa")
 }
 
-# indici per attività e controllo
+# attività e controllo ---------------------------------------------------------------
 
-attive <- is.na(trap$data.rimozione)
-controllate <- is.na(trap$data.rimozione) & trap$etaBirra < (giorniXcontrollata + 1)
+trap$attiva <- !is.na(trap$data.rimozione)
+trap$controllata <- is.na(trap$data.rimozione) & trap$etaBirra < (parametri$giorniXcontrollata + 1)
 
+# attribuzioni geografiche ---------------------------------------------------------------
 
-# attribuzione della zona di trappolaggio
+## settore di trappolaggio ---------------------------------------------------------------
 
 trapZone <- st_intersects(trap, zoneTrappolaggio, sparse = F)
 tz <- apply(trapZone, 1, which)
@@ -75,20 +82,69 @@ for(i in 1:length(tz)){
   }
 }
 
-# # attribuzione del comune di trappolaggio
-# 
-# trapComune <- st_intersects(trap, comuni, sparse = F)
-# tc <- apply(trapComune, 1, which)
-# 
-# trap$comune <- NA
-# for(i in 1:length(tc)){
-#   if(!identical(comuni$COMUNE[tc[[i]]], character(0))){
-#     trap$comune[i] <- comuni$COMUNE[tc[[i]]]
-#   }
-# }
+## comune di trappolaggio --------------------------------------------------------------
 
 
-# attribuzione del parco di trappolaggio
+
+
+
+trapComune <- st_intersects(trap, comuni, sparse = F)
+tc <- apply(trapComune, 1, which)
+
+trap$comune <- NA
+for(i in 1:length(tc)){
+  if(!identical(comuni$comune_nom[tc[[i]]], character(0))){
+    trap$comune[i] <- comuni$comune_nom[tc[[i]]]
+  }
+}
+trap$comune_ist <- NA
+for(i in 1:length(tc)){
+  if(!identical(comuni$comune_ist[tc[[i]]], character(0))){
+    trap$comune_ist[i] <- comuni$comune_ist[tc[[i]]]
+  }
+}
+trap$provin_sig <- NA
+for(i in 1:length(tc)){
+  if(!identical(comuni$provin_sig[tc[[i]]], character(0))){
+    trap$provin_sig[i] <- comuni$provin_sig[tc[[i]]]
+  }
+}
+
+## comune del nido ---------------------------------------------------------------
+
+nidiComune <- st_intersects(nidi, comuni, sparse = F)
+nc <- apply(nidiComune, 1, which)
+
+nidi$comune <- NA
+for(i in 1:length(nc)){
+  if(!identical(comuni$comune_nom[nc[[i]]], character(0))){
+    nidi$comune[i] <- comuni$comune_nom[nc[[i]]]
+  }
+}
+
+nidi$provin_sig <- NA
+for(i in 1:length(nc)){
+  if(!identical(comuni$provin_sig[nc[[i]]], character(0))){
+    nidi$provin_sig[i] <- comuni$provin_sig[nc[[i]]]
+  }
+}
+
+## provincia del nido ---------------------------------------------------------------
+
+nidiProvincia <- st_intersects(nidi, province, sparse = F)
+np <- apply(nidiProvincia, 1, which)
+
+nidi$provincia <- NA
+for(i in 1:length(np)){
+  if(!identical(province$COD_PROV[np[[i]]], character(0))){
+    nidi$provincia[i] <- province$COD_PROV[np[[i]]]
+  }
+}
+
+
+
+
+## parco di trappolaggio ---------------------------------------------------------------
 
 trapParco <- st_intersects(trap, parchi, sparse = F)
 tp <- apply(trapParco, 1, which)
@@ -101,7 +157,7 @@ for(i in 1:length(tp)){
 }
 
 
-#attribuzione del sito di interesse comunitario di trappolaggio
+## SIC di trappolaggio ---------------------------------------------------------------
 
 trapZSC <- st_intersects(trap, zsc_sic, sparse = F)
 tzsc <- apply(trapZSC, 1, which)
@@ -114,7 +170,7 @@ for(i in 1:length(tzsc)){
 }
 
 
-# attribuzione della provincia di trappolaggio
+## provincia di trappolaggio ---------------------------------------------------------------
 
 trapProvincia <- st_intersects(trap, province, sparse = F)
 tp <- apply(trapProvincia, 1, which)
@@ -126,17 +182,42 @@ for(i in 1:length(tp)){
   }
 }
 
+## quota di trappolaggio ---------------------------------------------------------------
+
+trap <- elevatr::get_elev_point(trap, src = "aws")
+
+# quota nidi ---------------------------------------------------------------
+
+nidi <- elevatr::get_elev_point(nidi, src = "aws")
+
+# calcoli buffer -- ---------------------------------------------------------------
+# passaggio da multipoligono a poligono
+
+buffer <- st_cast(buffer, "POLYGON")
+buffer3 <- st_cast(buffer3, "POLYGON")
+buffer <- st_intersection(buffer, province)
+buffer3 <- st_intersection(buffer3, province)
 
 # aggiunta a ciascun poligono buffer di una colonna con il numero di trappole attive e controllate che ricadono all'interno del poligono
 # 
 # 
-inter <- st_intersects(buffer, trap[controllate,])
+inter <- st_intersects(buffer, trap[trap$controllata,])
 buffer$nTrappoleControllate <- lengths(inter)
-#calcolo dell'area dei buffer in km2
+
+inter <- st_intersects(buffer3, trap[trap$controllata,])
+
+buffer3$nTrappoleControllate <- lengths(inter)
+
+# calcolo dell'area dei buffer in km2 
 buffer$area <- st_area(buffer)
 units(buffer$area) <- "km2"
+
+buffer3$area <- st_area(buffer3)
+units(buffer3$area) <- "km2"
+
 #calcolo della densità di trappole controllate per km2
 buffer$densita <- buffer$nTrappoleControllate/buffer$area
+buffer3$densita <- buffer3$nTrappoleControllate/buffer3$area
 
 # calcolo distanza di ciascuna trappola dal nido più vicino
 
@@ -146,6 +227,9 @@ for(i in 1:nrow(trap)){
   trap$distanzaNido[i] <- st_distance(trap[i,], nidi[nidiTrap[i],])
 }
 
+
+# calcoli controlli ---------------------------------------------------------------
+# 
 # calcolo del controllo precedente o se in assenza la data di posa della trappola
 # data del controllo precedente: data del controllo precedente più recente
 # se non c'è nessun controllo precedente considera la data di posizionamento della trappola
@@ -170,6 +254,8 @@ controlli$DataMediaCattura <- as.Date(NA)
 controlli$DataMediaCattura[intervalloBreve] <- as.Date(round((as.integer(controlli$Data[intervalloBreve]) + as.integer(controlli$DataPrec[intervalloBreve]))/2), origin = "1970-01-01")
 controlli$AnnoMeseMedioCattura <- format(controlli$DataMediaCattura, "%Y-%m")
 
+
+# controllli geografici ---------------------------------------------------------------
 # trasformazione dei controlli in oggetti geografici con la geometria della trappola
 #aggiunta delle coordinate X e Y a trap
 trap$X <- st_coordinates(trap)[,1]
@@ -179,25 +265,28 @@ trap$Y <- st_coordinates(trap)[,2]
 trap$Data.posizionamento <- as.Date(trap$Data.posizionamento, origin = "1970-01-01")
 
 trap$AnnoMese <- format(trap$Data.posizionamento, "%Y-%m")
-
-periodo <- min(trap$Data.posizionamento):max(trap$Data.posizionamento)
-periodo <- as.Date(periodo, origin = "1970-01-01")
-periodo <- format(periodo, "%Y-%m")
-periodo <- levels(as.factor(periodo))
+# 
+# periodo <- min(trap$Data.posizionamento):max(trap$Data.posizionamento)
+# periodo <- as.Date(periodo, origin = "1970-01-01")
+# periodo <- format(periodo, "%Y-%m")
+# periodo <- levels(as.factor(periodo))
 
 controlliGeo <- merge(controlli, trap, by.x = "fk_uuid", by.y = "uuid", all.x = T, all.y = F)
 controlliGeo <- st_as_sf(controlliGeo, coords = c("X", "Y"), crs = 32632)
 
+# calcoli fori ---------------------------------------------------------------
 # aggiunta di una colonna per i fori
 controlliGeo$fori <- FALSE
 # se forati TRUE e se data di controllo successiva a data di foratura <- TRUE
 controlliGeo$data_foratura <- as.Date(controlliGeo$data_foratura, origin = "1970-01-01")
 controlliGeo$fori[controlliGeo$Foratura == TRUE & controlliGeo$data_foratura < controlliGeo$Data] <- TRUE
 
+# chiusura dello script ---------------------------------------------------------------
+
 # eliminazione di tutti gli oggetti intermedi
 
+rm(list = c("i", "nidiTrap", "trapZone", "tz", "inter", "dateControlliPrecedenti", "zsc_sic", "parchi", "trapParco",  "trapZSC", "tp", "tzsc", "trapProvincia", "trapComune", "tc", "nc", "np", "comuni", "province", "intervalloBreve", "nidiComune", "nidiProvincia"))
 
-rm(list = c("i", "nidiTrap", "trapZone", "tz", "inter", "dateControlliPrecedenti", "zsc_sic", "parchi", "trapParco",  "trapZSC", "tp", "tzsc", "trapProvincia"))
-
+# pulizia della memoria
 
 gc()

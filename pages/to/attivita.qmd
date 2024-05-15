@@ -22,7 +22,7 @@ library(leaflet)
 
 # Trappole
 
-Attualmente su `r nrow(trap)` trappole posate sono attive `r nrow(trap[attive,])` trappole, di queste `r nrow(trap[controllate,])` sono state controllate negli ultimi `r giorniXcontrollata` giorni.
+Attualmente su `r nrow(trap)` trappole posate sono attive `r nrow(trap[trap$attiva,])` trappole, di queste `r nrow(trap[trap$controllata,])` sono state controllate negli ultimi `r parametri$giorniXcontrollata` giorni.
 
 ## Column {width="50%"}
 
@@ -32,21 +32,21 @@ tabTrapBuffer <- data.frame(
   distanza = attributes(table(
     cut(
       trap$distanzaNido,
-      breaks = c(0, buffer$distance, Inf),
+      breaks = c(0, sort(unique(buffer$distance)), Inf),
       dig.lab = 7
     )
   ))$dimnames[[1]],
   totali = as.integer(table(cut(
     trap$distanzaNido,
-    breaks = c(0, buffer$distance, Inf)
+    breaks = c(0, sort(unique(buffer$distance)), Inf),
   ))),
   attive = as.integer(table(cut(
-    trap$distanzaNido[attive],
-    breaks = c(0, buffer$distance, Inf)
+    trap$distanzaNido[trap$attiva],
+    breaks = c(0, sort(unique(buffer$distance)), Inf),
   ))),
   controllate = as.integer(table(cut(
-    trap$distanzaNido[controllate],
-    breaks = c(0, buffer$distance, Inf)
+    trap$distanzaNido[trap$controllata],
+    breaks = c(0, sort(unique(buffer$distance)), Inf),
   )))
 )
 
@@ -106,6 +106,10 @@ knitr::kable(tabDensity, format = "html", caption = "Densità di trappole contro
 
 # grafico a barre del numero di trappole aggiunte nel periodo, cut per mese
 
+periodo <- min(trap$Data.posizionamento):max(trap$Data.posizionamento)
+periodo <- as.Date(periodo, origin = "1970-01-01")
+periodo <- format(periodo, "%Y-%m")
+periodo <- levels(as.factor(periodo))
 
 
 

@@ -12,9 +12,13 @@ zoneTrappolaggio <- st_read("/tmp/qfieldcloudproject/elaborazioniGrid.gpkg",
                             layer = "zoneTrappolaggio")
 buffer <- st_read("/tmp/qfieldcloudproject/buffer.gpkg",
                   layer = "buffer")
+buffer3 <- st_read("/tmp/qfieldcloudproject/buffer.gpkg",
+                   layer = "buffer3")
 parchi <- st_read("/tmp/qfieldcloudproject/pubData.gpkg",
                   layer = "parchi")
 zsc_sic <- st_read("/tmp/qfieldcloudproject/pubData.gpkg",
                    layer = "zsc_sic")
 province <- st_read("/tmp/qfieldcloudproject/pubData.gpkg",
                   layer = "province")
+comuni <- st_read("/tmp/qfieldcloudproject/Ambiti_Amministrativi-Comuni.shp",
+                  quiet = TRUE)
