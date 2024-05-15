@@ -3,24 +3,24 @@ library(devtools)
 library(qfieldcloudR)
 
 source_gist("9282b0818446503625f15b930afa6c20")
-source("scripts/importGeoPackages.R")
+# source("scripts/importGeoPackages.R")
 
 distanze <- c(600, 1500, 3000, 6500, 15000)
 
 # selezioni i nidi non primari
 
-nidi <- nidi[nidi$primario == FALSE,]
+nidiS <- nidi[nidi$primario == FALSE,]
 
 # calcolo il buffer attorno ai nidi
 
-buffer <- multiDistanceBuffer(nidi, distanze)
+buffer <- multiDistanceBuffer(nidiS, distanze)
 
 # seleziono nidi trovati negli ultimi quattro anni
 
-nidi$anno <- as.numeric(format(nidi$data_ritro, "%Y"))
+nidiS$anno <- as.numeric(format(nidiS$data_ritro, "%Y"))
 annoCorrente <- as.numeric(format(Sys.Date(), "%Y"))
-nidi <- nidi[(nidi$anno >= (annoCorrente - 4)),]
-buffer3 <- multiDistanceBuffer(nidi, distanze)
+nidiS <- nidiS[(nidiS$anno >= (annoCorrente - 3)),]
+buffer3 <- multiDistanceBuffer(nidiS, distanze)
 
 # esporto il buffer in un file chiamato buffer.gpkg
 
@@ -42,3 +42,5 @@ projFiles <- get_qfieldcloud_files(token$token, endpoint, project[project$name =
 
 # post the buffer to qfieldcloud
 post_qfieldcloud_file(token$token, endpoint, project[project$name == "vespaTO", "id"],"buffer.gpkg" , "/tmp/qfieldcloudproject/buffer.gpkg")
+
+
