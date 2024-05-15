@@ -1,9 +1,11 @@
 # script per creare un buffer multidistanza attorno ai nidi
 library(devtools)
 library(qfieldcloudR)
-
+library(sf)
 source_gist("9282b0818446503625f15b930afa6c20")
-# source("scripts/importGeoPackages.R")
+
+nidi <- st_read("/tmp/qfieldcloudproject/Vespa_velutina.gpkg",
+                layer = "nidi")
 
 distanze <- c(600, 1500, 3000, 6500, 15000)
 
@@ -42,5 +44,3 @@ projFiles <- get_qfieldcloud_files(token$token, endpoint, project[project$name =
 
 # post the buffer to qfieldcloud
 post_qfieldcloud_file(token$token, endpoint, project[project$name == "vespaTO", "id"],"buffer.gpkg" , "/tmp/qfieldcloudproject/buffer.gpkg")
-
-

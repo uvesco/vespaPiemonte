@@ -38,6 +38,9 @@ jobs:
       - name: Import data
         run: Rscript -e 'source("scripts/importFromQfieldCloud.R")'
 
+      - name: Calculate nest buffers
+        run: Rscript -e 'source("scripts/bufferNidi.R")'
+
       - name: "Set up Quarto"
         uses: quarto-dev/quarto-actions/setup@v2
 
