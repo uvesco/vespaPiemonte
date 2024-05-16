@@ -6,14 +6,13 @@ format: dashboard
 ---
 
 ```{r setup, include=FALSE}
-source("../../scripts/importGeoPackages.R")
-source("../../scripts/calcoliTrappole.R")
 library(tidyr)
 library(dplyr)
 library(ggplot2)
 library(plotly)
-# library(leaflet)
 library(DT)
+library(sf)
+load("/tmp/qfieldcloudproject/vespaVelutina.RData")
 codProv <- 1
 source("../filterProv.R")
 

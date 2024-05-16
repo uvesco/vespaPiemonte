@@ -6,17 +6,9 @@ format: dashboard
 ---
 
 ```{r setup, include=FALSE}
-source("../../scripts/importGeoPackages.R")
-source("../../scripts/calcoliTrappole.R")
-library(tidyr)
-library(dplyr)
-# library(ggplot2)
-# library(plotly)
-# library(leaflet)
+library(sf)
 library(DT)
-# codProv <- 4
-# source("../filterProv.R")
-
+load("/tmp/qfieldcloudproject/vespaVelutina.RData")
 ```
 
 <!-- # Ricerca trappole -->

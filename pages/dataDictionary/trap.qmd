@@ -7,7 +7,7 @@ editor: source
 ---
 
 ```{r setup, include=FALSE}
-source("../../scripts/importGeoPackages.R")
+source("../../scripts/start_scripts/importGeoPackages.R")
 library(pointblank)
 ```
 

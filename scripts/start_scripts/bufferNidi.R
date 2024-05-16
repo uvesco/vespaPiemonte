@@ -1,4 +1,5 @@
-# script per creare un buffer multidistanza attorno ai nidi
+# script per creare un buffer multidistanza attorno ai nidi e caricare il geopackage su qfieldcloud
+# necessario caricare loadParam.R
 library(devtools)
 library(qfieldcloudR)
 library(sf)
@@ -7,22 +8,20 @@ source_gist("9282b0818446503625f15b930afa6c20")
 nidi <- st_read("/tmp/qfieldcloudproject/Vespa_velutina.gpkg",
                 layer = "nidi")
 
-distanze <- c(600, 1500, 3000, 6500, 15000)
-
 # selezioni i nidi non primari
 
 nidiS <- nidi[nidi$primario == FALSE,]
 
 # calcolo il buffer attorno ai nidi
 
-buffer <- multiDistanceBuffer(nidiS, distanze)
+buffer <- multiDistanceBuffer(nidiS, parametri$distanze)
 
-# seleziono nidi trovati negli ultimi quattro anni
+# buffer con solo i nidi non primari attivi negli ultimi parametri$scadenzaNidi anni
 
 nidiS$anno <- as.numeric(format(nidiS$data_ritro, "%Y"))
 annoCorrente <- as.numeric(format(Sys.Date(), "%Y"))
-nidiS <- nidiS[(nidiS$anno >= (annoCorrente - 3)),]
-buffer3 <- multiDistanceBuffer(nidiS, distanze)
+nidiS <- nidiS[(nidiS$anno_attivita >= (annoCorrente - parametri$scadenzaNidi)),]
+buffer3 <- multiDistanceBuffer(nidiS, parametri$distanze)
 
 # esporto il buffer in un file chiamato buffer.gpkg
 
@@ -44,3 +43,18 @@ projFiles <- get_qfieldcloud_files(token$token, endpoint, project[project$name =
 
 # post the buffer to qfieldcloud
 post_qfieldcloud_file(token$token, endpoint, project[project$name == "vespaTO", "id"],"buffer.gpkg" , "/tmp/qfieldcloudproject/buffer.gpkg")
+
+# remove temporary objects
+
+rm(list = c(
+  "endpoint",
+  "nidiS",
+  "project",
+  "projFiles",
+  "token",
+  "qfieldPassword",
+  "qfieldUsername",
+  "annoCorrente",
+  "multiDistanceBuffer"
+  )
+)  

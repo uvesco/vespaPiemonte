@@ -6,7 +6,9 @@ format: dashboard
 ---
 
 ```{r setup, include=FALSE}
-source("../../scripts/importGeoPackages.R")
+load("/tmp/qfieldcloudproject/vespaVelutina.RData")
+Sys.setenv(LANGUAGE = "it")
+Sys.setlocale("LC_ALL", "it_IT.UTF-8")
 library(pander)
 ```
 

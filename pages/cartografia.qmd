@@ -6,12 +6,11 @@ format: dashboard
 ---
 
 ```{r setup, include=FALSE}
-source("../scripts/importGeoPackages.R")
-source("../scripts/calcoliTrappole.R")
 library(sf)
 library(leaflet)
 library(htmlwidgets)
 library(DT)
+load("/tmp/qfieldcloudproject/vespaVelutina.RData")
 ```
 
 # Trappole
@@ -28,8 +27,8 @@ buffer <- st_transform(buffer3, 4326) ### ATTENZIONE: passaggio da buffer a buff
 trap <- st_transform(trap, 4326)
 # generazione colori
 trap$colore <- "green"
-trap$colore[trap$etaBirra > 21] <- "red"
-trap$colore[trap$etaBirra > 13 & trap$etaBirra <= 21] <- "orange"
+trap$colore[trap$etaBirra > parametri$tempoMassimo] <- "red"
+trap$colore[trap$etaBirra >= parametri$tempoMinimo  & trap$etaBirra <= parametri$tempoMassimo] <- "orange"
 trap$colore[!is.na(trap$data.rimozione)] <- "white"  
 sf_use_s2(FALSE)
 # estrazione centroidi delle zone per etichettatura
@@ -65,15 +64,18 @@ bufferLabels <- st_as_sf(bufferLabels, coords = c("x", "y"), crs = 4326)
 # creo la mappa
 
 leaflet() %>%
-  addProviderTiles("OpenStreetMap.Mapnik") %>%
+  addProviderTiles("OpenTopoMap") %>%
+  # addProviderTiles("OpenStreetMap") %>%
   addPolygons(data = zoneTrappolaggio, color = "black", weight = 1, fillOpacity = 0.3, fillColor = rainbow(nrow(zoneTrappolaggio)), group = "zone") %>%
   # addLabelOnlyMarkers(data = centers, label = ~nome, ) %>%
   addPolygons(data = buffer, color = "black", weight = 1, fillOpacity = 0, fillColor = "white", group = "buffer") %>%
   addCircleMarkers(data = trap, radius = 4, color = "black", weight = 1, fillOpacity = 1, fillColor = ~colore, group = "trappole") %>%
   addLabelOnlyMarkers(data = centers, label = ~nome, group = "zone", labelOptions = labelOptions(noHide = TRUE, textOnly = TRUE)) %>%
   addLabelOnlyMarkers(data = bufferLabels, label = ~distance, group = "buffer", labelOptions = labelOptions(noHide = TRUE, textOnly = TRUE)) %>%
-  addLegend("bottomright", colors = c("green", "orange", "red", "white"), labels = c("meno di 14 giorni", "tra 14 e 21 giorni", "più di 21 giorni", "rimosse"), title = "Ultimo controllo") %>%
-  addLayersControl(overlayGroups = c("zone", "buffer", "trappole"),
+  addLegend("bottomright", colors = c("green", "orange", "red", "white"), labels = c("meno di 14 giorni", "tra 14 e 21 giorni", "più di 21 giorni", "rimosse"), title = "Ultimo controllo delle trappole") %>%
+  addLayersControl(
+    # baseGroups = c("OpenStreetMap", "OpenTopoMap"),
+    overlayGroups = c("zone", "buffer", "trappole"),
                           options = layersControlOptions(collapsed = FALSE)
                           ) %>%
   hideGroup("zone")
@@ -94,7 +96,7 @@ cattureVespa <- st_transform(cattureVespa, crs = 4326)
 nidi <- st_transform(nidi, crs = 4326)
 
 leaflet() %>%
-  addProviderTiles("OpenStreetMap.Mapnik") %>%
+  addProviderTiles("OpenTopoMap") %>%
   addCircleMarkers(data = nidi, radius = 6, color = "black", weight = 1, fillOpacity = 1, fillColor = "brown", 
                                       label = lapply(paste0(
                               "id: ", nidi$id2, "<br/>",

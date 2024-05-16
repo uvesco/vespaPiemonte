@@ -1,18 +1,16 @@
-
 # grafico a barre orizzontali per la finestra di sostituzione della birra delle trappole
 
-tempoMinimo <- 14 # giorni di tempo minimo tra un controllo e l'altro
-tempoMassimo <- 21 # giorni di tempo massimo tra un controllo e l'altro
+# necessario caricare loadParam.R
 
 # calcolo la finestra di sostituzione della birra
 # la finestra di sostituzione della birra è il periodo di tempo in cui la birra deve essere sostituita
-# la birra deve essere sostituita se è presente da più di tempoMassimo giorni
-# la birra non deve essere sostituita se è presente da meno di tempoMinimo giorni
+# la birra deve essere sostituita se è presente da più di parametri$tempoMassimo giorni
+# la birra non deve essere sostituita se è presente da meno di parametri$tempoMinimo giorni
 
 # calcolo la finestra di sostituzione della birra
 
-# trap$maxSostituzione <- tempoMassimo - trap$etaBirra
-# trap$minSostituzione <- tempoMinimo - trap$etaBirra
+# trap$maxSostituzione <- parametri$tempoMassimo - trap$etaBirra
+# trap$minSostituzione <- parametri$tempoMinimo - trap$etaBirra
 
 
 # calcolo per ogni zona della moda dell'età della birra e la finestra di sostituzione della birra
@@ -39,8 +37,8 @@ modaEtaBirra$minimControllo <- as.Date(tapply((trapTeam$birra+14), trapTeam$zone
 
 # aggiungo colonne con la data minima per cambiare la birra
 
-modaEtaBirra$minControllo <- modaEtaBirra$etaBirra + tempoMinimo
-modaEtaBirra$maxControllo <- modaEtaBirra$etaBirra + tempoMassimo
+modaEtaBirra$minControllo <- modaEtaBirra$etaBirra + parametri$tempoMinimo
+modaEtaBirra$maxControllo <- modaEtaBirra$etaBirra + parametri$tempoMassimo
 
 modaEtaBirra$minimControllo[which(modaEtaBirra$minimControllo == modaEtaBirra$minControllo)] <- NA
 

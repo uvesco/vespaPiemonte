@@ -3,10 +3,6 @@
 
 library(elevatr)
 
-# parametri ---------------------------------------------------------------
-parametri <- list()
-parametri$giorniXcontrollata <-30 # giorni di tempo massimo dall'ultimo controllo per considerare controllata una trappola
-
 # definizione taxa ---------------------------------------------------------------
 
 taxa <- data.frame(

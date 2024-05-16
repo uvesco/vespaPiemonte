@@ -1,4 +1,5 @@
 # gets all project files from qfieldcloud, zip them and save them to google drive
+# only executed by the github action
 ## Load packages ----
 library(googledrive)
 library(purrr)

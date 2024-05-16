@@ -35,11 +35,8 @@ jobs:
       - name: Install R Dependencies
         uses: r-lib/actions/setup-renv@v2
         
-      - name: Download data
-        run: Rscript -e 'source("scripts/importFromQfieldCloud.R")'
-
-      - name: Calculate nest buffers
-        run: Rscript -e 'source("scripts/bufferNidi.R")'
+      - name: Download and prepare data
+        run: Rscript -e 'source("scripts/start_script.R")'
 
       - name: "Set up Quarto"
         uses: quarto-dev/quarto-actions/setup@v2
@@ -50,4 +47,3 @@ jobs:
           target: gh-pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          

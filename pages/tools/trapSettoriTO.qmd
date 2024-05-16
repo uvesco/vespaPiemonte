@@ -6,12 +6,11 @@ format: dashboard
 ---
 
 ```{r setup, include=FALSE}
-source("../../scripts/importGeoPackages.R")
-source("../../scripts/calcoliTrappole.R")
-source("../../scripts/etaBirraSettori.R")
 library(ggplot2)
 library(plotly)
 library(pander)
+load("/tmp/qfieldcloudproject/vespaVelutina.RData")
+source("trapSettori/etaBirraSettori.R")
 ```
 
 # Settori
