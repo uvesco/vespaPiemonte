@@ -173,11 +173,21 @@ for(i in 1:length(tp)){
 
 ## trap - quota ---------------------------------------------------------------
 
-trap <- elevatr::get_elev_point(trap, src = "aws")
+# change crs to prj = crs_dd
+
+# trap <- st_transform(trap, 4326)
+
+trap <- elevatr::get_elev_point(trap, src = "aws", z = 13)
+
+# trap <- st_transform(trap, 32632)
 
 ## nidi - quota ---------------------------------------------------------------
 
-nidi <- elevatr::get_elev_point(nidi, src = "aws")
+# nidi <- st_transform(nidi, 4326)
+
+nidi <- elevatr::get_elev_point(nidi, src = "aws", z = 13)
+
+# nidi <- st_transform(nidi, 32632)
 
 ## settori - province ---------------------------------------------------------------
 
