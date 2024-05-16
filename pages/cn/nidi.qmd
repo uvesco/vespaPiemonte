@@ -1,0 +1,55 @@
+---
+title: "Nidi"
+description: "Risultati"
+lang: it-IT
+format: dashboard
+---
+
+```{r setup, include=FALSE}
+source("../../scripts/importGeoPackages.R")
+source("../../scripts/calcoliTrappole.R")
+library(tidyr)
+library(dplyr)
+# library(ggplot2)
+# library(plotly)
+# library(leaflet)
+library(DT)
+codProv <- 4
+source("../filterProv.R")
+
+```
+
+# Nidi di Vespa velutina
+
+```{r tabellaNidi, echo=FALSE, warning=FALSE}
+# tabella con i dati delle catture di Vespa velutina
+# 
+# seleziono solo i controlli con cattura di Vespa velutina
+
+nidiVespa <- nidi[, c("id2", "data_ritro", "primario",  "comune", "provin_sig", "elevation")]
+
+# conversione della data in formato leggibile
+
+nidiVespa$data_ritro <- as.Date(nidiVespa$data_ritro, origin = "1970-01-01")
+
+# elimino la geometria
+nidiVespa <- st_drop_geometry(nidiVespa)
+
+# # formatto le date in modo leggibile
+# 
+# cattureVespa$data <- format(cattureVespa$data, "%d/%m/%Y")
+# cattureVespa$DataPrec <- format(cattureVespa$DataPrec, "%d/%m/%Y")
+
+# approssimo la distanza dal nido all'intero
+
+
+datatable(nidiVespa, rownames = FALSE, colnames = c("ID", "Data di rinvenimento", "Nido primario",  "Comune", "Provincia", "Quota"), extensions = 'Buttons', options = list(
+    dom = 'Bfrtip',
+    buttons = c('copy', 'excel', 'pdf', 'print'),
+    pageLength = 10, 
+    lengthMenu = c(5, 10, 15, 20), 
+    searching = TRUE, 
+    order = list(list(1, 'asc'))
+  ))
+
+```

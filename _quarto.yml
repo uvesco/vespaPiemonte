@@ -16,19 +16,30 @@ website:
     left:
       - href: index.qmd
         text: Home
+      - href: pages/cartografia.qmd
+        text: Cartografia
       - text: Provincia di Torino
         menu:
           - href: pages/to/attivita.qmd
             text: Trappolaggio
           - href: pages/to/catture.qmd
             text: Catture
-          - href: pages/to/cartografia.qmd
-            text: Cartografia
-      # - text: Provincia di Cuneo
+          - href: pages/to/nidi.qmd
+            text: Nidi
+      - text: Provincia di Cuneo
+        menu:
+          - href: pages/cn/attivita.qmd
+            text: Trappolaggio
+          - href: pages/cn/catture.qmd
+            text: Catture
+          - href: pages/cn/nidi.qmd
+            text: Nidi
       - text: Strumenti
         menu:
           - href: pages/tools/trapSettoriTO.qmd
             text: Settori di trappolaggio
+          - href: pages/tools/ricercaTrap.qmd
+            text: Ricerca trappole
           - href: pages/tools/numeriLiberi.qmd
             text: Numeri liberi
           - href: pages/dataDictionary/index.qmd

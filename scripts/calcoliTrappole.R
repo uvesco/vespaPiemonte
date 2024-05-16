@@ -63,14 +63,14 @@ if(any(trap$etaBirra < 0)){
   stop("Ci sono trappole con età negativa")
 }
 
-# attività e controllo ---------------------------------------------------------------
+# trap attive e trap controllate ---------------------------------------------------------------
 
-trap$attiva <- !is.na(trap$data.rimozione)
+trap$attiva <- is.na(trap$data.rimozione)
 trap$controllata <- is.na(trap$data.rimozione) & trap$etaBirra < (parametri$giorniXcontrollata + 1)
 
 # attribuzioni geografiche ---------------------------------------------------------------
 
-## settore di trappolaggio ---------------------------------------------------------------
+## trap - settore ---------------------------------------------------------------
 
 trapZone <- st_intersects(trap, zoneTrappolaggio, sparse = F)
 tz <- apply(trapZone, 1, which)
@@ -82,11 +82,7 @@ for(i in 1:length(tz)){
   }
 }
 
-## comune di trappolaggio --------------------------------------------------------------
-
-
-
-
+## trap - comune ---------------------------------------------------------------
 
 trapComune <- st_intersects(trap, comuni, sparse = F)
 tc <- apply(trapComune, 1, which)
@@ -110,7 +106,7 @@ for(i in 1:length(tc)){
   }
 }
 
-## comune del nido ---------------------------------------------------------------
+## nidi - comune ---------------------------------------------------------------
 
 nidiComune <- st_intersects(nidi, comuni, sparse = F)
 nc <- apply(nidiComune, 1, which)
@@ -129,7 +125,7 @@ for(i in 1:length(nc)){
   }
 }
 
-## provincia del nido ---------------------------------------------------------------
+## nidi - provincia ---------------------------------------------------------------
 
 nidiProvincia <- st_intersects(nidi, province, sparse = F)
 np <- apply(nidiProvincia, 1, which)
@@ -141,10 +137,7 @@ for(i in 1:length(np)){
   }
 }
 
-
-
-
-## parco di trappolaggio ---------------------------------------------------------------
+## trap - parco ---------------------------------------------------------------
 
 trapParco <- st_intersects(trap, parchi, sparse = F)
 tp <- apply(trapParco, 1, which)
@@ -157,7 +150,7 @@ for(i in 1:length(tp)){
 }
 
 
-## SIC di trappolaggio ---------------------------------------------------------------
+## trap - natura2000 ---------------------------------------------------------------
 
 trapZSC <- st_intersects(trap, zsc_sic, sparse = F)
 tzsc <- apply(trapZSC, 1, which)
@@ -170,7 +163,7 @@ for(i in 1:length(tzsc)){
 }
 
 
-## provincia di trappolaggio ---------------------------------------------------------------
+## trap - provincia ---------------------------------------------------------------
 
 trapProvincia <- st_intersects(trap, province, sparse = F)
 tp <- apply(trapProvincia, 1, which)
@@ -182,15 +175,22 @@ for(i in 1:length(tp)){
   }
 }
 
-## quota di trappolaggio ---------------------------------------------------------------
+## trap - quota ---------------------------------------------------------------
 
 trap <- elevatr::get_elev_point(trap, src = "aws")
 
-# quota nidi ---------------------------------------------------------------
+## nidi - quota ---------------------------------------------------------------
 
 nidi <- elevatr::get_elev_point(nidi, src = "aws")
 
-# calcoli buffer -- ---------------------------------------------------------------
+## settori - province ---------------------------------------------------------------
+
+zoneTrappolaggio$provincia <- NA
+for(i in 1:nrow(zoneTrappolaggio)){
+  zoneTrappolaggio <- st_intersection(zoneTrappolaggio, province)
+}
+
+# calcoli buffer -----------------------------------------------------------------
 # passaggio da multipoligono a poligono
 
 buffer <- st_cast(buffer, "POLYGON")
@@ -219,13 +219,14 @@ units(buffer3$area) <- "km2"
 buffer$densita <- buffer$nTrappoleControllate/buffer$area
 buffer3$densita <- buffer3$nTrappoleControllate/buffer3$area
 
-# calcolo distanza di ciascuna trappola dal nido più vicino
+# calcolo distanza di ciascuna trappola dal nido più vicino ---------------------------------------------------------------
 
 nidiTrap <- st_nearest_feature(trap, nidi)
 # calculate the distance in meters
 for(i in 1:nrow(trap)){
   trap$distanzaNido[i] <- st_distance(trap[i,], nidi[nidiTrap[i],])
 }
+
 
 
 # calcoli controlli ---------------------------------------------------------------

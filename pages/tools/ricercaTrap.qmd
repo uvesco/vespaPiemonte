@@ -1,0 +1,53 @@
+---
+title: "Ricerca trappole"
+description: "Tools"
+lang: it-IT
+format: dashboard
+---
+
+```{r setup, include=FALSE}
+source("../../scripts/importGeoPackages.R")
+source("../../scripts/calcoliTrappole.R")
+library(tidyr)
+library(dplyr)
+# library(ggplot2)
+# library(plotly)
+# library(leaflet)
+library(DT)
+# codProv <- 4
+# source("../filterProv.R")
+
+```
+
+<!-- # Ricerca trappole -->
+
+```{r tabellaCatture, echo=FALSE, warning=FALSE}
+# tabella con i dati delle catture di Vespa velutina
+# 
+# seleziono solo i controlli con cattura di Vespa velutina
+
+trappole <- trap[, c("ID", "distanzaNido",  
+"zone", "elevation", "comune", "provin_sig", "parco", "zsc_sic")]
+
+# elimino la geometria
+trappole <- st_drop_geometry(trappole)
+
+# # formatto le date in modo leggibile
+# 
+# cattureVespa$data <- format(cattureVespa$data, "%d/%m/%Y")
+# cattureVespa$DataPrec <- format(cattureVespa$DataPrec, "%d/%m/%Y")
+
+# approssimo la distanza dal nido all'intero
+
+trappole$distanzaNido <- round(trappole$distanzaNido, 0)
+
+datatable(trappole, rownames = FALSE, colnames = c("ID", "Distanza dal nido noto più prossimo", "Settore", "Quota (m)", "Comune", "Provincia", "Parco", "Zsc/Sic"), extensions = 'Buttons', options = list(
+    dom = 'Bfrtip',
+    # buttons = c('copy', 'excel', 'pdf', 'print'),
+    pageLength = 10, 
+    lengthMenu = c(5, 10, 15, 20), 
+    searching = TRUE, 
+    order = list(list(0, 'asc'))
+  ))
+
+```

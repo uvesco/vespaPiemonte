@@ -1,0 +1,58 @@
+---
+title: "Catture"
+description: "Risultati"
+lang: it-IT
+format: dashboard
+---
+
+```{r setup, include=FALSE}
+source("../../scripts/importGeoPackages.R")
+source("../../scripts/calcoliTrappole.R")
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+library(plotly)
+# library(leaflet)
+library(DT)
+codProv <- 4
+source("../filterProv.R")
+
+```
+
+# Catture di Vespa velutina
+
+```{r tabellaCatture, echo=FALSE, warning=FALSE}
+# tabella con i dati delle catture di Vespa velutina
+# 
+# seleziono solo i controlli con cattura di Vespa velutina
+
+cattureVespa <- controlliGeo[controlliGeo$Vespa_velutina_tot > 0, c("ID", "data", "DataPrec",  "Vespa_velutina_tot", "elevation", "distanzaNido", "comune")]
+cattureVespa <- cattureVespa[order(cattureVespa$data, decreasing = TRUE),] # ordino per data decrescente
+# conversione della data in formato leggibile
+
+cattureVespa$data <- as.Date(cattureVespa$data, origin = "1970-01-01")
+cattureVespa$DataPrec <- as.Date(cattureVespa$DataPrec, origin = "1970-01-01")
+
+cattureVespa$data <- as.character(cattureVespa$data)
+# elimino la geometria
+cattureVespa <- st_drop_geometry(cattureVespa)
+
+# # formatto le date in modo leggibile
+# 
+# cattureVespa$data <- format(cattureVespa$data, "%d/%m/%Y")
+# cattureVespa$DataPrec <- format(cattureVespa$DataPrec, "%d/%m/%Y")
+
+# approssimo la distanza dal nido all'intero
+
+cattureVespa$distanzaNido <- round(cattureVespa$distanzaNido, 0)
+
+datatable(cattureVespa, rownames = FALSE, colnames = c("Trappola", "Data controllo", "Data carica", "Vespa velutina (individui)", "Quota (m)", "Distanza dal nido più vicino (m)", "Comune"), extensions = 'Buttons', options = list(
+    dom = 'Bfrtip',
+    buttons = c('copy', 'excel', 'pdf', 'print'),
+    pageLength = 10, 
+    lengthMenu = c(5, 10, 15, 20), 
+    searching = TRUE, 
+    order = list(list(1, 'asc'))
+  ))
+
+```

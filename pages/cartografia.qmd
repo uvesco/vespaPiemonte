@@ -1,13 +1,13 @@
 ---
 title: "Cartografia"
-description: "Carta interattiva delle trappole"
+description: "Carta interattiva"
 lang: it-IT
 format: dashboard
 ---
 
 ```{r setup, include=FALSE}
-source("../../scripts/importGeoPackages.R")
-source("../../scripts/calcoliTrappole.R")
+source("../scripts/importGeoPackages.R")
+source("../scripts/calcoliTrappole.R")
 library(sf)
 library(leaflet)
 library(htmlwidgets)
@@ -24,7 +24,7 @@ library(DT)
 # conversione coordinate
 zoneTrappolaggio <- st_transform(zoneTrappolaggio, 4326)
 zoneTrappolaggio$colore <- rainbow(nrow(zoneTrappolaggio))
-buffer <- st_transform(buffer, 4326)
+buffer <- st_transform(buffer3, 4326) ### ATTENZIONE: passaggio da buffer a buffer3
 trap <- st_transform(trap, 4326)
 # generazione colori
 trap$colore <- "green"
@@ -95,8 +95,34 @@ nidi <- st_transform(nidi, crs = 4326)
 
 leaflet() %>%
   addProviderTiles("OpenStreetMap.Mapnik") %>%
-  addCircleMarkers(data = cattureVespa, radius = 4, color = "black", weight = 1, fillOpacity = 1, fillColor = "magenta", group = "catture") %>%
-  addCircleMarkers(data = nidi, radius = 6, color = "black", weight = 1, fillOpacity = 1, fillColor = "brown", group = "nidi") %>%
+  addCircleMarkers(data = nidi, radius = 6, color = "black", weight = 1, fillOpacity = 1, fillColor = "brown", 
+                                      label = lapply(paste0(
+                              "id: ", nidi$id2, "<br/>",
+                              "data del rilevamento: ", format(nidi$data_ritro, "%d/%m/%y"), " <br/> ",
+                              "comune: ", nidi$comune, " <br/> ",
+                              "provincia: ", nidi$provin_sig, " <br/> ",
+                              "quota: ", nidi$elevation, "m <br/> ",
+                              "nido primario: ", nidi$primario, "<br/> "
+                              ),
+                              htmltools::HTML
+                              ),
+                   
+                   
+                   group = "nidi") %>%
+  addCircleMarkers(data = cattureVespa, radius = 4, color = "black", weight = 1, fillOpacity = 1, fillColor = "yellow", 
+                   label = lapply(paste0(
+                              "trappola: ", cattureVespa$ID, "<br/>",
+                              "data del rilevamento: ", format(cattureVespa$data, "%d/%m/%y"), " <br/> ",
+                              "comune: ", cattureVespa$comune, " <br/> ",
+                              "provincia: ", cattureVespa$provin_sig, " <br/> ",
+                              "quota: ", cattureVespa$elevation, "m <br/> ",
+                              "distanza dal primo nido noto: ", round(cattureVespa$distanzaNido), "m <br/> "
+                              ),
+                              htmltools::HTML
+                              ),
+                   
+                   group = "catture") %>%
+
 # addLegend("bottomright", colors = c("green", "orange", "red", "white"), labels = c("meno di 14 giorni", "tra 14 e 21 giorni", "più di 21 giorni", "rimosse"), title = "Ultimo controllo") %>%
   addLayersControl(overlayGroups = c("catture", "nidi"),
                           options = layersControlOptions(collapsed = FALSE)

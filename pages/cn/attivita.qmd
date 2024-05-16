@@ -1,0 +1,152 @@
+---
+title: "Trappolaggio"
+description: "Riassunto dell'attività di trappolaggio per settore"
+lang: it-IT
+format:
+  dashboard:
+    nav-buttons:
+      - icon: github
+        href: https://github.com/uvesco/vespaPiemonte/
+---
+
+```{r setup, include=FALSE}
+source("../../scripts/importGeoPackages.R")
+source("../../scripts/calcoliTrappole.R")
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+library(plotly)
+# library(leaflet)
+codProv <- 4
+source("../filterProv.R")
+
+```
+
+# Trappole
+
+Attualmente su `r nrow(trap)` trappole posate sono attive `r nrow(trap[trap$attiva,])` trappole, di queste `r nrow(trap[trap$controllata,])` sono state controllate negli ultimi `r parametri$giorniXcontrollata` giorni.
+
+## Column {height="50%"}
+
+```{r tabellaBuffer, echo=FALSE, warning=FALSE}
+
+source("../pageScripts/attivita_tabellaBuffer.R")
+knitr::kable(tabTrapBuffer, format = "html", caption = "Numero di trappole per classi di distanza dal nido più vicino; attive sono le trappole non rimosse, controllate sono le trappole non rimosse e controllate almeno una volta negli ultimi 30 giorni")
+
+```
+
+## Column {height="50%"}
+
+```{r tabellaDensitaBuffer, echo=FALSE, warning=FALSE}
+
+source("../pageScripts/attivita_tabellaDensitaBuffer.R")
+knitr::kable(tabDensity, format = "html", caption = "Densità di trappole controllate per km2 nelle aree buffer")
+
+```
+
+
+<!-- # Controlli -->
+
+<!-- ## Column {width="60%"} -->
+
+<!-- ```{r graficoTrappoleMese, echo=FALSE, warning=FALSE} -->
+<!-- #| label: graficoTrappoleMese -->
+<!-- #| title: Numero di trappole posizionate per mese -->
+<!-- #| description: Grafico a barre del numero di trappole posate per mese -->
+<!-- #| output: plotly -->
+<!-- #| fig.width: 10 -->
+<!-- #| fig.height: 6 -->
+<!-- #| fig.align: center -->
+<!-- #| fig.cap: Numero di trappole posate per mese -->
+<!-- #| fig.link_text: Visualizza il grafico a tutto schermo -->
+<!-- #| fig.link_url: https://plotly.com/~giorgio.guarnera/1/ -->
+<!-- #| fig.show_link: true -->
+<!-- #| fig.save: true -->
+<!-- #| fig.filename: trappoleMese -->
+<!-- #|  -->
+
+<!-- source("../pageScripts/attivita_graficoTrappoleMese.R") -->
+<!-- plot_ly(tab, x = ~AnnoMese, y =~freq, colors = "gold") %>% -->
+<!--   add_bars() %>% -->
+<!--   layout( -->
+<!--     xaxis = list(title = "Mese"), -->
+<!--     yaxis = list(title = "Numero di trappole") -->
+<!--   ) -->
+
+<!-- ``` -->
+
+<!-- <!--  grafico a barre del numero di controlli per mese --> -->
+
+<!-- ```{r graficoControlliMese, echo=FALSE, warning=FALSE} -->
+<!-- #| label: graficoControlliMese -->
+<!-- #| title: Numero di controlli per mese -->
+<!-- #| description: Grafico a barre del numero di controlli per mese -->
+<!-- #| output: plotly -->
+<!-- #| fig.width: 10 -->
+<!-- #| fig.height: 6 -->
+<!-- #| fig.align: center -->
+<!-- #| fig.cap: Numero di controlli per mese -->
+
+<!-- source("../pageScripts/attivita_graficoControlliMese.R") -->
+<!-- plot_ly(tab, x = ~AnnoMese, y =~nControlli, colors = "blue") %>% -->
+<!--   add_bars() %>% -->
+<!--   layout( -->
+<!--     xaxis = list(title = "Mese"), -->
+<!--     yaxis = list(title = "Numero di controlli") -->
+<!--   ) -->
+
+<!-- ``` -->
+
+<!-- ## Column {width="40%"} -->
+
+<!-- <!-- istogramma per mesi intervallo di controllo --> -->
+
+<!-- ```{r graficoIntervalloControllo, echo=FALSE, warning=FALSE} -->
+<!-- #| label: graficoIntervalloControllo -->
+<!-- #| title: Intervallo di controllo -->
+<!-- #| description: Istogramma dell'intervallo di controllo -->
+<!-- #| output: plotly -->
+<!-- #| fig.width: 10 -->
+<!-- #| fig.height: 6 -->
+<!-- #| fig.align: center -->
+<!-- #| fig.cap: Intervallo di controllo -->
+<!-- #| fig.link_text: Visualizza il grafico a tutto schermo -->
+<!-- #| fig.link_url: https://plotly.com/~giorgio.guarnera/1/ -->
+<!-- #| fig.show_link: true -->
+<!-- #| fig.save: true -->
+<!-- #| fig.filename: intervalloControllo -->
+<!-- #| fig.ext: html -->
+<!-- #| fig.keep_md: false -->
+<!-- #| fig.keep_html: false -->
+<!-- #| fig.keep_pdf: false -->
+<!-- #| fig.keep_eps: false -->
+<!-- #| fig.keep_svg: false -->
+<!-- #| fig.keep_png: true -->
+<!-- #| fig.keep_jpg: false -->
+<!-- #| fig.keep_json: false -->
+<!-- #| fig.keep_csv: true -->
+<!-- #| fig.keep_xlsx: true -->
+
+<!-- # boxplot dell'intervallo di controllo per mese-anno -->
+
+<!-- source("../pageScripts/attivita_graficoIntervalloControllo.R") -->
+
+<!-- plot_ly(controlliGeo, x = ~AnnoMese, y = ~intervallo, type = "box") %>% -->
+<!--   layout( -->
+<!--          xaxis = list(title = "Mese"), -->
+<!--          yaxis = list(title = "Intervallo di controllo (giorni)") -->
+<!--          ) -->
+
+<!-- ``` -->
+
+<!-- <!-- tabelle media intervalli per mese --> -->
+
+<!-- ```{r tabellaMediaIntervallo, echo=FALSE, warning=FALSE} -->
+<!-- # tabella con la media, mediana e moda dell'intervallo di controllo per mese -->
+<!-- # calcolo della media, mediana e moda dell'intervallo di controllo per mese -->
+
+<!-- source("../pageScripts/attivita_tabellaMediaIntervallo.R") -->
+
+<!-- knitr::kable(tabMediaIntervallo, format = "html", caption = "Media, mediana e moda dell'intervallo di controllo per mese") -->
+
+<!-- ``` -->

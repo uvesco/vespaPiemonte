@@ -35,7 +35,7 @@ jobs:
       - name: Install R Dependencies
         uses: r-lib/actions/setup-renv@v2
         
-      - name: Import data
+      - name: Download data
         run: Rscript -e 'source("scripts/importFromQfieldCloud.R")'
 
       - name: Calculate nest buffers
