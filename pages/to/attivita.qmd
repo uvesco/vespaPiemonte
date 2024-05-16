@@ -129,7 +129,7 @@ plot_ly(tab, x = ~AnnoMese, y =~nControlli, colors = "blue") %>%
 # boxplot dell'intervallo di controllo per mese-anno
 
 source("../pageScripts/attivita_graficoIntervalloControllo.R")
-plot_ly(controlli, x = ~AnnoMese, y = ~intervallo, type = "box") %>%
+plot_ly(controlliGeo, x = ~AnnoMese, y = ~intervallo, type = "box") %>%
   layout(
          xaxis = list(title = "Mese"),
          yaxis = list(title = "Intervallo di controllo (giorni)")
