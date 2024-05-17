@@ -1,6 +1,6 @@
 ---
-title: "Gestione"
-description: "Informazioni per la gestione delle trappole"
+title: "ID liberi"
+description: "Strumento per individuare il prossimo id da utilizzare"
 lang: it-IT
 format: dashboard
 ---
@@ -12,17 +12,40 @@ Sys.setlocale("LC_ALL", "it_IT.UTF-8")
 library(pander)
 ```
 
-# Numeri di trappola liberi senza lettera (Aspromiele Torino)
+# Torino
+
+**Id trappola liberi (senza lettera - Aspromiele Torino)**
 
 ```{r echo=FALSE}
 # numeri  liberi serie senza lettera
 numeri <- as.integer(trap$ID)
 numeri <- numeri[!is.na(numeri)]
 numeriLiberi <- setdiff(1:500, numeri)
-pander(numeriLiberi)
+pander(numeriLiberi, caption = "Hello caption!")
 ```
 
-# Numeri di trappola liberi con lettera 'T' (Aspromiele Cuneo)
+**Prossimo Id nido disponibile**
+
+```{r echo=FALSE}
+# prossimo id nido
+prov <- "TO"
+# seleziono id nido che iniziano con le prime due cifre dell'anno corrente e la provincia
+id_anno_corrente <- nidi$id2[grepl(substr(paste0(format(Sys.Date(), "%y"), prov), 1, 4), nidi$id2)]
+# se non ci sono nidi con id che inizia con le prime due cifre dell'anno corrente e la provincia, il prossimo ID sarà il primo id nido con la provincia
+if(length(id_anno_corrente) == 0){
+  id_nido <- paste0(format(Sys.Date(), "%y"), prov, "001")
+} else {
+  # se ci sono nidi con id che inizia con le prime due cifre dell'anno corrente e la provincia, il prossimo ID sarà il massimo id nido con la provincia + 1
+  id_nido <- max(as.integer(gsub(paste0(format(Sys.Date(), "%y"), prov), "", id_anno_corrente)))+1
+  id_nido <- paste0(format(Sys.Date(), "%y"), prov, sprintf("%03d", id_nido))
+}
+pander(id_nido)
+
+```
+
+# Cuneo
+
+**Id trappola liberi (lettera T - Aspromiele Cuneo)**
 
 ```{r echo=FALSE}
 # numeri  liberi serie con lettera n
@@ -33,4 +56,23 @@ numeri <- trap$ID[grepl(lettera, trap$ID)]
 numeri <- as.integer(gsub(lettera, "", numeri))
 numeriLiberi <- setdiff(1:500, numeri)
 pander(paste0(lettera, numeriLiberi))
+```
+
+**Prossimo Id nido disponibile**
+
+```{r echo=FALSE}
+# prossimo id nido
+prov <- "CN"
+# seleziono id nido che iniziano con le prime due cifre dell'anno corrente e la provincia
+id_anno_corrente <- nidi$id2[grepl(substr(paste0(format(Sys.Date(), "%y"), prov), 1, 4), nidi$id2)]
+# se non ci sono nidi con id che inizia con le prime due cifre dell'anno corrente e la provincia, il prossimo ID sarà il primo id nido con la provincia
+if(length(id_anno_corrente) == 0){
+  id_nido <- paste0(format(Sys.Date(), "%y"), prov, "001")
+} else {
+  # se ci sono nidi con id che inizia con le prime due cifre dell'anno corrente e la provincia, il prossimo ID sarà il massimo id nido con la provincia + 1
+  id_nido <- max(as.integer(gsub(paste0(format(Sys.Date(), "%y"), prov), "", id_anno_corrente)))+1
+  id_nido <- paste0(format(Sys.Date(), "%y"), prov, sprintf("%03d", id_nido))
+}
+pander(id_nido)
+
 ```
