@@ -19,9 +19,9 @@ retry_get_elev_point <- function(data, src = "aws", z = 13, max_retries = 5) {
 
 
 # Load the cached data if it exists
-cache_file <- "data/combined_data.rds"
-if (file.exists(cache_file)) {
-  old_data <- readRDS(cache_file)
+
+if (file.exists(parametri$cacheFile)) {
+  old_data <- readRDS(parametri$cacheFile)
   # Check if geometry has changed
   trap_changed <- !identical(st_geometry(trap), st_geometry(old_data$trap))
   nidi_changed <- !identical(st_geometry(nidi), st_geometry(old_data$nidi))
@@ -67,6 +67,6 @@ if(nidi_changed) {
 new_data <- list(nidi = nidi, trap = trap)
 
 # Save the data for further processing if needed
-dir.create("data", showWarnings = FALSE)
+dir.create(dirname(parametri$cacheFile), showWarnings = FALSE)
 
-saveRDS(new_data, cache_file)
+saveRDS(new_data, parametri$cacheFile)

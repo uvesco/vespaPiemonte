@@ -13,3 +13,6 @@ parametri$tempoMassimo <- 21 # giorni di tempo massimo tra un controllo e l'altr
 parametri$distanze <- c(600, 1500, 3000, 6500, 15000) # distanze dei buffer
 parametri$scadenzaNidi <- 3 # anni per calcolo del buffer con solo i nidi non primari attivi negli ultimi parametri$scadenzaNidi anni (buffer3)
 
+# cache file ------------------------------------------------
+
+parametri$cacheFile <- "data/combined_data.rds"

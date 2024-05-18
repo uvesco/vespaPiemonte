@@ -6,8 +6,8 @@ source("scripts/start_scripts/importGeoPackages.R")
 # source("scripts/start_scripts/bufferNidi.R")
 # Load the cached data if it exists
 
-  new_data <- readRDS(cache_file)
-  # Check if geometry has changed
+  new_data <- readRDS(parametri$cacheFile)
+
   trap <- new_data$trap
   nidi <- new_data$nidi
 source("scripts/start_scripts/calcoliTrappole.R")
