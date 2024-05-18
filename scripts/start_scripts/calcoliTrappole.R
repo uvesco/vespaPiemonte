@@ -1,7 +1,7 @@
 # calcoli da applicare alle trappole
 # Librerie ---------------------------------------------------------------
 
-library(elevatr)
+# library(elevatr)
 
 # definizione taxa ---------------------------------------------------------------
 
