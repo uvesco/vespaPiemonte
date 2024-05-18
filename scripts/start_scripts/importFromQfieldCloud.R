@@ -28,12 +28,12 @@ for (i in 1:nrow(tempFiles)) {
 }
 
 # download comuni from https://www.datigeo-piem-download.it/direct/Geoportale/RegionePiemonte/Limiti_amministrativi/AMBITI_AMMINISTRATIVI_COMUNI1.zip
-
+dir.create("/tmp/qfieldpubdata", showWarnings = FALSE)
 utils::download.file("https://www.datigeo-piem-download.it/direct/Geoportale/RegionePiemonte/Limiti_amministrativi/AMBITI_AMMINISTRATIVI_COMUNI1.zip",
-                     destfile = "/tmp/qfieldcloudproject/AMBITI_AMMINISTRATIVI_COMUNI1.zip")
-utils::unzip("/tmp/qfieldcloudproject/AMBITI_AMMINISTRATIVI_COMUNI1.zip",
-             exdir = "/tmp/qfieldcloudproject")
-file.remove("/tmp/qfieldcloudproject/AMBITI_AMMINISTRATIVI_COMUNI1.zip")
+                     destfile = "/tmp/qfieldpubdata/AMBITI_AMMINISTRATIVI_COMUNI1.zip")
+utils::unzip("/tmp/qfieldpubdata/AMBITI_AMMINISTRATIVI_COMUNI1.zip",
+             exdir = "/tmp/qfieldpubdata")
+file.remove("/tmp/qfieldpubdata/AMBITI_AMMINISTRATIVI_COMUNI1.zip")
 
 # remove temporary objects
 

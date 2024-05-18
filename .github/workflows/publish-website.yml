@@ -35,8 +35,39 @@ jobs:
       - name: Install R Dependencies
         uses: r-lib/actions/setup-renv@v2
         
-      - name: Download and prepare data
-        run: Rscript -e 'source("scripts/start_script.R")'
+      # - name: Download and prepare data
+      #   run: Rscript -e 'source("scripts/start_script.R")'
+        
+      - name: Cache built data
+        id: cache-data
+        uses: actions/cache@v2
+        with:
+          path: data    # Path to the data you want to cache
+          key: build-data-${{ hashFiles('data/combined_data.rds') }}   # Unique key based on the data content
+          restore-keys: |
+            build-data-
+  
+      - name: Check if cache was hit
+        run: |
+          if [ -f "data/combined_data.rds" ]; then
+            echo "Cache hit, data file exists"
+          else
+            echo "Cache miss, data file does not exist"
+          fi
+  
+      - name: Check and update geographical data
+        run: |
+          Rscript scripts/start_script_v2.R  # Your script to check and update data
+  
+      - name: Cache updated data
+        uses: actions/cache@v2
+        with:
+          path: data
+          key: build-data-${{ hashFiles('data/combined_data.rds') }}
+        
+      - name: Prepare data
+        run: Rscript -e 'source("scripts/complete_script_v2.R")'
+
 
       - name: "Set up Quarto"
         uses: quarto-dev/quarto-actions/setup@v2

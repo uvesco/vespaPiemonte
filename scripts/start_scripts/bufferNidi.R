@@ -5,8 +5,8 @@ library(qfieldcloudR)
 library(sf)
 source_gist("9282b0818446503625f15b930afa6c20")
 
-nidi <- st_read("/tmp/qfieldcloudproject/Vespa_velutina.gpkg",
-                layer = "nidi")
+# nidi <- st_read("/tmp/qfieldcloudproject/Vespa_velutina.gpkg",
+#                 layer = "nidi")
 
 # selezioni i nidi non primari
 
