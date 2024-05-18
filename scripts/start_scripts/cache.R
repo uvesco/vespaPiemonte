@@ -6,13 +6,15 @@ library(elevatr)
 cache_file <- "data/combined_data.rds"
 if (file.exists(cache_file)) {
   old_data <- readRDS(cache_file)
+  # Check if geometry has changed
+  trap_changed <- !identical(st_geometry(trap), st_geometry(old_data$trap))
+  nidi_changed <- !identical(st_geometry(nidi), st_geometry(old_data$nidi))
+  
 } else {
-  old_data <- list(trap = NULL, nidi = NULL)
-}
+  trap_changed <- TRUE
+  nidi_changed <- TRUE
+} 
 
-# Check if geometry has changed
-trap_changed <- !identical(st_geometry(trap), st_geometry(old_data$trap))
-nidi_changed <- !identical(st_geometry(nidi), st_geometry(old_data$nidi))
 
 if(trap_changed) {
   cat("Trap data has changed, calculating elevations...\n")
