@@ -39,8 +39,6 @@ if(trap_changed) {
     
   trap <- retry_get_elev_point(trap)
   
-  # Save the new data to cache
-  saveRDS(new_data, cache_file)
 } else {
   cat("Data has not changed, using cached data.\n")
   
@@ -58,9 +56,7 @@ if(nidi_changed) {
   # calculate buffers
   
   source("scripts/start_scripts/bufferNidi.R")
-  
-  # Save the new data to cache
-  saveRDS(new_data, cache_file)
+
 } else {
   cat("Data has not changed, using cached data.\n")
   
@@ -73,4 +69,4 @@ new_data <- list(nidi = nidi, trap = trap)
 # Save the data for further processing if needed
 dir.create("data", showWarnings = FALSE)
 
-saveRDS(new_data, "data/combined_data.rds")
+saveRDS(new_data, cache_file)
