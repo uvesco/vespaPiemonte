@@ -31,7 +31,7 @@ jobs:
         uses: r-lib/actions/setup-renv@v2
         
       - name: Import data
-        run: Rscript -e 'source("scripts/importFromQfieldCloud.R")'
+        run: Rscript -e 'source("scripts/start_scripts/importFromQfieldCloud.R")'
 
       - name: Set Google Application Credentials
         run: echo "$GOOGLE_AUTHENTICATION_CREDENTIALS" > /tmp/google_service_account.json
