@@ -8,3 +8,4 @@ source("scripts/start_scripts/elevation_cache.R")
 # 
 # # save all data in the environment to rdata file
 # save.image(file = "/tmp/qfieldcloudproject/vespaVelutina.RData")
+save.image(file = "/tmp/qfieldcloudproject/vespaVelutina.RData")
