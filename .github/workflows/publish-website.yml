@@ -56,6 +56,7 @@ jobs:
         run: |
           remote_url="https://www.datigeo-piem-download.it/direct/Geoportale/RegionePiemonte/Limiti_amministrativi/AMBITI_AMMINISTRATIVI_COMUNI1.zip"
           remote_hash=$(curl -sI "$remote_url" | grep -i 'etag' | tr -d '"' | awk '{print $2}')
+          echo "remote_hash=$remote_hash"
           echo "remote_hash=$remote_hash" >> $GITHUB_ENV
   
       - name: Check if cache was hit
@@ -63,6 +64,7 @@ jobs:
         run: |
           if [ -f "cache/pubdata/AMBITI_AMMINISTRATIVI_COMUNI1.zip" ]; then
             local_hash=$(md5sum cache/pubdata/AMBITI_AMMINISTRATIVI_COMUNI1.zip | awk '{print $1}')
+            echo "local_hash=$local_hash"
             echo "local_hash=$local_hash" >> $GITHUB_ENV
             if [ "$local_hash" = "$remote_hash" ]; then
               echo "Cache hit, file is up to date"
@@ -75,11 +77,15 @@ jobs:
             echo "Cache miss, file does not exist"
             echo "cache_hit=false" >> $GITHUB_ENV
           fi
+          
+      - name: Debug cache hit
+        run: echo "cache_hit=$cache_hit"
   
       - name: Download shapefile if needed
         if: env.cache_hit != 'true'
         run: |
           curl -L -o cache/pubdata/AMBITI_AMMINISTRATIVI_COMUNI1.zip "https://www.datigeo-piem-download.it/direct/Geoportale/RegionePiemonte/Limiti_amministrativi/AMBITI_AMMINISTRATIVI_COMUNI1.zip" 
+          echo "Downloaded new file"
   
       - name: Cache downloaded file
         uses: actions/cache@v2
