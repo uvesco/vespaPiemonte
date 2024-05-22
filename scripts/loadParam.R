@@ -23,6 +23,10 @@ parametri$trap_cache_file <- file.path(parametri$cache_dir, "trap.rds")
 parametri$nidi_checksum_file <- file.path(parametri$cache_dir, "nidi_checksum.txt")
 parametri$trap_checksum_file <- file.path(parametri$cache_dir, "trap_checksum.txt")
 
+parametri$pubdata_cache_dir <- file.path(parametri$cache_dir, "pubdata")
+parametri$comuni_cache_file <- file.path(parametri$pubdata_cache_dir, "AMBITI_AMMINISTRATIVI_COMUNI1.zip")
+parametri$comuni_checksum_file <- file.path(parametri$pubdata_cache_dir, "comuni_checksum.txt")
+
 # cartelle download ------------------------------------------------
 
 parametri$download_dir <- "download"

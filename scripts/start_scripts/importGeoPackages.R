@@ -20,6 +20,5 @@ zsc_sic <- st_read("/tmp/qfieldcloudproject/pubData.gpkg",
                    layer = "zsc_sic")
 province <- st_read("/tmp/qfieldcloudproject/pubData.gpkg",
                   layer = "province")
-comuni <- st_read("/tmp/qfieldpubdata/Ambiti_Amministrativi-Comuni.shp",
-                  quiet = TRUE)
+
 

@@ -19,7 +19,7 @@ retry_get_elev_point <- function(data, src = "aws", z = 13, max_retries = 7) {
 
 # function to check if geographical data have changed
 
-is_identical_geo <- function(sf_points, geom_checksum, cache_file, checksum_file) {
+is_identical_checksum <- function(sf_points, geom_checksum, cache_file, checksum_file) {
   if (file.exists(checksum_file) & file.exists(cache_file)) {
     old_checksum <- readLines(checksum_file)
     if (old_checksum != geom_checksum) {
@@ -29,13 +29,12 @@ is_identical_geo <- function(sf_points, geom_checksum, cache_file, checksum_file
     }else {
       return(FALSE)
     }
-  }
-
+}
 
 # Function to check and update elevation and other geographical data if needed
 check_and_update_geo <- function(sf_points, geom_checksum, cache_file, checksum_file) {
   cat(paste0("Processing ", deparse(substitute(sf_points)), " data...\n"))
-  if (is_identical_geo(sf_points, geom_checksum, cache_file, checksum_file)){
+  if (is_identical_checksum(sf_points, geom_checksum, cache_file, checksum_file)){
     cat("Data has not changed, using cached data.\n")
     old_sf_points <- readRDS(cache_file)
     sf_points$elevation <- old_sf_points$elevation
@@ -48,23 +47,21 @@ check_and_update_geo <- function(sf_points, geom_checksum, cache_file, checksum_
   }
 }
   
-
 # Create the cache directory if it does not exist
-if (!dir.exists(dirname(parametri$cache_dir))) {
-  dir.create(dirname(parametri$cache_dir))
+if (!dir.exists(parametri$cache_dir)) {
+  dir.create(parametri$cache_dir)
 }
 
 # Calculate checksums for the point geometries
 nidi_checksum <- digest(st_geometry(nidi))
 trap_checksum <- digest(st_geometry(trap))
 
-
 # Check and update elevation data for both nidi and trap using parametri
 nidi <- check_and_update_geo(nidi, nidi_checksum, parametri$nidi_cache_file, parametri$nidi_checksum_file)
 trap <- check_and_update_geo(trap, trap_checksum, parametri$trap_cache_file, parametri$trap_checksum_file)
 
 # If nidi data has changed update buffers
-if(!is_identical_geo(nidi, nidi_checksum, parametri$nidi_cache_file, parametri$nidi_checksum_file)) {
+if(!is_identical_checksum(nidi, nidi_checksum, parametri$nidi_cache_file, parametri$nidi_checksum_file)) {
   cat("Nidi data has changed, calculating buffers...\n")
   # calculate buffers
   source("scripts/start_scripts/bufferNidi.R")

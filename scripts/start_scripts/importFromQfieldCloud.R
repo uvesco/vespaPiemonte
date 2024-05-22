@@ -28,12 +28,17 @@ for (i in 1:nrow(tempFiles)) {
 }
 
 # download comuni from https://www.datigeo-piem-download.it/direct/Geoportale/RegionePiemonte/Limiti_amministrativi/AMBITI_AMMINISTRATIVI_COMUNI1.zip
-dir.create("/tmp/qfieldpubdata", showWarnings = FALSE)
-utils::download.file("https://www.datigeo-piem-download.it/direct/Geoportale/RegionePiemonte/Limiti_amministrativi/AMBITI_AMMINISTRATIVI_COMUNI1.zip",
-                     destfile = "/tmp/qfieldpubdata/AMBITI_AMMINISTRATIVI_COMUNI1.zip")
-utils::unzip("/tmp/qfieldpubdata/AMBITI_AMMINISTRATIVI_COMUNI1.zip",
-             exdir = "/tmp/qfieldpubdata")
-file.remove("/tmp/qfieldpubdata/AMBITI_AMMINISTRATIVI_COMUNI1.zip")
+if(!dir.exists(parametri$pubdata_cache_dir)) {
+  dir.create(parametri$pubdata_cache_dir)
+}
+if(!file.exists(parametri$comuni_cache_file)) {
+  cat("Downloading comuni from R script, not available from github action\n")
+  utils::download.file("https://www.datigeo-piem-download.it/direct/Geoportale/RegionePiemonte/Limiti_amministrativi/AMBITI_AMMINISTRATIVI_COMUNI1.zip",
+                       destfile = parametri$comuni_cache_file)
+}
+
+utils::unzip(parametri$comuni_cache_file,
+             exdir = parametri$pubdata_cache_dir)
 
 # remove temporary objects
 

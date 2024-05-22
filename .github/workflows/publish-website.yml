@@ -38,8 +38,8 @@ jobs:
       - name: Ensure cache directory exists
         run: mkdir -p cache
         
-      - name: Set directory permissions
-        run: chmod -R 777 cache
+      - name: Ensure cache directory exists
+        run: mkdir -p cache
   
       - name: Cache built data
         id: cache-data
@@ -49,6 +49,44 @@ jobs:
           key: build-data-${{ hashFiles('cache/**/*') }}
           restore-keys: |
             build-data-
+              
+  
+      - name: Get remote file hash
+        id: get-remote-hash
+        run: |
+          remote_url="https://www.datigeo-piem-download.it/direct/Geoportale/RegionePiemonte/Limiti_amministrativi/AMBITI_AMMINISTRATIVI_COMUNI1.zip"  # Replace with actual URL
+          remote_hash=$(curl -sI "$remote_url" | grep -i 'etag' | tr -d '"' | awk '{print $2}')
+          echo "remote_hash=$remote_hash" >> $GITHUB_ENV
+  
+      - name: Check if cache was hit
+        id: check-cache
+        run: |
+          if [ -f "cache/pubdata/qfieldpubdata/AMBITI_AMMINISTRATIVI_COMUNI1.zip" ]; then
+            local_hash=$(md5sum cache/pubdata/qfieldpubdata/AMBITI_AMMINISTRATIVI_COMUNI1.zip | awk '{print $1}')
+            echo "local_hash=$local_hash" >> $GITHUB_ENV
+            if [ "$local_hash" = "$remote_hash" ]; then
+              echo "Cache hit, file is up to date"
+              echo "cache_hit=true" >> $GITHUB_ENV
+            else
+              echo "Cache miss, file is outdated"
+              echo "cache_hit=false" >> $GITHUB_ENV
+            fi
+          else
+            echo "Cache miss, file does not exist"
+            echo "cache_hit=false" >> $GITHUB_ENV
+  
+      - name: Download shapefile if needed
+        if: env.cache_hit != 'true'
+        run: |
+          curl -L -o cache/pubdata/qfieldpubdata/AMBITI_AMMINISTRATIVI_COMUNI1.zip "https://www.datigeo-piem-download.it/direct/Geoportale/RegionePiemonte/Limiti_amministrativi/AMBITI_AMMINISTRATIVI_COMUNI1.zip" 
+  
+      - name: Cache downloaded file
+        uses: actions/cache@v2
+        with:
+          path: cache/pubdata/qfieldpubdata/AMBITI_AMMINISTRATIVI_COMUNI1.zip
+          key: shapefile-${{ env.remote_hash }}
+          restore-keys: |
+            shapefile-
     
       - name: Check if cache was hit
         run: |
@@ -68,9 +106,8 @@ jobs:
           path: cache
           key: build-data-${{ hashFiles('cache/**/*') }}
         
-      - name: Other calculations
-        run: Rscript -e 'source("scripts/complete_script_v2.R")'
-
+      # - name: Other calculations
+      #   run: Rscript -e 'source("scripts/complete_script_v2.R")'
 
       - name: "Set up Quarto"
         uses: quarto-dev/quarto-actions/setup@v2
