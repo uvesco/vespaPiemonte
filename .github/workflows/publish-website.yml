@@ -61,8 +61,8 @@ jobs:
       - name: Check if cache was hit
         id: check-cache
         run: |
-          if [ -f "cache/pubdata/qfieldpubdata/AMBITI_AMMINISTRATIVI_COMUNI1.zip" ]; then
-            local_hash=$(md5sum cache/pubdata/qfieldpubdata/AMBITI_AMMINISTRATIVI_COMUNI1.zip | awk '{print $1}')
+          if [ -f "cache/pubdata/AMBITI_AMMINISTRATIVI_COMUNI1.zip" ]; then
+            local_hash=$(md5sum cache/pubdata/AMBITI_AMMINISTRATIVI_COMUNI1.zip | awk '{print $1}')
             echo "local_hash=$local_hash" >> $GITHUB_ENV
             if [ "$local_hash" = "$remote_hash" ]; then
               echo "Cache hit, file is up to date"
@@ -79,12 +79,12 @@ jobs:
       - name: Download shapefile if needed
         if: env.cache_hit != 'true'
         run: |
-          curl -L -o cache/pubdata/qfieldpubdata/AMBITI_AMMINISTRATIVI_COMUNI1.zip "https://www.datigeo-piem-download.it/direct/Geoportale/RegionePiemonte/Limiti_amministrativi/AMBITI_AMMINISTRATIVI_COMUNI1.zip" 
+          curl -L -o cache/pubdata/AMBITI_AMMINISTRATIVI_COMUNI1.zip "https://www.datigeo-piem-download.it/direct/Geoportale/RegionePiemonte/Limiti_amministrativi/AMBITI_AMMINISTRATIVI_COMUNI1.zip" 
   
       - name: Cache downloaded file
         uses: actions/cache@v2
         with:
-          path: cache/pubdata/qfieldpubdata/AMBITI_AMMINISTRATIVI_COMUNI1.zip
+          path: cache/pubdata/AMBITI_AMMINISTRATIVI_COMUNI1.zip
           key: shapefile-${{ env.remote_hash }}
           restore-keys: |
             shapefile-
