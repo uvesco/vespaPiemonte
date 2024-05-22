@@ -34,6 +34,9 @@ jobs:
         
       - name: Install R Dependencies
         uses: r-lib/actions/setup-renv@v2
+
+      - name: Ensure cache directory exists
+        run: mkdir -p cache
         
       - name: Set directory permissions
         run: chmod -R 777 cache
@@ -61,7 +64,7 @@ jobs:
   
       - name: Check and update geographical data
         run: |
-          Rscript scripts/start_script_v2.R  # Your script to check and update data
+          Rscript scripts/start_script_v2.R
   
       - name: Cache updated data
         uses: actions/cache@v2
