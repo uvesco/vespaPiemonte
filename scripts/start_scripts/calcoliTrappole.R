@@ -1,6 +1,6 @@
 # calcoli da applicare alle trappole
 # Librerie ---------------------------------------------------------------
-
+library(sf)
 # library(elevatr)
 
 # definizione taxa ---------------------------------------------------------------
@@ -281,3 +281,4 @@ rm(list = c("i", "nidiTrap", "trapZone", "tz", "inter", "dateControlliPrecedenti
 # pulizia della memoria
 
 gc()
+
