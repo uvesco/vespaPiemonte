@@ -5,11 +5,8 @@ source("scripts/start_scripts/importGeoPackages.R")
 # source("scripts/start_scripts/cache.R")
 # source("scripts/start_scripts/bufferNidi.R")
 # Load the cached data if it exists
-
-  new_data <- readRDS(parametri$cacheFile)
-
-  trap <- new_data$trap
-  nidi <- new_data$nidi
+  trap <- parametri$trap_cache_file
+  nidi <- parametri$nidi_cache_file
 source("scripts/start_scripts/calcoliTrappole.R")
 
 # save all data in the environment to rdata file
