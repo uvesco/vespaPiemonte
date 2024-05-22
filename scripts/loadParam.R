@@ -15,4 +15,8 @@ parametri$scadenzaNidi <- 3 # anni per calcolo del buffer con solo i nidi non pr
 
 # cache file ------------------------------------------------
 
-parametri$cacheFile <- "data/combined_data.rds"
+parametri$cacheFile <- "cache/combined_data.rds"
+parametri$checksum_file <- "cache/checksum.rds"
+
+# todo: aggiungere come parametro la cartella di scarico materiale non in tmp
+

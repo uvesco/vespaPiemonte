@@ -3,14 +3,14 @@ library(sf)
 library(elevatr)
 
 # Function to retry elevatr::get_elev_point
-retry_get_elev_point <- function(data, src = "aws", z = 13, max_retries = 5) {
+retry_get_elev_point <- function(data, src = "aws", z = 13, max_retries = 7) {
   for (retry in 1:max_retries) {
     try_result <- try(elevatr::get_elev_point(data, src = src, z = z), silent = TRUE)
     if (!inherits(try_result, "try-error")) {
       return(try_result)
     } else {
       cat("Attempt", retry, "failed. Retrying in 10 seconds...\n")
-      Sys.sleep(2^(i))  # Wait for 10 seconds before retrying
+      Sys.sleep(2^(retry))  # Wait for iteratively more (2^i) seconds before retrying
     }
   }
   stop("Maximum number of retries reached.")

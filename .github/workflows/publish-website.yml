@@ -43,13 +43,13 @@ jobs:
         uses: actions/cache@v2
         with:
           path: data    # Path to the data you want to cache
-          key: build-data-${{ hashFiles('data/combined_data.rds') }}   # Unique key based on the data content
+          key: build-data-${{ hashFiles('cache/combined_data.rds') }}   # Unique key based on the data content
           restore-keys: |
             build-data-
   
       - name: Check if cache was hit
         run: |
-          if [ -f "data/combined_data.rds" ]; then
+          if [ -f "cache/combined_data.rds" ]; then
             echo "Cache hit, data file exists"
           else
             echo "Cache miss, data file does not exist"
@@ -63,7 +63,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: data
-          key: build-data-${{ hashFiles('data/combined_data.rds') }}
+          key: build-data-${{ hashFiles('cache/combined_data.rds') }}
         
       - name: Prepare data
         run: Rscript -e 'source("scripts/complete_script_v2.R")'
