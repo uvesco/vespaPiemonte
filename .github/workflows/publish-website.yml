@@ -74,6 +74,7 @@ jobs:
           else
             echo "Cache miss, file does not exist"
             echo "cache_hit=false" >> $GITHUB_ENV
+          fi
   
       - name: Download shapefile if needed
         if: env.cache_hit != 'true'
