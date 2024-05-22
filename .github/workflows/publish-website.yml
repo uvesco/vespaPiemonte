@@ -38,40 +38,40 @@ jobs:
       # - name: Download and prepare data
       #   run: Rscript -e 'source("scripts/start_script.R")'
         
-    - name: Cache built data
-      id: cache-data
-      uses: actions/cache@v2
-      with:
-        path: |
-          cache/nidi_elevation_cache.rds
-          cache/trap_elevation_cache.rds
-          cache/nidi_geom_checksum.txt
-          cache/trap_geom_checksum.txt
-        key: build-data-${{ hashFiles('cache/nidi_elevation_cache.rds', 'cache/trap_elevation_cache.rds', 'cache/nidi_geom_checksum.txt', 'cache/trap_geom_checksum.txt') }}
-        restore-keys: |
-          build-data-
-  
-    - name: Check if cache was hit
-      run: |
-        if [ -f "cache/nidi_elevation_cache.rds" ] && [ -f "cache/trap_elevation_cache.rds" ]; then
-          echo "Cache hit, data files exist"
-        else
-          echo "Cache miss, data files do not exist"
-        fi
+      - name: Cache built data
+        id: cache-data
+        uses: actions/cache@v2
+        with:
+          path: |
+            cache/nidi_elevation_cache.rds
+            cache/trap_elevation_cache.rds
+            cache/nidi_geom_checksum.txt
+            cache/trap_geom_checksum.txt
+          key: build-data-${{ hashFiles('cache/nidi_elevation_cache.rds', 'cache/trap_elevation_cache.rds', 'cache/nidi_geom_checksum.txt', 'cache/trap_geom_checksum.txt') }}
+          restore-keys: |
+            build-data-
+    
+      - name: Check if cache was hit
+        run: |
+          if [ -f "cache/nidi_elevation_cache.rds" ] && [ -f "cache/trap_elevation_cache.rds" ]; then
+            echo "Cache hit, data files exist"
+          else
+            echo "Cache miss, data files do not exist"
+          fi
   
       - name: Check and update geographical data
         run: |
           Rscript scripts/start_script_v2.R  # Your script to check and update data
   
-    - name: Cache updated data
-      uses: actions/cache@v2
-      with:
-        path: |
-          cache/nidi_elevation_cache.rds
-          cache/trap_elevation_cache.rds
-          cache/nidi_geom_checksum.txt
-          cache/trap_geom_checksum.txt
-        key: build-data-${{ hashFiles('cache/nidi_elevation_cache.rds', 'cache/trap_elevation_cache.rds', 'cache/nidi_geom_checksum.txt', 'cache/trap_geom_checksum.txt') }}
+      - name: Cache updated data
+        uses: actions/cache@v2
+        with:
+          path: |
+            cache/nidi_elevation_cache.rds
+            cache/trap_elevation_cache.rds
+            cache/nidi_geom_checksum.txt
+            cache/trap_geom_checksum.txt
+          key: build-data-${{ hashFiles('cache/nidi_elevation_cache.rds', 'cache/trap_elevation_cache.rds', 'cache/nidi_geom_checksum.txt', 'cache/trap_geom_checksum.txt') }}
         
       - name: Other calculations
         run: Rscript -e 'source("scripts/complete_script_v2.R")'
