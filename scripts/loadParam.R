@@ -13,10 +13,19 @@ parametri$tempoMassimo <- 21 # giorni di tempo massimo tra un controllo e l'altr
 parametri$distanze <- c(600, 1500, 3000, 6500, 15000) # distanze dei buffer
 parametri$scadenzaNidi <- 3 # anni per calcolo del buffer con solo i nidi non primari attivi negli ultimi parametri$scadenzaNidi anni (buffer3)
 
-# cache file ------------------------------------------------
+# cache files ------------------------------------------------
 
-parametri$cacheFile <- "cache/combined_data.rds"
-parametri$checksum_file <- "cache/checksum.rds"
+parametri$cache_dir <- "cache"
 
-# todo: aggiungere come parametro la cartella di scarico materiale non in tmp
+parametri$nidi_cache_file <- file.path(parametri$cache_dir, "nidi.rds")
+parametri$trap_cache_file <- file.path(parametri$cache_dir, "trap.rds")
 
+parametri$nidi_checksum_file <- file.path(parametri$cache_dir, "nidi_checksum.txt")
+parametri$trap_checksum_file <- file.path(parametri$cache_dir, "trap_checksum.txt")
+
+# cartelle download ------------------------------------------------
+
+parametri$download_dir <- "download"
+parametri$download_project_dir <- file.path(parametri$download_dir, "project")
+
+# todo: collegare negli scripts
