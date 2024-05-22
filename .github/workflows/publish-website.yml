@@ -39,7 +39,7 @@ jobs:
         run: mkdir -p cache
         
       - name: Ensure cache directory exists
-        run: mkdir -p cache
+        run: mkdir -p cache/pubdata
   
       - name: Cache built data
         id: cache-data
@@ -54,7 +54,7 @@ jobs:
       - name: Get remote file hash
         id: get-remote-hash
         run: |
-          remote_url="https://www.datigeo-piem-download.it/direct/Geoportale/RegionePiemonte/Limiti_amministrativi/AMBITI_AMMINISTRATIVI_COMUNI1.zip"  # Replace with actual URL
+          remote_url="https://www.datigeo-piem-download.it/direct/Geoportale/RegionePiemonte/Limiti_amministrativi/AMBITI_AMMINISTRATIVI_COMUNI1.zip"
           remote_hash=$(curl -sI "$remote_url" | grep -i 'etag' | tr -d '"' | awk '{print $2}')
           echo "remote_hash=$remote_hash" >> $GITHUB_ENV
   
