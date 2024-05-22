@@ -40,23 +40,19 @@ jobs:
         
       - name: Set directory permissions
         run: chmod -R 777 cache
-
+  
       - name: Cache built data
         id: cache-data
         uses: actions/cache@v2
         with:
-          path: |
-            cache/nidi_elevation_cache.rds
-            cache/trap_elevation_cache.rds
-            cache/nidi_geom_checksum.txt
-            cache/trap_geom_checksum.txt
-          key: build-data-${{ hashFiles('cache/nidi_elevation_cache.rds', 'cache/trap_elevation_cache.rds', 'cache/nidi_geom_checksum.txt', 'cache/trap_geom_checksum.txt') }}
+          path: cache
+          key: build-data-${{ hashFiles('cache/**/*') }}
           restore-keys: |
             build-data-
     
       - name: Check if cache was hit
         run: |
-          if [ -f "cache/nidi_elevation_cache.rds" ] && [ -f "cache/trap_elevation_cache.rds" ]; then
+          if [ -f "cache/nidi.rds" ] && [ -f "cache/trap.rds" ]; then
             echo "Cache hit, data files exist"
           else
             echo "Cache miss, data files do not exist"
@@ -69,12 +65,8 @@ jobs:
       - name: Cache updated data
         uses: actions/cache@v2
         with:
-          path: |
-            cache/nidi_elevation_cache.rds
-            cache/trap_elevation_cache.rds
-            cache/nidi_geom_checksum.txt
-            cache/trap_geom_checksum.txt
-          key: build-data-${{ hashFiles('cache/nidi_elevation_cache.rds', 'cache/trap_elevation_cache.rds', 'cache/nidi_geom_checksum.txt', 'cache/trap_geom_checksum.txt') }}
+          path: cache
+          key: build-data-${{ hashFiles('cache/**/*') }}
         
       - name: Other calculations
         run: Rscript -e 'source("scripts/complete_script_v2.R")'
