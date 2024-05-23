@@ -74,35 +74,35 @@ jobs:
         run: |
           curl -L -o cache/pubdata/AMBITI_AMMINISTRATIVI_COMUNI1.zip "https://www.datigeo-piem-download.it/direct/Geoportale/RegionePiemonte/Limiti_amministrativi/AMBITI_AMMINISTRATIVI_COMUNI1.zip"
           echo "Downloaded new file"
-
-      - name: Check if cache was hit
-        id: check-cache
-        run: |
-          if [ -f "cache/pubdata/AMBITI_AMMINISTRATIVI_COMUNI1.zip" ]; then
-            local_hash=$(md5sum cache/pubdata/AMBITI_AMMINISTRATIVI_COMUNI1.zip | awk '{print $1}')
-            echo "local_hash=$local_hash"
-            echo "local_hash=$local_hash" >> $GITHUB_ENV
-            if [ "$local_hash" = "$remote_hash" ]; then
-              echo "Cache hit, file is up to date"
-              echo "cache_hit=true" >> $GITHUB_ENV
-            else
-              echo "Cache miss, file is outdated"
-              echo "cache_hit=false" >> $GITHUB_ENV
-            fi
-          else
-            echo "Cache miss, file does not exist"
-            echo "cache_hit=false" >> $GITHUB_ENV
-          fi
-          
-      - name: Debug cache hit
-        run: echo "cache_hit=$cache_hit"
-  
-      - name: Download shapefile if needed
-        if: env.cache_hit != 'true'
-        run: |
-          curl -L -o cache/pubdata/AMBITI_AMMINISTRATIVI_COMUNI1.zip "https://www.datigeo-piem-download.it/direct/Geoportale/RegionePiemonte/Limiti_amministrativi/AMBITI_AMMINISTRATIVI_COMUNI1.zip" 
-          echo "Downloaded new file"
-  
+# 
+#       - name: Check if cache was hit
+#         id: check-cache
+#         run: |
+#           if [ -f "cache/pubdata/AMBITI_AMMINISTRATIVI_COMUNI1.zip" ]; then
+#             local_hash=$(md5sum cache/pubdata/AMBITI_AMMINISTRATIVI_COMUNI1.zip | awk '{print $1}')
+#             echo "local_hash=$local_hash"
+#             echo "local_hash=$local_hash" >> $GITHUB_ENV
+#             if [ "$local_hash" = "$remote_hash" ]; then
+#               echo "Cache hit, file is up to date"
+#               echo "cache_hit=true" >> $GITHUB_ENV
+#             else
+#               echo "Cache miss, file is outdated"
+#               echo "cache_hit=false" >> $GITHUB_ENV
+#             fi
+#           else
+#             echo "Cache miss, file does not exist"
+#             echo "cache_hit=false" >> $GITHUB_ENV
+#           fi
+#           
+#       - name: Debug cache hit
+#         run: echo "cache_hit=$cache_hit"
+#   
+#       - name: Download shapefile if needed
+#         if: env.cache_hit != 'true'
+#         run: |
+#           curl -L -o cache/pubdata/AMBITI_AMMINISTRATIVI_COMUNI1.zip "https://www.datigeo-piem-download.it/direct/Geoportale/RegionePiemonte/Limiti_amministrativi/AMBITI_AMMINISTRATIVI_COMUNI1.zip" 
+#           echo "Downloaded new file"
+#   
       - name: Cache downloaded file
         uses: actions/cache@v2
         with:
