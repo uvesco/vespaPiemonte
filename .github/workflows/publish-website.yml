@@ -51,6 +51,15 @@ jobs:
             echo "is_sunday=false" >> $GITHUB_ENV
           fi
             
+      - name: Cache built data
+        id: cache-data-all
+        uses: actions/cache@v2
+        with:
+          path: cache
+          key: build-data-${{ hashFiles('cache/**/*') }}
+          restore-keys: |
+            build-data-
+            
       - name: Cache data
         id: cache-data
         uses: actions/cache@v2
@@ -65,16 +74,7 @@ jobs:
         run: |
           curl -L -o cache/pubdata/AMBITI_AMMINISTRATIVI_COMUNI1.zip "https://www.datigeo-piem-download.it/direct/Geoportale/RegionePiemonte/Limiti_amministrativi/AMBITI_AMMINISTRATIVI_COMUNI1.zip"
           echo "Downloaded new file"
-  
-      - name: Cache built data
-        id: cache-data-all
-        uses: actions/cache@v2
-        with:
-          path: cache
-          key: build-data-${{ hashFiles('cache/**/*') }}
-          restore-keys: |
-            build-data-
-              
+
       - name: Check if cache was hit
         id: check-cache
         run: |
