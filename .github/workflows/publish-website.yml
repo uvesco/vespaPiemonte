@@ -49,6 +49,7 @@ jobs:
             echo "is_sunday=true" >> $GITHUB_ENV
           else
             echo "is_sunday=false" >> $GITHUB_ENV
+          fi
             
       - name: Cache data
         id: cache-data
