@@ -38,8 +38,32 @@ jobs:
       - name: Ensure cache directory exists
         run: mkdir -p cache
         
-      - name: Ensure cache directory exists
+      - name: Ensure cache/pubdata directory exists
         run: mkdir -p cache/pubdata
+        
+      - name: Check if today is Sunday
+        id: check-sunday
+        run: |
+          day_of_week=$(date +%u)
+          if [ "$day_of_week" -eq 7 ]; then
+            echo "is_sunday=true" >> $GITHUB_ENV
+          else
+            echo "is_sunday=false" >> $GITHUB_ENV
+            
+      - name: Cache data
+        id: cache-data
+        uses: actions/cache@v2
+        with:
+          path: cache
+          key: shapefile-${{ runner.os }}-${{ env.is_sunday }}
+          restore-keys: |
+            shapefile-
+  
+      - name: Download shapefile if needed
+        if: env.is_sunday == 'true' || [ -f "cache/pubdata/AMBITI_AMMINISTRATIVI_COMUNI1.zip" ]
+        run: |
+          curl -L -o cache/pubdata/AMBITI_AMMINISTRATIVI_COMUNI1.zip "https://www.datigeo-piem-download.it/direct/Geoportale/RegionePiemonte/Limiti_amministrativi/AMBITI_AMMINISTRATIVI_COMUNI1.zip"
+          echo "Downloaded new file"
   
       - name: Cache built data
         id: cache-data
@@ -50,15 +74,6 @@ jobs:
           restore-keys: |
             build-data-
               
-   
-      - name: Get remote file hash
-        id: get-remote-hash
-        run: |
-          remote_url="https://www.datigeo-piem-download.it/direct/Geoportale/RegionePiemonte/Limiti_amministrativi/AMBITI_AMMINISTRATIVI_COMUNI1.zip"
-          remote_hash=$(curl -sI "$remote_url" | grep -i 'etag' | tr -d '"' | awk '{print $2}')
-          echo "remote_hash=$remote_hash"
-          echo "remote_hash=$remote_hash" >> $GITHUB_ENV
-  
       - name: Check if cache was hit
         id: check-cache
         run: |
