@@ -20,7 +20,7 @@ library(pander)
 # numeri  liberi serie senza lettera
 numeri <- as.integer(trap$ID)
 numeri <- numeri[!is.na(numeri)]
-numeriLiberi <- setdiff(1:500, numeri)
+numeriLiberi <- setdiff(1:700, numeri)
 pander(numeriLiberi, caption = "Hello caption!")
 ```
 
