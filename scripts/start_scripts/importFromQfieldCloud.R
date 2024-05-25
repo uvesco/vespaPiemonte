@@ -2,7 +2,7 @@
 #source("scripts/libraries.R")
 library(qfieldcloudR)
 
-if(file.exists("scripts/loadParam.R"){
+if(file.exists("scripts/loadParam.R")){
   source("scripts/loadParam.R")
 }
 
