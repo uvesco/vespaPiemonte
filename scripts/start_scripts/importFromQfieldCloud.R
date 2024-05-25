@@ -2,6 +2,10 @@
 #source("scripts/libraries.R")
 library(qfieldcloudR)
 
+if(file.exists("../loadParam.R"){
+  source("../loadParam.R")
+}
+
 # credentials
 qfieldUsername <- Sys.getenv("QFIELD_CLOUD_USERNAME")
 qfieldPassword <- Sys.getenv("QFIELD_CLOUD_PASSWORD")
