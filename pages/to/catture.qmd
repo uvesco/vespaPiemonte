@@ -116,7 +116,12 @@ p
 # 
 # seleziono solo i controlli con cattura di Vespa velutina
 
-cattureVespa <- controlliGeo[controlliGeo$Vespa_velutina_tot > 0, c("ID", "data", "DataPrec",  "Vespa_velutina_tot", "elevation", "distanzaNido", "comune")]
+cattureVespa <- controlliGeo[controlliGeo$Vespa_velutina_tot > 0, c("ID", "data", "DataPrec",  "Vespa_velutina_tot","Vespa_velutina_regine", 
+"Vespa_velutina_operaie", "Vespa_velutina_maschi", "elevation", "distanzaNido", "comune")]
+#elimino le righe con valori mancanti
+
+cattureVespa <- cattureVespa[!is.na(cattureVespa$Vespa_velutina_tot),]
+
 cattureVespa <- cattureVespa[order(cattureVespa$data, decreasing = TRUE),] # ordino per data decrescente
 # conversione della data in formato leggibile
 
@@ -136,7 +141,8 @@ cattureVespa <- st_drop_geometry(cattureVespa)
 
 cattureVespa$distanzaNido <- round(cattureVespa$distanzaNido, 0)
 
-datatable(cattureVespa, rownames = FALSE, colnames = c("Trappola", "Data controllo", "Data carica", "Vespa velutina (individui)", "Quota (m)", "Distanza dal nido più vicino (m)", "Comune"), extensions = 'Buttons', options = list(
+datatable(cattureVespa, rownames = FALSE, colnames = c("Trappola", "Data controllo", "Data carica", "Totale individui", "Regine", 
+"Operaie", "Maschi","Quota (m)", "Distanza dal nido più vicino (m)", "Comune"), extensions = 'Buttons', options = list(
     dom = 'Bfrtip',
     buttons = c('copy', 'excel', 'pdf', 'print'),
     pageLength = 10, 
@@ -146,3 +152,5 @@ datatable(cattureVespa, rownames = FALSE, colnames = c("Trappola", "Data control
   ))
 
 ```
+
+Sono stati riscontrati `r {{nrow(cattureVespa)}}` controlli positivi per *Vespa velutina*. Il numero totale di individui catturati è `r {{sum(cattureVespa$Vespa_velutina_tot, na.rm=T)}}`, è stata determinata la casta di appartenenza di `r {{sum(cattureVespa$Vespa_velutina_regine, na.rm=T)}}` regine, `r {{sum(cattureVespa$Vespa_velutina_operaie)}}` operaie e `r {{sum(cattureVespa$Vespa_velutina_maschi)}}` maschi.
