@@ -8,12 +8,14 @@ format: dashboard
 ```{r setup, include=FALSE}
 library(sf)
 library(leaflet)
+library(leaflet.extras)
 library(htmlwidgets)
 library(DT)
+# library(htmltools)
 load("/tmp/qfieldcloudproject/vespaVelutina.RData")
 ```
 
-# Trappole
+<!-- # Trappole -->
 
 ```{r mappa, echo=FALSE, warning=FALSE}
 
@@ -24,6 +26,7 @@ load("/tmp/qfieldcloudproject/vespaVelutina.RData")
 zoneTrappolaggio <- st_transform(zoneTrappolaggio, 4326)
 zoneTrappolaggio$colore <- rainbow(nrow(zoneTrappolaggio))
 buffer <- st_transform(buffer3, 4326) ### ATTENZIONE: passaggio da buffer a buffer3
+trap <- trap[trap$attiva == TRUE,]
 trap <- st_transform(trap, 4326)
 # generazione colori
 trap$colore <- "green"
@@ -63,27 +66,27 @@ bufferLabels <- st_as_sf(bufferLabels, coords = c("x", "y"), crs = 4326)
 
 # creo la mappa
 
-leaflet() %>%
-  addProviderTiles("OpenTopoMap") %>%
-  # addProviderTiles("OpenStreetMap") %>%
-  addPolygons(data = zoneTrappolaggio, color = "black", weight = 1, fillOpacity = 0.3, fillColor = rainbow(nrow(zoneTrappolaggio)), group = "zone") %>%
-  # addLabelOnlyMarkers(data = centers, label = ~nome, ) %>%
-  addPolygons(data = buffer, color = "black", weight = 1, fillOpacity = 0, fillColor = "white", group = "buffer") %>%
-  addCircleMarkers(data = trap, radius = 4, color = "black", weight = 1, fillOpacity = 1, fillColor = ~colore, group = "trappole") %>%
-  addLabelOnlyMarkers(data = centers, label = ~nome, group = "zone", labelOptions = labelOptions(noHide = TRUE, textOnly = TRUE)) %>%
-  addLabelOnlyMarkers(data = bufferLabels, label = ~distance, group = "buffer", labelOptions = labelOptions(noHide = TRUE, textOnly = TRUE)) %>%
-  addLegend("bottomright", colors = c("green", "orange", "red", "white"), labels = c("meno di 14 giorni", "tra 14 e 21 giorni", "più di 21 giorni", "rimosse"), title = "Ultimo controllo delle trappole") %>%
-  addLayersControl(
-    # baseGroups = c("OpenStreetMap", "OpenTopoMap"),
-    overlayGroups = c("zone", "buffer", "trappole"),
-                          options = layersControlOptions(collapsed = FALSE)
-                          ) %>%
-  hideGroup("zone")
+# leaflet() %>%
+#   addProviderTiles("OpenTopoMap") %>%
+#   # addProviderTiles("OpenStreetMap") %>%
+#   addPolygons(data = zoneTrappolaggio, color = "black", weight = 1, fillOpacity = 0.3, fillColor = rainbow(nrow(zoneTrappolaggio)), group = "zone") %>%
+#   # addLabelOnlyMarkers(data = centers, label = ~nome, ) %>%
+#   addPolygons(data = buffer, color = "black", weight = 1, fillOpacity = 0, fillColor = "white", group = "buffer") %>%
+#   addCircleMarkers(data = trap, radius = 4, color = "black", weight = 1, fillOpacity = 1, fillColor = ~colore, group = "trappole") %>%
+#   addLabelOnlyMarkers(data = centers, label = ~nome, group = "zone", labelOptions = labelOptions(noHide = TRUE, textOnly = TRUE)) %>%
+#   addLabelOnlyMarkers(data = bufferLabels, label = ~distance, group = "buffer", labelOptions = labelOptions(noHide = TRUE, textOnly = TRUE)) %>%
+#   addLegend("bottomright", colors = c("green", "orange", "red", "white"), labels = c("meno di 14 giorni", "tra 14 e 21 giorni", "più di 21 giorni", "rimosse"), title = "Ultimo controllo delle trappole") %>%
+#   addLayersControl(
+#     # baseGroups = c("OpenStreetMap", "OpenTopoMap"),
+#     overlayGroups = c("zone", "buffer", "trappole"),
+#                           options = layersControlOptions(collapsed = FALSE)
+#                           ) %>%
+#   hideGroup("zone")
 
 
 ```
 
-# Catture
+<!-- # Catture -->
 
 <!-- carta leaflet con i punti di cattura di Vespa velutina -->
 
@@ -95,10 +98,82 @@ cattureVespa <- controlliGeo[controlliGeo$Vespa_velutina_tot > 0,]
 cattureVespa <- st_transform(cattureVespa, crs = 4326)
 nidi <- st_transform(nidi, crs = 4326)
 
-leaflet() %>%
-  addProviderTiles("OpenTopoMap") %>%
-  addCircleMarkers(data = nidi, radius = 6, color = "black", weight = 1, fillOpacity = 1, fillColor = "brown", 
+# Define custom square icon
+squareIcon <- makeIcon(
+  iconUrl = "img/red_square.png",  # Replace with the path to your square icon image
+  iconWidth = 12,  # Width of the icon
+  iconHeight = 12  # Height of the icon
+)
+
+# q: how to add a switcher for base maps in leaflet?
+# a: use addProviderTiles() multiple times
+# q: ok, but i need a switcher for the user to choose the base map
+# a: use addLayersControl() with the overlayGroups argument
+# 
+
+leaflet(options = leafletOptions(zoomControl = TRUE,
+                                 minZoom = 3, maxZoom = 15)) %>%
+  
+  ## sfondi --------------------------------------------------------------
+  addProviderTiles("Esri.WorldTopoMap", group = "Esri WorldTopoMap") %>%
+  addProviderTiles("OpenTopoMap", group = "Opentopomap") %>%
+  addProviderTiles("Stadia.AlidadeSmooth", group = "Stadia Alida Smooth") %>%
+  addProviderTiles("OpenStreetMap.HOT", group = "OSM") %>%
+  addProviderTiles("Stadia.StamenTonerLite", group = "StamenTonerLite") %>%
+  # addProviderTiles("Jawg.Terrain") %>%
+  
+  
+  ## settori --------------------------------------------------------------
+    addPolygons(data = zoneTrappolaggio, color = "black", weight = 1, fillOpacity = 0.3, fillColor = rainbow(nrow(zoneTrappolaggio)), group = "Zone") %>%
+  addLabelOnlyMarkers(data = centers, label = ~nome, group = "Zone", labelOptions = labelOptions(noHide = TRUE, textOnly = TRUE)) %>%
+
+  ## trappole --------------------------------------------------------------
+  addCircleMarkers(data = trap, 
+                     radius = 4, 
+                     color = "white", weight = 1, fillOpacity = 1, fillColor = "#828282", group = "Trappole",
+                     label = lapply(paste0(
+                              "<b>Trappola</b> <br/>",
+                              "id: ", trap$ID, "<br/>",
+                              "data di posizionamento: ", format(trap$Data.posizionamento, "%d/%m/%y"), " <br/> ",
+                              "comune: ", trap$comune, " (", trap$provin_sig,") <br/> ",
+                              "quota: ", trap$elevation, "m <br/> ",
+                              "distanza dal primo nido noto: ", round(trap$distanzaNido), "m <br/> "
+                              ),
+                              htmltools::HTML
+                              )) %>%
+
+  ## buffer --------------------------------------------------------------
+  addPolygons(data = buffer, color = "black", weight = 1, fillOpacity = 0, fillColor = "black", group = "Buffer nidi 3 anni") %>%
+  addLabelOnlyMarkers(data = bufferLabels, label = ~distance, group = "Buffer nidi 3 anni", labelOptions = labelOptions(noHide = TRUE, textOnly = TRUE)) %>%
+  
+  ## catture --------------------------------------------------------------
+  addCircleMarkers(data = cattureVespa, radius = 4, color = "white", weight = 1, fillOpacity = 1, fillColor = "magenta", 
+                   label = lapply(paste0(
+                                                             "<b>Cattura di <em>Vespa velutina</em></b> <br/>",
+                              "trappola: ", cattureVespa$ID, "<br/>",
+                              "data del rilevamento: ", format(cattureVespa$data, "%d/%m/%y"), " <br/> ",
+                              "numero di individui: ", cattureVespa$Vespa_velutina_tot, " <br/> ",
+                              "numero di regine: ", cattureVespa$Vespa_velutina_regine, " <br/> ",
+                              "numero di maschi: ", cattureVespa$Vespa_velutina_maschi, " <br/> ",
+                              "numero di operaie: ", cattureVespa$Vespa_velutina_operaie, " <br/> ",
+                              "comune: ", trap$comune, " (", trap$provin_sig,") <br/> ",
+                              "quota: ", cattureVespa$elevation, "m <br/> ",
+                              "distanza dal primo nido noto: ", round(cattureVespa$distanzaNido), "m <br/> "
+                              ),
+                              htmltools::HTML
+                              ),
+                   
+                   group = "Catture") %>%
+  
+    # addAwesomeMarkers(data = nidi,
+    #                 icon = awesomeSquareIcon#,
+    #                 #popup = ~paste("Mean Value:", mean_values)
+    #                 ) %>%  
+  
+  addMarkers(data = nidi, icon = squareIcon,# radius = 6, color = "black", weight = 1, fillOpacity = 1,
+             #color = "red",
                                       label = lapply(paste0(
+                              "<b>Nido di <em>Vespa velutina</em></b> <br/>",
                               "id: ", nidi$id2, "<br/>",
                               "data del rilevamento: ", format(nidi$data_ritro, "%d/%m/%y"), " <br/> ",
                               "comune: ", nidi$comune, " <br/> ",
@@ -108,27 +183,17 @@ leaflet() %>%
                               ),
                               htmltools::HTML
                               ),
-                   
-                   
-                   group = "nidi") %>%
-  addCircleMarkers(data = cattureVespa, radius = 4, color = "black", weight = 1, fillOpacity = 1, fillColor = "yellow", 
-                   label = lapply(paste0(
-                              "trappola: ", cattureVespa$ID, "<br/>",
-                              "data del rilevamento: ", format(cattureVespa$data, "%d/%m/%y"), " <br/> ",
-                              "comune: ", cattureVespa$comune, " <br/> ",
-                              "provincia: ", cattureVespa$provin_sig, " <br/> ",
-                              "quota: ", cattureVespa$elevation, "m <br/> ",
-                              "distanza dal primo nido noto: ", round(cattureVespa$distanzaNido), "m <br/> "
-                              ),
-                              htmltools::HTML
-                              ),
-                   
-                   group = "catture") %>%
+                   group = "Nidi") %>%
 
 # addLegend("bottomright", colors = c("green", "orange", "red", "white"), labels = c("meno di 14 giorni", "tra 14 e 21 giorni", "più di 21 giorni", "rimosse"), title = "Ultimo controllo") %>%
-  addLayersControl(overlayGroups = c("catture", "nidi"),
+  addLayersControl(
+    baseGroups = c("Esri WorldTopoMap", "Opentopomap", "Stadia Alida Smooth", "OSM", "StamenTonerLite"),
+    overlayGroups = c("Nidi", "Catture", "Trappole", "Buffer nidi 3 anni", "Zone"),
                           options = layersControlOptions(collapsed = FALSE)
                           ) %>%
-  hideGroup("zone")
+  hideGroup(c("Zone", "Buffer nidi 3 anni")
+            ) %>%
+  addFullscreenControl()
+
 
 ```
