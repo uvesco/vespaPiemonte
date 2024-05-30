@@ -17,13 +17,13 @@ Sys.setenv(LANGUAGE = "it")
 Sys.setlocale("LC_ALL", "it_IT.UTF-8")
 ```
 
-::: {.callout-warning appearance="simple"}
-Sito in costruzione. I dati di Cuneo sono in fase di caricamento.
-:::
+<!-- ::: {.callout-warning appearance="simple"} -->
+<!-- Sito in costruzione. I dati di Cuneo sono in fase di caricamento. -->
+<!-- ::: -->
 
 <!-- Per la gestione del focolaio sulla collina di Torino sono state posizionate `r nrow(trap)` trappole, di cui `r sum(is.na(trap$data.rimozione))` attualmente attive. -->
 
-La dashboard mostra i dati raccolti e si aggiorna quotidianamente.
+La dashboard si aggiorna quotidianamente.
 
 ::: {.callout-note appearance="simple"}
 Dati aggiornati il `r format(as.POSIXct(Sys.time(), tz="Europe/Rome"), "%d %B %Y alle %H:%M")`.

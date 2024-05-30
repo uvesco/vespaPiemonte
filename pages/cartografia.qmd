@@ -117,9 +117,9 @@ leaflet(options = leafletOptions(zoomControl = TRUE,
   ## sfondi --------------------------------------------------------------
   addProviderTiles("Esri.WorldTopoMap", group = "Esri WorldTopoMap") %>%
   addProviderTiles("OpenTopoMap", group = "Opentopomap") %>%
-  addProviderTiles("Stadia.AlidadeSmooth", group = "Stadia Alida Smooth") %>%
+  # addProviderTiles("Stadia.AlidadeSmooth", group = "Stadia Alida Smooth") %>%
   addProviderTiles("OpenStreetMap.HOT", group = "OSM") %>%
-  addProviderTiles("Stadia.StamenTonerLite", group = "StamenTonerLite") %>%
+  # addProviderTiles("Stadia.StamenTonerLite", group = "StamenTonerLite") %>%
   # addProviderTiles("Jawg.Terrain") %>%
   
   
@@ -187,13 +187,19 @@ leaflet(options = leafletOptions(zoomControl = TRUE,
 
 # addLegend("bottomright", colors = c("green", "orange", "red", "white"), labels = c("meno di 14 giorni", "tra 14 e 21 giorni", "più di 21 giorni", "rimosse"), title = "Ultimo controllo") %>%
   addLayersControl(
-    baseGroups = c("Esri WorldTopoMap", "Opentopomap", "Stadia Alida Smooth", "OSM", "StamenTonerLite"),
+    baseGroups = c("Esri WorldTopoMap", 
+                   "Opentopomap", 
+                   # "Stadia Alida Smooth", 
+                   "OSM"
+                   # "StamenTonerLite"
+                   ),
     overlayGroups = c("Nidi", "Catture", "Trappole", "Buffer nidi 3 anni", "Zone"),
                           options = layersControlOptions(collapsed = FALSE)
                           ) %>%
   hideGroup(c("Zone", "Buffer nidi 3 anni")
             ) %>%
-  addFullscreenControl()
+  addFullscreenControl() %>%
+  addScaleBar(position = "bottomleft")
 
 
 ```
