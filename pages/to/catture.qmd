@@ -18,97 +18,6 @@ source("../filterProv.R")
 
 ```
 
-# Presenza / assenza
-
-::: panel-tabset
-## Grafico
-
-```{r graficoCattureMese, echo=FALSE, warning=FALSE}
-#| label: graficoCattureMese
-#| title: Numero di catture dei diversi taxa per mese
-#| description: Grafico a barre del numero di catture per mese
-#| output: plotly
-#| fig.width: 10
-#| fig.height: 6
-#| fig.align: center
-#| fig.cap: Numero di catture per mese
-#| fig.link_text: Visualizza il grafico a tutto schermo
-
-source("../pageScripts/catture_graficoCattureMese.R")
-
-p
-
-```
-
-## Dati
-
-```{r datiCattureMese, echo=FALSE}
-#| label: datiCattureMese
-#| 
-
-# dati relativi al numero di catture dei diversi taxa per mese
-
-knitr::kable(cattureTF)
-
-
-```
-:::
-
-# Quantità
-
-::: panel-tabset
-## Grafico
-
-```{r graficoCattureMeseTot, echo=FALSE, warning=FALSE}
-#| label: graficoCattureMeseTot
-#| title: Numero totale di catture per mese
-#| description: Grafico a torta del numero totale di esemplari catturati per taxon con switch del mese
-#| output: plotly
-#| fig.width: 10
-#| fig.height: 6
-#| fig.align: center
-#| fig.cap: Numero di catture per mese
-#| fig.link_text: Visualizza il grafico a tutto schermo
-#| 
-
-source("../pageScripts/catture_graficoCattureMeseTot.R")
-
-p
-
-```
-
-## Dati
-
-```{r datiCattureMeseTot, echo=FALSE}
-#| label: datiCattureMeseTot
-
-# dati relativi al numero totale di catture per mese
-
-knitr::kable(cattureTot[, -1]) 
-
-```
-:::
-
-# Quantità Vespidae
-
-```{r graficoCattureMeseVespTot, echo=FALSE, warning=FALSE}
-#| label: graficoCattureVespaMeseTot
-#| title: Numero totale di catture di Vespidae per mese
-#| description: Grafico a torta del numero totale di esemplari catturati per taxon con switch del mese
-#| output: plotly
-#| fig.width: 10
-#| fig.height: 6
-#| fig.align: center
-#| fig.cap: Numero di catture per mese
-#| fig.link_text: Visualizza il grafico a tutto schermo
-#| 
-
-source("../pageScripts/catture_graficoCattureMeseVespTot.R")
-
-p
-
-```
-
 # Catture di Vespa velutina
 
 ```{r tabellaCatture, echo=FALSE, warning=FALSE}
@@ -154,3 +63,97 @@ datatable(cattureVespa, rownames = FALSE, colnames = c("Trappola", "Data control
 ```
 
 Sono stati riscontrati `r {{nrow(cattureVespa)}}` controlli positivi per *Vespa velutina*. Il numero totale di individui catturati è `r {{sum(cattureVespa$Vespa_velutina_tot, na.rm=T)}}`, è stata determinata la casta di appartenenza di `r {{sum(cattureVespa$Vespa_velutina_regine, na.rm=T)}}` regine, `r {{sum(cattureVespa$Vespa_velutina_operaie, na.rm=T)}}` operaie e `r {{sum(cattureVespa$Vespa_velutina_maschi, na.rm=T)}}` maschi.
+
+
+
+# Presenza / assenza
+
+::: panel-tabset
+## Grafico
+
+```{r graficoCattureMese, echo=FALSE, warning=FALSE}
+#| label: graficoCattureMese
+#| title: Numero di catture dei diversi taxa per mese
+#| description: Grafico a barre del numero di catture per mese
+#| output: plotly
+#| fig.width: 10
+#| fig.height: 6
+#| fig.align: center
+#| fig.cap: Numero di catture per mese
+#| fig.link_text: Visualizza il grafico a tutto schermo
+
+source("../pageScripts/catture_graficoCattureMese.R")
+
+p
+
+```
+
+## Dati
+
+```{r datiCattureMese, echo=FALSE}
+#| label: datiCattureMese
+#| 
+
+# dati relativi al numero di catture dei diversi taxa per mese
+
+knitr::kable(cattureTF)
+
+
+```
+:::
+
+<!-- # Quantità -->
+
+<!-- ::: panel-tabset -->
+<!-- ## Grafico -->
+
+<!-- ```{r graficoCattureMeseTot, echo=FALSE, warning=FALSE} -->
+<!-- #| label: graficoCattureMeseTot -->
+<!-- #| title: Numero totale di catture per mese -->
+<!-- #| description: Grafico a torta del numero totale di esemplari catturati per taxon con switch del mese -->
+<!-- #| output: plotly -->
+<!-- #| fig.width: 10 -->
+<!-- #| fig.height: 6 -->
+<!-- #| fig.align: center -->
+<!-- #| fig.cap: Numero di catture per mese -->
+<!-- #| fig.link_text: Visualizza il grafico a tutto schermo -->
+<!-- #|  -->
+
+<!-- source("../pageScripts/catture_graficoCattureMeseTot.R") -->
+
+<!-- p -->
+
+<!-- ``` -->
+
+<!-- ## Dati -->
+
+<!-- ```{r datiCattureMeseTot, echo=FALSE} -->
+<!-- #| label: datiCattureMeseTot -->
+
+<!-- # dati relativi al numero totale di catture per mese -->
+
+<!-- knitr::kable(cattureTot[, -1])  -->
+
+<!-- ``` -->
+<!-- ::: -->
+
+<!-- # Quantità Vespidae -->
+
+<!-- ```{r graficoCattureMeseVespTot, echo=FALSE, warning=FALSE} -->
+<!-- #| label: graficoCattureVespaMeseTot -->
+<!-- #| title: Numero totale di catture di Vespidae per mese -->
+<!-- #| description: Grafico a torta del numero totale di esemplari catturati per taxon con switch del mese -->
+<!-- #| output: plotly -->
+<!-- #| fig.width: 10 -->
+<!-- #| fig.height: 6 -->
+<!-- #| fig.align: center -->
+<!-- #| fig.cap: Numero di catture per mese -->
+<!-- #| fig.link_text: Visualizza il grafico a tutto schermo -->
+<!-- #|  -->
+
+<!-- source("../pageScripts/catture_graficoCattureMeseVespTot.R") -->
+
+<!-- p -->
+
+<!-- ``` -->
+
