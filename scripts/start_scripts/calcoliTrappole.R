@@ -29,6 +29,15 @@ taxa <- data.frame(
   
 )
 
+# arrotondamenti quota ---------------------------------------------------------------
+
+## nidi ---------------------------------------------------------------
+
+nidi$elevation <- round(nidi$elevation, 0)
+
+## trappole ---------------------------------------------------------------
+
+trap$elevation <- round(trap$elevation, 0)
 
 # calcolo età della birra ---------------------------------------------------------------
 # calcola l'età della birra scegliendo la data più recente tra l'ultimo controllo e la data di posizionamento della trappola
