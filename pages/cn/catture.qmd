@@ -56,3 +56,5 @@ datatable(cattureVespa, rownames = FALSE, colnames = c("Trappola", "Data control
   ))
 
 ```
+
+Sono stati riscontrati `r {{nrow(cattureVespa)}}` controlli positivi per *Vespa velutina*. Il numero totale di individui catturati è `r {{sum(cattureVespa$Vespa_velutina_tot, na.rm=T)}}`, è stata determinata la casta di appartenenza di `r {{sum(cattureVespa$Vespa_velutina_regine, na.rm=T)}}` regine, `r {{sum(cattureVespa$Vespa_velutina_operaie, na.rm=T)}}` operaie e `r {{sum(cattureVespa$Vespa_velutina_maschi, na.rm=T)}}` maschi.
