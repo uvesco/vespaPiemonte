@@ -77,6 +77,10 @@ squareIcon <- makeIcon(
   iconHeight = 12  # Height of the icon
 )
 
+# cambio dicitura nido per primario leggibile
+
+nidi$primarioLegg <- ifelse(nidi$primario == 1, "si", "no")
+
 # mappa ------------------------------------------------------------------------
 
 leaflet(options = leafletOptions(zoomControl = TRUE,
@@ -140,8 +144,7 @@ leaflet(options = leafletOptions(zoomControl = TRUE,
                               "<b>Nido di <em>Vespa velutina</em></b> <br/>",
                               "id: ", nidi$id2, "<br/>",
                               "data del rilevamento: ", format(nidi$data_ritro, "%d/%m/%y"), " <br/> ",
-                              "comune: ", nidi$comune, " <br/> ",
-                              "provincia: ", nidi$provin_sig, " <br/> ",
+                              "comune: ", nidi$comune, " (", nidi$provin_sig,") <br/> ",
                               "quota: ", nidi$elevation, "m <br/> ",
                               "nido primario: ", nidi$primario, "<br/> "
                               ),
