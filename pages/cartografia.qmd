@@ -143,10 +143,10 @@ leaflet(options = leafletOptions(zoomControl = TRUE,
                                       label = lapply(paste0(
                               "<b>Nido di <em>Vespa velutina</em></b> <br/>",
                               "id: ", nidi$id2, "<br/>",
-                              "data del rilevamento: ", format(nidi$data_ritro, "%d/%m/%y"), " <br/> ",
+                              "data del ritrovamento: ", format(nidi$data_ritro, "%d/%m/%y"), " <br/> ",
                               "comune: ", nidi$comune, " (", nidi$provin_sig,") <br/> ",
                               "quota: ", nidi$elevation, "m <br/> ",
-                              "nido primario: ", nidi$primario, "<br/> "
+                              "nido primario: ", nidi$primarioLegg, "<br/> "
                               ),
                               htmltools::HTML
                               ),
