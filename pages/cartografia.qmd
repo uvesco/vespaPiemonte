@@ -124,7 +124,7 @@ leaflet(options = leafletOptions(zoomControl = TRUE,
                               "numero di regine: ", cattureVespa$Vespa_velutina_regine, " <br/> ",
                               "numero di maschi: ", cattureVespa$Vespa_velutina_maschi, " <br/> ",
                               "numero di operaie: ", cattureVespa$Vespa_velutina_operaie, " <br/> ",
-                              "comune: ", trap$comune, " (", trap$provin_sig,") <br/> ",
+                              "comune: ", cattureVespa$comune, " (", cattureVespa$provin_sig,") <br/> ",
                               "quota: ", cattureVespa$elevation, "m <br/> ",
                               "distanza dal primo nido noto: ", round(cattureVespa$distanzaNido), "m <br/> "
                               ),
