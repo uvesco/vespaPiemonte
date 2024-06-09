@@ -1,8 +1,8 @@
 on:
   push:
     branches: [master]
-  schedule:
-    - cron: '0 4 * * *'
+  # schedule:
+  #   - cron: '0 4 * * *'
 
 name: backupGDrive
 
