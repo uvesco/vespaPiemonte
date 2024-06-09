@@ -29,20 +29,11 @@ st_write(buffer, "/tmp/qfieldcloudproject/buffer.gpkg", driver = "GPKG", layer="
 st_write(buffer3, "/tmp/qfieldcloudproject/buffer.gpkg", driver = "GPKG",  layer="buffer3", append = FALSE)
 
 # post the buffer to qfieldcloud
-# credentials
-qfieldUsername <- Sys.getenv("QFIELD_CLOUD_USERNAME")
-qfieldPassword <- Sys.getenv("QFIELD_CLOUD_PASSWORD")
-endpoint <- "app.qfield.cloud"
-
-# get the token
-token <- qfieldcloud_login(qfieldUsername, qfieldPassword, endpoint)
-# get the projects
-project <- get_qfieldcloud_projects(token$token, endpoint)
-# get the files list
-projFiles <- get_qfieldcloud_files(token$token, endpoint, project[project$name == "vespaTO", "id"])
+# qfieldapi credentials and login
+source("scripts/start_scripts/get_qfieldCloudApi_token.R")
 
 # post the buffer to qfieldcloud
-post_qfieldcloud_file(token$token, endpoint, project[project$name == "vespaTO", "id"],"buffer.gpkg" , "/tmp/qfieldcloudproject/buffer.gpkg")
+post_qfieldcloud_file(token$token, endpoint, project_id, "buffer.gpkg" , "/tmp/qfieldcloudproject/buffer.gpkg")
 
 # remove temporary objects
 
@@ -50,7 +41,6 @@ rm(list = c(
   "endpoint",
   "nidiS",
   "project",
-  "projFiles",
   "token",
   "qfieldPassword",
   "qfieldUsername",

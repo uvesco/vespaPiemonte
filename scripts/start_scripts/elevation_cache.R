@@ -64,7 +64,7 @@ trap <- check_and_update_geo(trap, trap_checksum, parametri$trap_cache_file, par
 if(!is_identical_checksum(nidi, nidi_checksum, parametri$nidi_cache_file, parametri$nidi_checksum_file)) {
   cat("Nidi data has changed, calculating buffers...\n")
   # calculate buffers
-  source("scripts/start_scripts/bufferNidi.R")
+  source("scripts/start_scripts/calcoli_buffer.R")
 }
 
 saveRDS(nidi, parametri$nidi_cache_file)

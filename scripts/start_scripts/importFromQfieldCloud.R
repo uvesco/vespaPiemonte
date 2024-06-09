@@ -6,23 +6,17 @@ if(file.exists("scripts/loadParam.R")){
   source("scripts/loadParam.R")
 }
 
-# credentials
-qfieldUsername <- Sys.getenv("QFIELD_CLOUD_USERNAME")
-qfieldPassword <- Sys.getenv("QFIELD_CLOUD_PASSWORD")
-endpoint <- "app.qfield.cloud"
+# qfieldapi credentials and login
+source("scripts/start_scripts/get_qfieldCloudApi_token.R")
 
-# get the token
-token <- qfieldcloud_login(qfieldUsername, qfieldPassword, endpoint)
-# get the projects
-project <- get_qfieldcloud_projects(token$token, endpoint)
 # get the files list
-projFiles <- get_qfieldcloud_files(token$token, endpoint, project[project$name == "vespaTO", "id"])
+projFiles <- get_qfieldcloud_files(token$token, endpoint, project_id)
 
 # get the files
 tempFiles <- data.frame(filename = NULL, tmp_file = NULL)
 
 for (i in 1:nrow(projFiles)) {
-  tempFiles <- rbind(tempFiles, get_qfieldcloud_file(token$token, endpoint, project[project$name == "vespaTO", "id"], projFiles[i, "name"]))
+  tempFiles <- rbind(tempFiles, get_qfieldcloud_file(token$token, endpoint, project_id, projFiles[i, "name"]))
 }
 
 # move files to /tmp/qfieldcloudproject
