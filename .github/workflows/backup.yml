@@ -16,6 +16,7 @@ jobs:
       GOOGLE_SHEET_CONTATTI: ${{ secrets.GOOGLE_SHEET_CONTATTI }}
       QFIELD_CLOUD_PASSWORD: ${{ secrets.QFIELD_CLOUD_PASSWORD }}
       QFIELD_CLOUD_USERNAME: ${{ secrets.QFIELD_CLOUD_USERNAME }}
+      QFIELD_CLOUD_PROJECTNAME: ${{ secrets.QFIELD_CLOUD_PROJECTNAME }}
     steps:
       - name: "Check out repository"
         uses: actions/checkout@v4

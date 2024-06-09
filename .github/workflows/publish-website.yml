@@ -17,6 +17,7 @@ jobs:
       GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
       QFIELD_CLOUD_PASSWORD: ${{ secrets.QFIELD_CLOUD_PASSWORD }}
       QFIELD_CLOUD_USERNAME: ${{ secrets.QFIELD_CLOUD_USERNAME }}
+      QFIELD_CLOUD_PROJECTNAME: ${{ secrets.QFIELD_CLOUD_PROJECTNAME }}
     concurrency:
       group: pkgdown-${{ github.event_name != 'pull_request' || github.run_id }}
     permissions:
