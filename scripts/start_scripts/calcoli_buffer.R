@@ -25,8 +25,8 @@ buffer3 <- multiDistanceBuffer(nidiS, parametri$distanze)
 
 # esporto il buffer in un file chiamato buffer.gpkg
 
-st_write(buffer, "/tmp/qfieldcloudproject/buffer.gpkg", driver = "GPKG", layer="buffer", append = FALSE)
-st_write(buffer3, "/tmp/qfieldcloudproject/buffer.gpkg", driver = "GPKG",  layer="buffer3", append = FALSE)
+st_write(buffer,  "/tmp/qfieldcloudproject/buffer.gpkg", driver = "GPKG", layer="buffer",  append = FALSE)
+st_write(buffer3, "/tmp/qfieldcloudproject/buffer.gpkg", driver = "GPKG", layer="buffer3", append = FALSE)
 
 # post the buffer to qfieldcloud
 # qfieldapi credentials and login
