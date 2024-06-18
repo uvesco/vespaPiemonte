@@ -1,0 +1,21 @@
+# Attendibilità delle segnalazioni
+
+## C1: “Hard evidence”
+
+Evidenza certa, che senza ambiguità conferma la presenza di *Vespa velutina* (Cattura dell’animale vivo, ritrovamento di una vespa morta, prova genetica, fotografia di alta qualità dove si vede con chiarezza l’intero animale).
+
+## C2: “Confirmed observation”
+
+Osservazione confermata, avvistamento confermato da un esperto basandosi su documentazione fornita da terzi. Una fotografia abbastanza chiara, risultando attendibile l’avvistatore, ma che permette di riconoscere l’insetto è un dato C2. 
+
+## C3: “Unconfirmed observation”
+
+Osservazione non confermata, tutte le osservazioni non confermate da un esperto oppure le osservazioni che per loro natura non possono essere confermate. Esempio sono tutti gli avvistamenti diretti; fotografie o segnalazioni di adulti o nidi non completamente riconoscibili; nidi descritti in modo credibile ma non ritrovabili, infine tutti i segni che non possono essere verificati. Non è considerata come segno di presenza.
+
+## Inverificabile
+
+Informazioni frammentarie che non consentono né di confermare né di escludere.
+
+## Esclusa
+
+Ogni osservazione e segno di presenza verificato e non attribuito a Vespa velutina, per le quali quindi Vespa velutina può essere esclusa con certezza o con alta probabilità. Non è considerata come segno di presenza.

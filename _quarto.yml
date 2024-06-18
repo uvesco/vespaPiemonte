@@ -42,6 +42,8 @@ website:
             text: Ricerca trappole
           - href: pages/tools/numeriLiberi.qmd
             text: ID liberi
+          - href: pages/tools/attendibilita_segnalazioni.qmd
+            text: Definizioni dell'attendibilità delle segnalazioni
           - href: pages/dataDictionary/index.qmd
             text: Data dictionary
 
