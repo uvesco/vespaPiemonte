@@ -23,7 +23,7 @@ jobs:
 
       - name: Install dependencies on Linux
         if: runner.os == 'Linux'
-        run: sudo apt-get update; apt-get -y install libcurl4-openssl-dev
+        run: sudo apt-get update; sudo apt-get -y install libcurl4-openssl-dev
 
       - name: "Setup R"
         uses: r-lib/actions/setup-r@v2
