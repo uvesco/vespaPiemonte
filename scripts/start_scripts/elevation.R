@@ -3,7 +3,7 @@ library(sf)
 library(elevatr)
 
 # Function to retry elevatr::get_elev_point
-retry_get_elev_point <- function(data, src = "aws", z = 13, max_retries = 7) {
+retry_get_elev_point <- function(data, src = "aws", z = 12, max_retries = 7) {
   for (retry in 1:max_retries) {
     try_result <- try(elevatr::get_elev_point(data, src = src, z = z), silent = TRUE)
     if (!inherits(try_result, "try-error")) {
