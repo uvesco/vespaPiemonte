@@ -62,7 +62,7 @@ trap$etaBirra <- as.numeric(Sys.Date() - trap$birra)
 
 # controllo se ci sono trappole con età negativa
 
-trap[trap$etaBirra < 0, c("ID", "Data.posizionamento", "ultimoControllo", "etaBirra")]
+# trap[trap$etaBirra < 0, c("ID", "Data.posizionamento", "ultimoControllo", "etaBirra")]
 
 if(any(trap$etaBirra < 0)){
   stop("Ci sono trappole con età negativa")
@@ -130,17 +130,18 @@ for(i in 1:length(nc)){
   }
 }
 
-## nidi - provincia ---------------------------------------------------------------
-
-nidiProvincia <- st_intersects(nidi, province, sparse = F)
-np <- apply(nidiProvincia, 1, which)
-
-nidi$provincia <- NA
-for(i in 1:length(np)){
-  if(!identical(province$COD_PROV[np[[i]]], character(0))){
-    nidi$provincia[i] <- province$COD_PROV[np[[i]]]
-  }
-}
+# ## nidi - provincia ---------------------------------------------------------------
+# 
+# nidiProvincia <- st_intersects(nidi, province, sparse = F)
+# np <- apply(nidiProvincia, 1, which)
+# 
+# nidi$provincia <- NA
+# for(i in 1:length(np)){
+#   cat("nido: ", i, "\n")
+#   if(!identical(province$COD_PROV[np[[i]]], character(0))){
+#     nidi$provincia[i] <- province$COD_PROV[np[[i]]]
+#   }
+# }
 
 ## trap - parco ---------------------------------------------------------------
 
@@ -168,17 +169,17 @@ for(i in 1:length(tzsc)){
 }
 
 
-## trap - provincia ---------------------------------------------------------------
-
-trapProvincia <- st_intersects(trap, province, sparse = F)
-tp <- apply(trapProvincia, 1, which)
-
-trap$provincia <- NA
-for(i in 1:length(tp)){
-  if(!identical(province$COD_PROV[tp[[i]]], character(0))){
-    trap$provincia[i] <- province$COD_PROV[tp[[i]]]
-  }
-}
+# ## trap - provincia ---------------------------------------------------------------
+# 
+# trapProvincia <- st_intersects(trap, province, sparse = F)
+# tp <- apply(trapProvincia, 1, which)
+# 
+# trap$provincia <- NA
+# for(i in 1:length(tp)){
+#   if(!identical(province$COD_PROV[tp[[i]]], character(0))){
+#     trap$provincia[i] <- province$COD_PROV[tp[[i]]]
+#   }
+# }
 
 
 
