@@ -286,7 +286,10 @@ controlliGeo$fori[controlliGeo$Foratura == TRUE & controlliGeo$data_foratura < c
 
 # eliminazione di tutti gli oggetti intermedi
 
-rm(list = c("i", "nidiTrap", "trapZone", "tz", "inter", "dateControlliPrecedenti", "zsc_sic", "parchi", "trapParco",  "trapZSC", "tp", "tzsc", "trapProvincia", "trapComune", "tc", "nc", "np", "comuni", "province", "intervalloBreve", "nidiComune", "nidiProvincia"))
+rm(list = c("i", "nidiTrap", "trapZone", "tz", "inter", "dateControlliPrecedenti", "zsc_sic", "parchi", "trapParco",  "trapZSC", "tp", "tzsc", #"trapProvincia", 
+            "trapComune", "tc", #"nc", "np", 
+            "comuni", "province", "intervalloBreve", "nidiComune", #"nidiProvincia"
+            ))
 
 # pulizia della memoria
 
