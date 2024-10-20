@@ -23,11 +23,13 @@ update_elevation_data <- function(sf_points, z = 13, src = "aws") {
 }
 
 # Update elevation data for nidi and trap using parameters
+cat("DEBUG: updating nidi elevation data...\n")
 nidi <- update_elevation_data(nidi)
+cat("DEBUG: updating trap elevation data...\n")
 trap <- update_elevation_data(trap)
 
-# Update buffers for nidi
-cat("Calculating buffers for nidi...\n")
-source("scripts/start_scripts/calcoli_buffer.R")
+# # Update buffers for nidi
+# cat("Calculating buffers for nidi...\n")
+# source("scripts/start_scripts/calcoli_buffer.R")
 
 
