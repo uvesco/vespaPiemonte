@@ -148,17 +148,17 @@ for(i in 1:length(nc)){
 cat("----Attribuzione comune nidi completata\n")
 
 # ## nidi - provincia ---------------------------------------------------------------
-# 
-# nidiProvincia <- st_intersects(nidi, province, sparse = F)
-# np <- apply(nidiProvincia, 1, which)
-# 
-# nidi$provincia <- NA
-# for(i in 1:length(np)){
-#   cat("nido: ", i, "\n")
-#   if(!identical(province$COD_PROV[np[[i]]], character(0))){
-#     nidi$provincia[i] <- province$COD_PROV[np[[i]]]
-#   }
-# }
+
+nidiProvincia <- st_intersects(nidi, province, sparse = F)
+np <- apply(nidiProvincia, 1, which)
+
+nidi$provincia <- NA
+for(i in 1:length(np)){
+  cat("nido: ", i, "\n")
+  if(!identical(province$COD_PROV[np[[i]]], character(0))){
+    nidi$provincia[i] <- province$COD_PROV[np[[i]]]
+  }
+}
 
 ## trap - parco ---------------------------------------------------------------
 
@@ -190,15 +190,15 @@ cat("----Attribuzione ZSC/SIC trappole completata\n")
 
 # ## trap - provincia ---------------------------------------------------------------
 # 
-# trapProvincia <- st_intersects(trap, province, sparse = F)
-# tp <- apply(trapProvincia, 1, which)
-# 
-# trap$provincia <- NA
-# for(i in 1:length(tp)){
-#   if(!identical(province$COD_PROV[tp[[i]]], character(0))){
-#     trap$provincia[i] <- province$COD_PROV[tp[[i]]]
-#   }
-# }
+trapProvincia <- st_intersects(trap, province, sparse = F)
+tp <- apply(trapProvincia, 1, which)
+
+trap$provincia <- NA
+for(i in 1:length(tp)){
+  if(!identical(province$COD_PROV[tp[[i]]], character(0))){
+    trap$provincia[i] <- province$COD_PROV[tp[[i]]]
+  }
+}
 
 
 
@@ -315,10 +315,33 @@ controlliGeo$fori[controlliGeo$Foratura == TRUE & controlliGeo$data_foratura < c
 
 # eliminazione di tutti gli oggetti intermedi
 
-rm(list = c("i", "nidiTrap", "trapZone", "tz", "inter", "dateControlliPrecedenti", "zsc_sic", "parchi", "trapParco",  "trapZSC", "tp", "tzsc", #"trapProvincia", 
-            "trapComune", "tc", #"nc", "np", 
-            "comuni", "province", "intervalloBreve", "nidiComune", #"nidiProvincia"
-            ))
+
+rm(
+  list = c(
+    "i",
+    "nidiTrap",
+    "trapZone",
+    "tz",
+    "inter",
+    "dateControlliPrecedenti",
+    "zsc_sic",
+    "parchi",
+    "trapParco",
+    "trapZSC",
+    "tp",
+    "tzsc",
+    "trapProvincia",
+    "trapComune",
+    "tc",
+    "nc",
+    "np",
+    "comuni",
+    "province",
+    "intervalloBreve",
+    "nidiComune",
+    "nidiProvincia"
+  )
+)
 
 # pulizia della memoria
 
