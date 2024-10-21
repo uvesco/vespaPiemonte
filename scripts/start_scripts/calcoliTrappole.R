@@ -113,7 +113,7 @@ for(i in 1:length(tc)){
 }
 trap$comune_ist <- NA
 for(i in 1:length(tc)){
-  if(!identical(comuni$comune_ist[tc[[i]]], character(0)) & !is.na(tc[[i]]){
+  if(!identical(comuni$comune_ist[tc[[i]]], character(0)) & !is.na(tc[[i]])){
     trap$comune_ist[i] <- comuni$comune_ist[tc[[i]]]
   }
 }
