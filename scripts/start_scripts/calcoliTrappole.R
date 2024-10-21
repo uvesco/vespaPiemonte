@@ -276,6 +276,9 @@ cat("----Calcolo controlli completato\n")
 
 
 intervalloBreve <- controlli$intervallo < 31 & (controlli$Manomissione == FALSE | is.na(controlli$Manomissione))
+# è chiaro perché ma è bloccante la generazione di NA
+intervalloBreve[is.na(intervalloBreve)] <- FALSE
+
 controlli$DataMediaCattura <- as.Date(NA)
 controlli$DataMediaCattura[intervalloBreve] <- as.Date(round((as.integer(controlli$Data[intervalloBreve]) + as.integer(controlli$DataPrec[intervalloBreve]))/2), origin = "1970-01-01")
 controlli$AnnoMeseMedioCattura <- format(controlli$DataMediaCattura, "%Y-%m")
