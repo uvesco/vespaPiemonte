@@ -14,6 +14,7 @@ jobs:
   build-website:
     runs-on: ubuntu-latest
     env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
       QFIELD_CLOUD_PASSWORD: ${{ secrets.QFIELD_CLOUD_PASSWORD }}
       QFIELD_CLOUD_USERNAME: ${{ secrets.QFIELD_CLOUD_USERNAME }}

@@ -133,7 +133,7 @@ nc <- apply(nidiComune, 1, which)
 
 nidi$comune <- NA
 for(i in 1:length(nc)){
-  if(!identical(comuni$comune_nom[nc[[i]]], character(0))){
+  if(!identical(comuni$comune_nom[nc[[i]]], character(0)) & !is.na(nc[[i]])){
     nidi$comune[i] <- comuni$comune_nom[nc[[i]]]
   }
 }
@@ -155,7 +155,7 @@ np <- apply(nidiProvincia, 1, which)
 nidi$provincia <- NA
 for(i in 1:length(np)){
   cat("nido: ", i, "\n")
-  if(!identical(province$COD_PROV[np[[i]]], character(0))){
+  if(!identical(province$COD_PROV[np[[i]]], character(0)) & !is.na(np[[i]])){
     nidi$provincia[i] <- province$COD_PROV[np[[i]]]
   }
 }
