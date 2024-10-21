@@ -107,19 +107,19 @@ tc <- apply(trapComune, 1, which)
 
 trap$comune <- NA
 for(i in 1:length(tc)){
-  if(!identical(comuni$comune_nom[tc[[i]]], character(0))){
+  if(!identical(comuni$comune_nom[tc[[i]]], character(0)) & !is.na(tc[[i]])){
     trap$comune[i] <- comuni$comune_nom[tc[[i]]]
   }
 }
 trap$comune_ist <- NA
 for(i in 1:length(tc)){
-  if(!identical(comuni$comune_ist[tc[[i]]], character(0))){
+  if(!identical(comuni$comune_ist[tc[[i]]], character(0)) & !is.na(tc[[i]]){
     trap$comune_ist[i] <- comuni$comune_ist[tc[[i]]]
   }
 }
 trap$provin_sig <- NA
 for(i in 1:length(tc)){
-  if(!identical(comuni$provin_sig[tc[[i]]], character(0))){
+  if(!identical(comuni$provin_sig[tc[[i]]], character(0)) & !is.na(tc[[i]])){
     trap$provin_sig[i] <- comuni$provin_sig[tc[[i]]]
   }
 }
@@ -140,7 +140,7 @@ for(i in 1:length(nc)){
 
 nidi$provin_sig <- NA
 for(i in 1:length(nc)){
-  if(!identical(comuni$provin_sig[nc[[i]]], character(0))){
+  if(!identical(comuni$provin_sig[nc[[i]]], character(0)) & !is.na(nc[[i]])){
     nidi$provin_sig[i] <- comuni$provin_sig[nc[[i]]]
   }
 }
