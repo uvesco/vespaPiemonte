@@ -107,19 +107,19 @@ tc <- apply(trapComune, 1, which)
 
 trap$comune <- NA
 for(i in 1:length(tc)){
-  if(!identical(comuni$comune_nom[tc[[i]]], character(0)) & !is.na(tc[[i]])){
+  if(!is.null(tc[[i]]) && length(tc[[i]]) > 0 && (!identical(comuni$comune_nom[tc[[i]]], character(0)) | !is.na(tc[[i]]))){
     trap$comune[i] <- comuni$comune_nom[tc[[i]]]
   }
 }
 trap$comune_ist <- NA
 for(i in 1:length(tc)){
-  if(!identical(comuni$comune_ist[tc[[i]]], character(0)) & !is.na(tc[[i]])){
+  if(!is.null(tc[[i]]) && length(tc[[i]]) > 0 && (!identical(comuni$comune_nom[tc[[i]]], character(0)) | !is.na(tc[[i]]))){
     trap$comune_ist[i] <- comuni$comune_ist[tc[[i]]]
   }
 }
 trap$provin_sig <- NA
 for(i in 1:length(tc)){
-  if(!identical(comuni$provin_sig[tc[[i]]], character(0)) & !is.na(tc[[i]])){
+  if(!is.null(tc[[i]]) && length(tc[[i]]) > 0 && (!identical(comuni$comune_nom[tc[[i]]], character(0)) | !is.na(tc[[i]]))){
     trap$provin_sig[i] <- comuni$provin_sig[tc[[i]]]
   }
 }
@@ -133,14 +133,14 @@ nc <- apply(nidiComune, 1, which)
 
 nidi$comune <- NA
 for(i in 1:length(nc)){
-  if(!identical(comuni$comune_nom[nc[[i]]], character(0)) & !is.na(nc[[i]])){
+  if(!is.null(nc[[i]]) && length(nc[[i]]) > 0 && (!identical(comuni$comune_nom[nc[[i]]], character(0)) | !is.na(nc[[i]]))){
     nidi$comune[i] <- comuni$comune_nom[nc[[i]]]
   }
 }
 
 nidi$provin_sig <- NA
 for(i in 1:length(nc)){
-  if(!identical(comuni$provin_sig[nc[[i]]], character(0)) & !is.na(nc[[i]])){
+  if(!is.null(nc[[i]]) && length(nc[[i]]) > 0 && (!identical(comuni$comune_nom[nc[[i]]], character(0)) | !is.na(nc[[i]]))){
     nidi$provin_sig[i] <- comuni$provin_sig[nc[[i]]]
   }
 }
@@ -155,7 +155,7 @@ np <- apply(nidiProvincia, 1, which)
 nidi$provincia <- NA
 for(i in 1:length(np)){
   cat("nido: ", i, "\n")
-  if(!identical(province$COD_PROV[np[[i]]], character(0)) & !is.na(np[[i]])){
+  if(!is.null(np[[i]]) && length(np[[i]]) > 0 && (!identical(comuni$comune_nom[np[[i]]], character(0)) | !is.na(np[[i]]))){
     nidi$provincia[i] <- province$COD_PROV[np[[i]]]
   }
 }
