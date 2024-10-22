@@ -195,7 +195,7 @@ tp <- apply(trapProvincia, 1, which)
 
 trap$provincia <- NA
 for(i in 1:length(tp)){
-  if(!identical(province$COD_PROV[tp[[i]]], character(0))){
+  if(!is.null(tp[[i]]) && length(tp[[i]]) > 0 && (!identical(comuni$comune_nom[tp[[i]]], character(0)) | !is.na(tp[[i]]))){
     trap$provincia[i] <- province$COD_PROV[tp[[i]]]
   }
 }
