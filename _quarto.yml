@@ -22,16 +22,16 @@ website:
         menu:
           - href: pages/to/attivita.qmd
             text: Trappolaggio
-          - href: pages/to/catture.qmd
-            text: Catture
+          # - href: pages/to/catture.qmd
+          #   text: Catture
           - href: pages/to/nidi.qmd
             text: Nidi
       - text: Provincia di Cuneo
         menu:
           - href: pages/cn/attivita.qmd
             text: Trappolaggio
-          - href: pages/cn/catture.qmd
-            text: Catture
+          # - href: pages/cn/catture.qmd
+          #   text: Catture
           - href: pages/cn/nidi.qmd
             text: Nidi
       - text: Strumenti
