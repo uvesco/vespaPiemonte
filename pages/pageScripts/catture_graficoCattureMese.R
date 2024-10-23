@@ -7,7 +7,7 @@ controlliGeoTemp <- controlliGeo[, c( taxa$colonne, "Manomissione", "fori", "Ann
 
 # periodo
 
-periodo <- min(trap$Data.posizionamento):max(trap$Data.posizionamento)
+periodo <- min(trap$Data.posizionamento, na.rm=T):max(trap$Data.posizionamento, na.rm=T)
 periodo <- as.Date(periodo, origin = "1970-01-01")
 periodo <- format(periodo, "%Y-%m")
 periodo <- levels(as.factor(periodo))
