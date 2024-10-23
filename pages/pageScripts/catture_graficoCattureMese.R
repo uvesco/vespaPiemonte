@@ -10,6 +10,7 @@ controlliGeoTemp <- controlliGeo[, c( taxa$colonne, "Manomissione", "fori", "Ann
 # periodo <- min(trap$Data.posizionamento):max(trap$Data.posizionamento)
 # periodo <- as.Date(periodo, origin = "1970-01-01")
 periodo <- as.Date("2023-11-01"):Sys.Date() # bug fix emergenza non risolutivo
+periodo <- as.Date(periodo, origin = "1970-01-01")
 periodo <- format(periodo, "%Y-%m")
 periodo <- levels(as.factor(periodo))
 
