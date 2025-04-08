@@ -64,7 +64,7 @@ jobs:
             
       - name: Cache data
         id: cache-data
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: cache
           key: shapefile-${{ runner.os }}-${{ env.is_sunday }}
@@ -106,7 +106,7 @@ jobs:
 #           echo "Downloaded new file"
 #   
       - name: Cache downloaded file
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: cache/pubdata/AMBITI_AMMINISTRATIVI_COMUNI1.zip
           key: shapefile-${{ env.remote_hash }}
@@ -126,7 +126,7 @@ jobs:
           Rscript scripts/start_script_v2.R
   
       - name: Cache updated data
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: cache
           key: build-data-${{ hashFiles('cache/**/*') }}
