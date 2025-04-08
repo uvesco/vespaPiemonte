@@ -55,7 +55,7 @@ jobs:
             
       - name: Cache built data
         id: cache-data-all
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: cache
           key: build-data-${{ hashFiles('cache/**/*') }}
@@ -74,7 +74,7 @@ jobs:
       - name: Download shapefile if needed
         if: env.is_sunday == 'true'
         run: |
-          curl -L -o cache/pubdata/AMBITI_AMMINISTRATIVI_COMUNI1.zip "https://www.datigeo-piem-download.it/direct/Geoportale/RegionePiemonte/Limiti_amministrativi/AMBITI_AMMINISTRATIVI_COMUNI1.zip"
+          curl -L -o cache/pubdata/AMBITI_AMMINISTRATIVI_COMUNI1.zip "https://www.datigeo-piem-download.it/direct/Geoportale/RegionePiemonte/Limiti_amministrativi/Ambiti_amministrativi_comuni_serie_storica/AMBITI_AMMINISTRATIVI_COMUNI_2024.zip"
           echo "Downloaded new file"
 # 
 #       - name: Check if cache was hit
