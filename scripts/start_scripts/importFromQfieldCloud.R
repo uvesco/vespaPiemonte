@@ -31,7 +31,7 @@ if(!dir.exists(parametri$pubdata_cache_dir)) {
 }
 if(!file.exists(parametri$comuni_cache_file)) {
   cat("Downloading comuni from R script, not available from github action\n")
-  utils::download.file("https://www.datigeo-piem-download.it/direct/Geoportale/RegionePiemonte/Limiti_amministrativi/AMBITI_AMMINISTRATIVI_COMUNI1.zip",
+  utils::download.file("https://www.datigeo-piem-download.it/direct/Geoportale/RegionePiemonte/Limiti_amministrativi/Ambiti_amministrativi_comuni_serie_storica/AMBITI_AMMINISTRATIVI_COMUNI_2024.zip",
                        destfile = parametri$comuni_cache_file)
 }
 
