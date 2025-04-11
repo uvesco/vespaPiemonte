@@ -301,8 +301,18 @@ trap$AnnoMese <- format(trap$Data.posizionamento, "%Y-%m")
 # periodo <- format(periodo, "%Y-%m")
 # periodo <- levels(as.factor(periodo))
 
-controlliGeo <- merge(controlli, trap, by.x = "fk_uuid", by.y = "uuid", all.x = T, all.y = F)
+# trap without geometry (simple dataframe with coordinates)
+tempTrap <- st_set_geometry(trap, NULL)
+
+# merge trap and controlli
+
+controlliGeo <- merge(controlli, tempTrap, by.x = "fk_uuid", by.y = "uuid", all.x = T, all.y = F)
 controlliGeo <- st_as_sf(controlliGeo, coords = c("X", "Y"), crs = 32632)
+
+# rinomino colonne duplicate
+
+colnames(controlliGeo)[colnames(controlliGeo) == "note"] <- "note_2"
+colnames(controlliGeo)[colnames(controlliGeo) == "data"] <- "data_2"
 
 # calcoli fori ---------------------------------------------------------------
 # aggiunta di una colonna per i fori
