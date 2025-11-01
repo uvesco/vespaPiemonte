@@ -4,7 +4,8 @@ title: "About"
 
 Sito sviluppato con [Quarto](https://quarto.org/).
 
-Pubblicato con [GitHub Pages](https://pages.github.com/).  
-[![buildvespaPiemonte](https://github.com/uvesco/vespaPiemonte/actions/workflows/publish-website.yml/badge.svg)](https://github.com/uvesco/vespaPiemonte/actions/workflows/publish-website.yml)
+In precedenza veniva pubblicato tramite GitHub Pages, ma la pubblicazione è
+stata disattivata perché le fonti dati non sono più aggiornate.
 
+Il repository rimane disponibile come riferimento delle soluzioni adottate.
 Sviluppatore [Umberto Vesco](https://github.com/uvesco).
